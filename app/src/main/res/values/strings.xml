@@ -7,6 +7,14 @@
     <string name="message">메시지</string>
     <string name="my_profile">마이 페이지</string>
 
+    <!-- 성별 선택 -->
+    <string-array name="dog_gender">
+        <item>수컷</item>
+        <item>암컷</item>
+        <item>상관없음</item>
+    </string-array>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
