@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">DoguenDoguen</string>
+
+    <!-- 매인 탭 구성 -->
+    <string name="find_pet">새가족 찾기</string>
+    <string name="wish_pet">두근두근</string>
+    <string name="message">메시지</string>
+    <string name="my_profile">마이 페이지</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
