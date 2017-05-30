@@ -31,6 +31,8 @@
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabTextColor="#000000"
+                app:tabIndicatorColor="#FF3D00"
                 app:tabMode="fixed"
                 app:tabGravity="fill"
                 app:tabMinWidth="90dp">

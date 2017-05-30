@@ -8,12 +8,24 @@
     <string name="my_profile">마이 페이지</string>
 
     <!-- 성별 선택 -->
-    <string-array name="dog_gender">
+    <string name="dog_gender">성별은요?</string>
+    <string-array name="dog_genders">
         <item>수컷</item>
         <item>암컷</item>
         <item>상관없음</item>
     </string-array>
 
+    <!-- 나이 선택 -->
+    <string name="dog_age">몇살된 친구를 찾아볼까요?</string>
+    <string-array name="dog_ages">
+        <item>1~3개월</item>
+        <item>4~6개월</item>
+        <item>7~8개월</item>
+    </string-array>
+
+    <!-- 메인페이지(분양이 시급한 반려견들) -->
+    <string name="dog_emergency_title">분양이 시급한 반려견들</string>
+    <string name="dog_post_title">당신을 기다리는 모든 친구들</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
