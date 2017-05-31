@@ -7,6 +7,7 @@
     <string name="message">메시지</string>
     <string name="my_profile">마이 페이지</string>
 
+
     <!-- 메인 검색 프래그먼트 -->
     <!-- 성별 선택 -->
     <string name="dog_gender">성별은요?</string>
@@ -28,9 +29,19 @@
     <string name="dog_emergency_title">분양이 시급한 반려견들</string>
     <string name="dog_post_title">당신을 기다리는 모든 친구들</string>
 
+
+
     <!-- 내 위시 프래그먼트 -->
     <string name="wish_title">두근두근</string>
     <string name="wish_sub_title">언젠간 가족이 될지도 몰라요</string>
+
+
+
+    <!-- 메시지 프래그먼트 -->
+    <string name="message_title">메시지</string>
+    <string name="message_sub_title">모든 메시지를 확인했습니다.</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
