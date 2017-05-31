@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:orientation="vertical">
+
         <ImageView
-            android:id="@+id/dog_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/girls_eneration_suyoung"/>
+            android:id="@+id/post_image"
+            android:layout_width="207dp"
+            android:layout_height="138dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/girls_eneration_suyoung" />
+
         <TextView
-            android:id="@+id/dog_title"
-            android:textColor="#000000"
+            android:id="@+id/post_title"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="#3E3A39"
+            android:textSize="13sp" />
+
         <TextView
-            android:id="@+id/dog_type"
-            android:textColor="#000000"
+            android:id="@+id/post_user_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#3E3A39"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

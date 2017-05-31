@@ -1,19 +1,13 @@
 package org.tacademy.woof.doguendoguen.fragment;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,20 +25,22 @@ import org.tacademy.woof.doguendoguen.model.PostListModel;
 import org.tacademy.woof.doguendoguen.rest.RestGenerator;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
-
-import static org.tacademy.woof.doguendoguen.rest.RestGenerator.createService;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
+    private static final String TAG = "SearchFragment";
+
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.dog_type) TextView typeTv;
     @BindView(R.id.dog_gender) Spinner genderSpinner;
     @BindView(R.id.dog_age) Spinner ageSpinner;
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -66,6 +62,7 @@ public class SearchFragment extends Fragment {
         }
     }
 
+    DogListsAdapter dogAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,7 +122,8 @@ public class SearchFragment extends Fragment {
         //분양글 전체리스트 세로로 보여줌
         RecyclerView dogLists = (RecyclerView) view.findViewById(R.id.dog_lists);
         dogLists.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
-        dogLists.setAdapter(new DogListsAdapter());
+        dogAdapter = new DogListsAdapter();
+        dogLists.setAdapter(dogAdapter);
 
         return view;
     }
@@ -135,8 +133,25 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         PostService postService = RestGenerator.createService(PostService.class);
-        Call<List<PostListModel>> postListModel = postService.getPosts(0, "", "", "", 0);
+        Call<List<PostListModel>> postListModel = postService.getPosts(0);
 
+        postListModel.enqueue(new Callback<List<PostListModel>>() {
+            @Override
+            public void onResponse(Call<List<PostListModel>> call, Response<List<PostListModel>> response) {
+                if(response.isSuccessful()) {
+                    List<PostListModel> postLists = response.body();
+                    Log.d(TAG, postLists.toString());
+
+                    dogAdapter.addPostList((ArrayList<PostListModel>) postLists);
+                    dogAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PostListModel>> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
     }
 
 
@@ -151,9 +166,9 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.dogImage.setImageResource(R.drawable.girls_eneration_hyoyeon);
-            holder.dogTitle.setText("가정에서 태어난~~");
-            holder.dogType.setText("웰시코기");
+            holder.postImage.setImageResource(R.drawable.girls_eneration_hyoyeon);
+            holder.postTitle.setText("가정에서 태어난~~");
+            holder.postUserName.setText("웰시코기");
         }
 
         @Override
@@ -162,16 +177,16 @@ public class SearchFragment extends Fragment {
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{
-            ImageView dogImage;
-            TextView dogTitle;
-            TextView dogType;
+            ImageView postImage;
+            TextView postTitle;
+            TextView postUserName;
 
             public ViewHolder(View itemView) {
                 super(itemView);
 
-                dogImage = (ImageView) itemView.findViewById(R.id.dog_image);
-                dogTitle = (TextView) itemView.findViewById(R.id.dog_title);
-                dogType = (TextView) itemView.findViewById(R.id.dog_type);
+                postImage = (ImageView) itemView.findViewById(R.id.post_image);
+                postTitle = (TextView) itemView.findViewById(R.id.post_title);
+                postUserName = (TextView) itemView.findViewById(R.id.post_user_name);
             }
         }
     }

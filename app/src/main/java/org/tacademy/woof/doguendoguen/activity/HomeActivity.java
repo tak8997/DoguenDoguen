@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
@@ -18,7 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
-    @BindView(R.id.tablayout) TabLayout tabLayout;
+    @BindView(R.id.tablayout)
+    TabLayout tabLayout;
 
     Fragment selectedFragment;
 
@@ -30,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 
         selectedFragment = SearchFragment.newInstance();
 
-        if(savedInstanceState == null)
+        if (savedInstanceState == null)
             getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -56,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, selectedFragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
 
@@ -70,4 +75,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 }

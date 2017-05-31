@@ -17,4 +17,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--<item name="tabBackground">?attr/selectableItemBackground</item>-->
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">#FF3D00</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">#FF3D00</item>
+    </style>
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#000000</item>
+    </style>
 </resources>
