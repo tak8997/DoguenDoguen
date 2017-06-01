@@ -1,4 +1,4 @@
-package org.tacademy.woof.doguendoguen.activity;
+package org.tacademy.woof.doguendoguen.app.base.profile;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

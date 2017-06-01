@@ -1,4 +1,4 @@
-package org.tacademy.woof.doguendoguen.activity;
+package org.tacademy.woof.doguendoguen.app.home;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import org.tacademy.woof.doguendoguen.R;
-import org.tacademy.woof.doguendoguen.fragment.MessageFragment;
-import org.tacademy.woof.doguendoguen.fragment.UserProfileFragment;
-import org.tacademy.woof.doguendoguen.fragment.SearchFragment;
-import org.tacademy.woof.doguendoguen.fragment.WishFragment;
+import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
+import org.tacademy.woof.doguendoguen.app.base.profile.UserProfileFragment;
+import org.tacademy.woof.doguendoguen.app.base.search.SearchFragment;
+import org.tacademy.woof.doguendoguen.app.base.wish.WishFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,10 +28,10 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        selectedFragment = SearchFragment.newInstance();
-
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
+            selectedFragment = SearchFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -56,7 +56,6 @@ public class HomeActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.replace(R.id.container, selectedFragment);
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
 

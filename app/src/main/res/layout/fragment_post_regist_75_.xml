@@ -1,0 +1,204 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_75_Fragment">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+        <TextView
+            android:text="@string/post_registration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.25"
+                android:background="#EDBC64" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.25"
+                android:background="#EDBC64" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.25"
+                android:background="#EDBC64" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="0.25" />
+        </LinearLayout>
+
+        <TextView
+            android:text="외모정보"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="친구의 털 색깔을 선택해주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:src="@drawable/girls_eneration_yuri"
+                android:layout_width="50dp"
+                android:layout_height="50dp" />
+        </LinearLayout>
+        
+        <TextView
+            android:text="친구의 크기를 선택해주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:text="소형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="중형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="대형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"/>
+
+        <TextView
+            android:text="의료정보"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="완료된 접종 사항을 선택해주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:text="소형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="중형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <Button
+                android:text="대형견"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dog_parent_image"
+                android:text="부모견 사진을 등록해주세요."
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/dog_blood_hierarchy"
+                android:text="혈통서를 등록해주세요."
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/divider"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

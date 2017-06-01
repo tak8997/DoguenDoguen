@@ -30,11 +30,9 @@
     <string name="dog_post_title">당신을 기다리는 모든 친구들</string>
 
 
-
     <!-- 내 위시 프래그먼트 -->
     <string name="wish_title">두근두근</string>
     <string name="wish_sub_title">언젠간 가족이 될지도 몰라요</string>
-
 
 
     <!-- 메시지 프래그먼트 -->
@@ -42,7 +40,6 @@
     <string name="message_sub_title">모든 메시지를 확인했습니다.</string>
 
 
-    
     <!-- 마이 프로필 프래그먼트 -->
     <string name="profile_title">로그인 하기</string>
     <string name="profile_sub_title">로그인 후 이용가능한 서비스입니다.</string>
@@ -52,6 +49,12 @@
     <string name="service_terms">서비스 이용약관</string>
     <string name="message_alarm">채팅 알람 설정</string>
     <string name="logout">로그아웃</string>
+
+    <!-- 분양글 등록(PostRegist_25_Fragment) -->
+    <string name="post_registration">분양글 등록하기</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 

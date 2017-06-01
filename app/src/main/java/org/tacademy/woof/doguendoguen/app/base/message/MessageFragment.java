@@ -1,4 +1,4 @@
-package org.tacademy.woof.doguendoguen.fragment;
+package org.tacademy.woof.doguendoguen.app.base.message;
 
 
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package org.tacademy.woof.doguendoguen.fragment;
+package org.tacademy.woof.doguendoguen.app.base.wish;
 
 
 import android.os.Bundle;
