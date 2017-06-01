@@ -6,14 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.fragment.MessageFragment;
-import org.tacademy.woof.doguendoguen.fragment.MyProfileFragment;
+import org.tacademy.woof.doguendoguen.fragment.UserProfileFragment;
 import org.tacademy.woof.doguendoguen.fragment.SearchFragment;
 import org.tacademy.woof.doguendoguen.fragment.WishFragment;
 
@@ -53,7 +49,7 @@ public class HomeActivity extends AppCompatActivity {
                         selectedFragment = MessageFragment.newInstance();
                         break;
                     case 3:
-                        selectedFragment = MyProfileFragment.newInstance();
+                        selectedFragment = UserProfileFragment.newInstance();
                         break;
                 }
 
