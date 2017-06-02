@@ -1,6 +1,8 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,11 +42,11 @@ public class SearchFragment extends Fragment {
 
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.dog_type) TextView typeTv;
-    @BindView(R.id.dog_gender) Spinner genderSpinner;
-    @BindView(R.id.dog_age) Spinner ageSpinner;
+    @BindView(R.id.dog_gender) TextView genderTv;
+    @BindView(R.id.dog_age) TextView ageTv;
+    @BindView(R.id.dog_regions) TextView regionTv;
 
     public SearchFragment() {
-        // Required empty public constructor
     }
 
     public static SearchFragment newInstance() {
@@ -69,46 +72,39 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
 
-        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.dog_genders, android.R.layout.simple_spinner_item);
-        genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        genderSpinner.setAdapter(genderAdapter);
-        genderSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(DoguenDoguenApplication.getContext(), parent.getItemIdAtPosition(position)+ "", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
         typeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (drawer.isDrawerOpen(GravityCompat.END)) {
-                    drawer.closeDrawer(GravityCompat.END);
-                } else {
-                    drawer.openDrawer(GravityCompat.END);
-                }
+
+//                if (drawer.isDrawerOpen(GravityCompat.END)) {
+//                    drawer.closeDrawer(GravityCompat.END);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.END);
+//                }
             }
         });
 
-        ArrayAdapter<CharSequence> ageAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.dog_ages, android.R.layout.simple_spinner_item);
-        ageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ageSpinner.setAdapter(ageAdapter);
-        ageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        genderTv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
 
             }
         });
+
+        ageTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        regionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
         //분양이 시급한 강아지들에 대한 글을 가로로 보여줌.
         RecyclerView dogEmergency = (RecyclerView) view.findViewById(R.id.dog_emergency);
@@ -117,7 +113,8 @@ public class SearchFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         dogEmergency.setLayoutManager(linearLayoutManager);
-        dogEmergency.setAdapter(new DogEmergencyAdapter());
+        dogEmergency.setAdapter(new DogEmergencyAdapter(getContext()));
+
 
         //분양글 전체리스트 세로로 보여줌
         RecyclerView dogLists = (RecyclerView) view.findViewById(R.id.dog_lists);
@@ -156,19 +153,32 @@ public class SearchFragment extends Fragment {
 
 
     private static class DogEmergencyAdapter extends RecyclerView.Adapter<DogEmergencyAdapter.ViewHolder> {
+        Context context;
+
+        public DogEmergencyAdapter(Context context) {
+            this.context = context;
+        }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dog_emergency_item, parent, false);
+
+            rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
+                    context.startActivity(intent);
+                }
+            });
 
             return new ViewHolder(rootView);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.postImage.setImageResource(R.drawable.girls_eneration_hyoyeon);
-            holder.postTitle.setText("가정에서 태어난~~");
-            holder.postUserName.setText("웰시코기");
+            holder.postImage.setImageResource(R.drawable.dog_sample);
+            holder.postTitle.setText("가정에서 태어난 건강한 웰시코기 친구들");
+            holder.postUserName.setText("코기엄마");
         }
 
         @Override

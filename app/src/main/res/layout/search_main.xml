@@ -31,8 +31,7 @@
                 android:textColor="#7C4A0F"
                 android:textSize="16sp"
                 android:layout_marginTop="4dp"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="0dp"
+                android:layout_marginLeft="19dp"
                 />
 
             <android.support.v7.widget.RecyclerView
@@ -40,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#FFFFFF"
+                android:layout_marginTop="16dp"
                 android:layout_marginLeft="22dp"/>
         </LinearLayout>
 
@@ -55,6 +55,7 @@
             android:id="@+id/dog_lists"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

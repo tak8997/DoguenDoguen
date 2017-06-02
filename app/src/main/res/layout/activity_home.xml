@@ -27,22 +27,16 @@
             android:layout_gravity="bottom"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/post_regist_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
-                <TextView
-                    android:text="@string/post_registration"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"/>
-            </android.support.v7.widget.Toolbar>
-
-
             <Button
                 android:id="@+id/nextBtn"
                 android:text="다음"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tablayout"
+                android:visibility="gone"/>
+            <Button
+                android:id="@+id/regist_btn"
+                android:text="등록 하기"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tablayout"
@@ -65,14 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/tablayout"
                     android:visibility="gone"/>
-                <Button
-                    android:id="@+id/regist_btn"
-                    android:text="등록 하기"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/tablayout"
-                    android:visibility="gone"/>
             </LinearLayout>
+
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 style="@style/MyCustomTabLayout"
@@ -86,25 +74,25 @@
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
-                    android:icon="@drawable/icon_main_search"
+                    android:icon="@drawable/main_search"
                     android:text="@string/find_pet" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:icon="@drawable/icon_my_wish"
+                    android:icon="@drawable/my_wish"
                     android:text="@string/wish_pet" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:icon="@drawable/icon_message"
+                    android:icon="@drawable/message"
                     android:text="@string/message" />
 
                 <android.support.design.widget.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:icon="@drawable/icon_my_profile"
+                    android:icon="@drawable/my_profile"
                     android:text="@string/my_profile" />
             </android.support.design.widget.TabLayout>
         </android.support.design.widget.AppBarLayout>

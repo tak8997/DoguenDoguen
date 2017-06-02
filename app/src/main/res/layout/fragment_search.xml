@@ -27,59 +27,83 @@
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="240ㅇ"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="16dp"
                         android:layout_height="8dp"
                         android:layout_marginLeft="11dp"
-                        android:src="@mipmap/icon_top_arrow"
+                        android:layout_marginTop="23dp"
+                        android:src="@mipmap/top_arrow"
                         android:scaleType="fitXY"/>
 
                     <TextView
                         android:id="@+id/dog_type"
-                        android:layout_width="match_parent"
+                        android:layout_width="338dp"
                         android:layout_height="35dp"
-                        android:background="#FFFFFF"
-                        android:textColor="#8c8c8c"
-                        android:text="어떤 친구를 만나볼까요?"
-                        android:textSize="14sp"
-                        android:layout_marginTop="44dp"
+                        android:gravity="center|left"
                         android:layout_marginLeft="11dp"
-                        android:layout_marginRight="11dp"/>
-
-                    <Spinner
-                        android:id="@+id/dog_gender"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:prompt="@string/dog_gender"
-                        android:background="#FFFFFF"
+                        android:layout_marginRight="11dp"
                         android:layout_marginTop="11dp"
-                        android:layout_marginLeft="11dp"
-                        android:layout_marginRight="11dp"/>
-
-                    <Spinner
-                        android:id="@+id/dog_age"
-                        android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:prompt="@string/dog_age"
                         android:background="#FFFFFF"
+                        android:drawableLeft="@mipmap/dog_type"
+                        android:drawablePadding="11dp"
+                        android:paddingLeft="11dp"
+                        android:text="어떤 친구를 만나볼까요?"
+                        android:textColor="#8c8c8c"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/dog_gender"
+                        android:layout_width="338dp"
+                        android:layout_height="35dp"
+                        android:gravity="center|left"
+                        android:completionHint="성별은요?"
+                        android:background="#FFFFFF"
+                        android:text="성별은요?"
+                        android:textColor="#8c8c8c"
+                        android:textSize="14sp"
+                        android:paddingLeft="11dp"
+                        android:drawableLeft="@mipmap/dog_gender"
+                        android:drawablePadding="11dp"
                         android:layout_marginTop="11dp"
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="11dp"/>
 
                     <TextView
-                        android:id="@+id/region"
-                        android:layout_width="match_parent"
+                        android:id="@+id/dog_age"
+                        android:layout_width="338dp"
                         android:layout_height="35dp"
+                        android:gravity="center|left"
+                        android:prompt="@string/dog_age"
+                        android:background="#FFFFFF"
+                        android:text="어떤 친구를 만나볼까요?"
+                        android:textColor="#8c8c8c"
+                        android:textSize="14sp"
+                        android:paddingLeft="11dp"
+                        android:drawableLeft="@mipmap/dog_age"
+                        android:drawablePadding="11dp"
+                        android:layout_marginTop="11dp"
+                        android:layout_marginLeft="11dp"
+                        android:layout_marginRight="11dp"/>
+
+                    <TextView
+                        android:id="@+id/dog_regions"
+                        android:layout_width="338dp"
+                        android:layout_height="35dp"
+                        android:gravity="center|left"
                         android:background="#FFFFFF"
                         android:textColor="#8c8c8c"
                         android:text="희망 분양지역을 선택해 주세요"
                         android:textSize="14sp"
+                        android:paddingLeft="11dp"
+                        android:drawableLeft="@mipmap/dog_region"
+                        android:drawablePadding="11dp"
                         android:layout_marginTop="11dp"
                         android:layout_marginLeft="11dp"
-                        android:layout_marginRight="11dp" />
+                        android:layout_marginRight="11dp"
+                        />
                 </LinearLayout>
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>

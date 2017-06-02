@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/dot_gender"
+                android:id="@+id/dog_gender"
                 android:text="성별은요?"
                 android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"

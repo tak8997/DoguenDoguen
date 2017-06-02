@@ -23,8 +23,7 @@ public class WishFragment extends Fragment {
     public static WishFragment newInstance() {
         WishFragment fragment = new WishFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,7 +43,7 @@ public class WishFragment extends Fragment {
         wishLists.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
 
         ArrayList<PostListModel> postListModels = new ArrayList<>();
-        PostListModel postListModel = new PostListModel(0, "title입니다", "default", "유저입니다", 0);
+        PostListModel postListModel = new PostListModel(0, "가정에서 태어난 건강한 웰시코기 친구", "default", "코기엄마", 0);
         postListModels.add(postListModel);
 
         DogListsAdapter dogListsAdapter = new DogListsAdapter();

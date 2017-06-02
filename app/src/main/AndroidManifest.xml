@@ -23,6 +23,8 @@
         <activity android:name=".app.base.profile.UserProfileDetailActivity">
         </activity>
 
+        <activity android:name=".app.base.search.PostDetailActivity">
+        </activity>
     </application>
 
 </manifest>

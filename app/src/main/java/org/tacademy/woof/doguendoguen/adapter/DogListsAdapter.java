@@ -37,7 +37,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
         Glide.with(DoguenDoguenApplication.getContext())
                 .load(postList.petImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.girls_eneration_hyoyeon)
+                .placeholder(R.drawable.dog_sample)
                 .into(holder.postImage);
 
         holder.postTitle.setText(postList.title);
