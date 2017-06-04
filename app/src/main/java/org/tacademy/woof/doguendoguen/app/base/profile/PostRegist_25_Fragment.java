@@ -12,6 +12,9 @@ import android.widget.Button;
 
 import org.tacademy.woof.doguendoguen.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PostRegist_25_Fragment extends Fragment {
 
     public PostRegist_25_Fragment() {
@@ -32,14 +35,13 @@ public class PostRegist_25_Fragment extends Fragment {
         }
     }
 
-    Button nextBtn;
+    @BindView(R.id.next_btn) Button nextBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_25_, container, false);
+        ButterKnife.bind(this, view);
 
-        nextBtn = (Button) getActivity().findViewById(R.id.nextBtn);
-        nextBtn.setVisibility(View.VISIBLE);
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

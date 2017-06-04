@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.tacademy.woof.doguendoguen.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PostRegist_100_Fragment extends Fragment {
 
@@ -31,20 +35,15 @@ public class PostRegist_100_Fragment extends Fragment {
         }
     }
 
-    Button prevBtn;
-    Button nextRegBtn;
-    Button registBtn;
+    @BindView(R.id.regist_btn) Button registBtn;
+    @BindView(R.id.post_intro) EditText postIntro;
+    @BindView(R.id.post_sub_intro) EditText postSubIntro;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_100_, container, false);
+        ButterKnife.bind(this, view);
 
-        prevBtn = (Button) getActivity().findViewById(R.id.prevBtn);
-        nextRegBtn = (Button) getActivity().findViewById(R.id.prevBtn);
-        registBtn = (Button) getActivity().findViewById(R.id.regist_btn);
-
-        prevBtn.setVisibility(View.INVISIBLE);
-        nextRegBtn.setVisibility(View.INVISIBLE);
         registBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

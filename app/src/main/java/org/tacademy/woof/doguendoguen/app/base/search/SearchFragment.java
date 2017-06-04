@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,6 +77,11 @@ public class SearchFragment extends Fragment {
         typeTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.container, SearchDogTypeFragment.newInstance());
+                fragmentTransaction.commit();
 
 //                if (drawer.isDrawerOpen(GravityCompat.END)) {
 //                    drawer.closeDrawer(GravityCompat.END);
@@ -130,7 +137,7 @@ public class SearchFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         PostService postService = RestGenerator.createService(PostService.class);
-        Call<List<PostListModel>> postListModel = postService.getPosts(0);
+        Call<List<PostListModel>> postListModel = postService.getPosts(0, null, null, null, null, null);
 
         postListModel.enqueue(new Callback<List<PostListModel>>() {
             @Override

@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
 
-import java.util.zip.Inflater;
-
 /**
  * Created by Tak on 2017. 6. 1..
  */
@@ -18,7 +16,7 @@ import java.util.zip.Inflater;
 public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_post_item, null, false);
+        View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_user_post_item, null, false);
 
         return new ViewHolder(rootView);
     }

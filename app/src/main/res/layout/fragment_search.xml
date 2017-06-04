@@ -24,10 +24,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="240ㅇ"
+                    android:layout_height="245dp"
                     android:orientation="vertical">
 
                     <ImageView

@@ -1,97 +1,162 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment">
-
+    >
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
-        <TextView
-            android:text="@string/post_registration"
+        android:layout_height="match_parent"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"/>
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="12dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"/>
+            <TextView
+                android:text="분양글 등록하기"
+                android:textSize="15sp"
+                android:textColor="#5b4319"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="338dp"
+            android:layout_height="8dp"
             android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="11dp"
             android:weightSum="1">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:background="#EDBC64"
                 android:padding="1dp" />
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:padding="1dp"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:padding="4dp"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="0.25"
                 android:padding="4dp"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/divider"/>
 
-        <LinearLayout
-            android:id="@+id/user_image"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="200dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:id="@+id/dog_image"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:layout_centerInParent="true"
                 android:src="@drawable/girls_eneration_hyoyeon"/>
             <TextView
+                android:id="@+id/dog_image_title"
                 android:text="사진 추가하기"
+                android:textSize="14sp"
+                android:textColor="#3E3A39"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:layout_below="@+id/dog_image"/>
             <TextView
+                android:id="@+id/dog_image_sub1_title"
                 android:text="얼굴이 잘 보이는 사진을 등록해주세요"
+                android:textSize="11sp"
+                android:textColor="#595757"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:layout_below="@+id/dog_image_title"/>
             <TextView
                 android:text="가정견임을 잘 보여줄 수 있는 신뢰감 있는 사진이 좋아요!"
+                android:textSize="11sp"
+                android:textColor="#595757"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_below="@id/dog_image_sub1_title"/>
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="24dp"
             android:background="@drawable/divider"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:orientation="horizontal">
 
             <TextView
                 android:text="제목"
+                android:textSize="15sp"
+                android:textColor="#825621"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
                 android:hint="제목을 작성해주세요."
+                android:textSize="15sp"
+                android:textColor="#969696"
+                android:background="@android:color/transparent"
+                android:layout_marginLeft="11dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/divider"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="316dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="84dp"
+        android:background="@drawable/border_next_btn"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:text="다음"
+        android:textColor="#FF4D4D"
+        android:textSize="14sp" />
 </RelativeLayout>

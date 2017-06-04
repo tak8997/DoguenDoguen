@@ -12,8 +12,8 @@ import android.widget.Button;
 
 import org.tacademy.woof.doguendoguen.R;
 
-import static org.tacademy.woof.doguendoguen.R.id.nextRegBtn;
-import static org.tacademy.woof.doguendoguen.R.id.prevBtn;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PostRegist_75_Fragment extends Fragment {
 
@@ -34,19 +34,17 @@ public class PostRegist_75_Fragment extends Fragment {
         }
     }
 
-    Button prevBtn;
-    Button nextRegBtn;
+    @BindView(R.id.prev_btn) Button prevBtn;
+    @BindView(R.id.next_btn) Button nextBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_75_, container, false);
-
+        ButterKnife.bind(this, view);
 
         final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        prevBtn = (Button) getActivity().findViewById(R.id.prevBtn);
-        prevBtn.setVisibility(View.VISIBLE);
         prevBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,9 +52,7 @@ public class PostRegist_75_Fragment extends Fragment {
             }
         });
 
-        nextRegBtn = (Button) getActivity().findViewById(R.id.nextRegBtn);
-        nextRegBtn.setVisibility(View.VISIBLE);
-        nextRegBtn.setOnClickListener(new View.OnClickListener() {
+        nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fragmentTransaction.addToBackStack(null);

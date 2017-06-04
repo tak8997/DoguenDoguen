@@ -27,7 +27,8 @@ public interface PostService {
     //조건에 따라 (전체)글 가져오기
     @GET("/doglists")
     Call<List<PostListModel>> getPosts(@Query("page") int page, @Query("spiece") String spiece,
-                                      @Query("gender") String gender, @Query("region") String region, @Query("age") int age);
+                                      @Query("gender") String gender, @Query("region1") String region1, @Query("region2") String region2,
+                                       @Query("age") String age);
 
     @GET("/doglists")
     Call<List<PostListModel>> getPosts(@Query("page") int page);

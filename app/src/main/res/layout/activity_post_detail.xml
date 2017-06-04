@@ -13,103 +13,217 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="241dp"
                 android:src="@drawable/dog_sample"
                 android:scaleType="fitXY"/>
             <TextView
                 android:text="건강하게 태어난 말티즈 삼남매 분양해요!"
+                android:textSize="18sp"
+                android:textColor="#5B4319"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="연뚜"
+                android:textSize="13sp"
+                android:textColor="#3E3A39"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/divider" />
+                android:background="@drawable/divider"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
+                android:layout_height="47dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/dog_type_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <TextView
+                        android:id="@+id/dog_type_detail"
+                        android:text="말티즈"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/dog_type_icon"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/dog_gender_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <TextView
+                        android:id="@+id/dog_gender_detail"
+                        android:text="말티즈"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/dog_gender_icon"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/dog_age_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <TextView
+                        android:id="@+id/dog_age_detail"
+                        android:text="말티즈"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/dog_age_icon"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/dog_region_icon"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" />
+                    <TextView
+                        android:id="@+id/dog_region_detail"
+                        android:text="말티즈"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/dog_region_icon"/>
+                </RelativeLayout>
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
 
             <TextView
                 android:text="희망 입양비"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:text="100,000$"
+                android:textSize="18sp"
+                android:textColor="#5B4319"
+                android:paddingTop="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
 
             <TextView
                 android:text="우리 강아지를 소개해요!"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="소중한 가족 두부의 귀여운 새끼들을 분양합니다. 태어난지 2개월 되었구요, 활기가 넘치는 건강한 아이들이랍니다."
+                android:textSize="14sp"
+                android:textColor="#595757"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
 
             <TextView
                 android:text="외모정보"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="털색상"
+                    android:textColor="#595757"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
                 <TextView
                     android:id="@+id/fur_color"
                     android:text="흰색"
+                    android:textColor="#595757"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
             <RelativeLayout
+                android:layout_marginTop="48dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="크기분류"
+                    android:textColor="#3E3A39"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
@@ -117,70 +231,118 @@
                 <Button
                     android:id="@+id/dog_small"
                     android:text="소형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textColor="#595757"
+                    android:textSize="14sp"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_toLeftOf="@+id/dog_middle"/>
                 <Button
                     android:id="@+id/dog_middle"
                     android:text="중형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#595757"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_toLeftOf="@+id/dog_big"/>
                 <Button
                     android:id="@+id/dog_big"
                     android:text="대형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#595757"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@drawable/divider" />
+                android:background="@drawable/divider"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"/>
 
             <TextView
                 android:text="의료정보"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"/>
 
             <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:text="완료된 정보"
+                    android:text="완료된 접종"
+                    android:textColor="#3E3A39"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
 
                 <Button
                     android:id="@+id/vacinn_one"
-                    android:text="소형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="종합백신"
+                    android:textSize="14sp"
+                    android:textColor="#595757"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_toLeftOf="@+id/vacinn_two"/>
                 <Button
                     android:id="@+id/vacinn_two"
-                    android:text="중형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="코로나"
+                    android:textSize="14sp"
+                    android:textColor="#595757"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_toLeftOf="@+id/vacinn_three"/>
                 <Button
                     android:id="@+id/vacinn_three"
-                    android:text="대형견"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="켄넬코프"
+                    android:textSize="14sp"
+                    android:textColor="#595757"
+                    android:layout_width="70dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/border_dog_size_btn"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
+
             <TextView
                 android:text="부모견 정보"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -193,45 +355,76 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:layout_marginTop="48dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="혈통서"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
 
             <RelativeLayout
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:text="분양지역"
+                    android:textColor="#595757"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
                 <TextView
                     android:text="서울특별시 관악구"
+                    android:textColor="#595757"
+                    android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:background="@drawable/divider" />
+
             <TextView
                 android:text="이런 희망입양자를 원해요!"
+                android:textSize="13sp"
+                android:textColor="#EDBC64"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
                 android:text="자리를 비우면 강아지를 돌볼 수 없는 상황에 계신 1인 가구 분들보다는 강아지를 돌봐줄 수 있는 가족이 함께 사시는 분들이 저희 아가 데려갔으면 좋겠습니다. 입양 후에도 꾸준히 연락하면서 어떻게 자라는지 공유해주실분"
+                android:textColor="#595757"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -240,39 +433,59 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="78dp"
         android:background="#FFFFFF"
         android:layout_gravity="bottom">
         <TextView
             android:id="@+id/dog_type"
-            android:text="말티즈"
+            android:text="말티즈 / "
+            android:textSize="14sp"
+            android:textColor="#5B4319"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="22dp"
             android:layout_alignParentLeft="true"/>
         <TextView
             android:id="@+id/dog_age"
             android:text="2개월"
+            android:textSize="14sp"
+            android:textColor="#5B4319"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/dog_type"/>
+
         <TextView
             android:id="@+id/dog_gender"
-            android:text="남아"
+            android:text="남아 / "
+            android:textSize="14sp"
+            android:textColor="#5B4319"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="22dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"/>
         <TextView
             android:id="@+id/dog_region"
             android:text="관악구"
+            android:textSize="14sp"
+            android:textColor="#5B4319"
+            android:layout_marginBottom="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/dog_gender"/>
+
         <Button
+            android:layout_width="172dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="22dp"
+            android:background="@drawable/bg_regist_btn"
             android:text="분양 희망자와 대화하기"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
 
