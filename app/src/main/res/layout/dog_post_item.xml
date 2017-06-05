@@ -9,6 +9,7 @@
         android:id="@+id/post_image"
         android:layout_width="316dp"
         android:layout_height="212dp"
+        android:layout_marginTop="24dp"
         android:scaleType="fitXY"/>
     <TextView
         android:id="@+id/post_title"

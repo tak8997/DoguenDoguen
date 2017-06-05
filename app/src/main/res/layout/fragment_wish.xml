@@ -21,6 +21,13 @@
         android:layout_marginRight="22dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/GoToLoginFragment"
+        android:text="로그인이 필요한 서비스입니다"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wish_recyclerview"
         android:layout_marginTop="24dp"
