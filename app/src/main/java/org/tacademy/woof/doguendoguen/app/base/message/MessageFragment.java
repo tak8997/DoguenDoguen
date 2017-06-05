@@ -13,6 +13,9 @@ import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.MessageListsAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MessageFragment extends Fragment {
 
     public MessageFragment() {
@@ -32,18 +35,20 @@ public class MessageFragment extends Fragment {
         }
     }
 
+    @BindView(R.id.message_recyclerview) RecyclerView messageRecyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
+        ButterKnife.bind(this, view);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.message_recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
+        messageRecyclerView.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
 
-        MessageListsAdapter messageListsAdapter = new MessageListsAdapter();
+        MessageListsAdapter messageListsAdapter = new MessageListsAdapter(getContext());
         messageListsAdapter.addMessageList();
         messageListsAdapter.notifyDataSetChanged();
 
-        recyclerView.setAdapter(messageListsAdapter);
+        messageRecyclerView.setAdapter(messageListsAdapter);
 
 
         return view;

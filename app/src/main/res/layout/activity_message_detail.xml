@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/message_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <TextView
+            android:text="김다은"
+            android:textSize="15sp"
+            android:textColor="#5B4319"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"/>
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:id="@+id/toolbar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/message_toolbar"
+        android:background="@drawable/divider"/>
+
+    <TextView
+        android:id="@+id/message_time"
+        android:text="시간"
+        android:textSize="11sp"
+        android:textColor="#595757"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginLeft="22dp"
+        android:gravity="center"
+        android:layout_below="@+id/toolbar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/message_detail_recyclerview"
+        android:layout_below="@+id/message_time"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/message_writing"
+        android:background="@drawable/divider"/>
+
+    <RelativeLayout
+        android:id="@+id/message_writing"
+        android:layout_width="match_parent"
+        android:layout_height="63dp"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:text="메시지 작성"
+            android:textSize="14sp"
+            android:textColor="#9E9E9F"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp" />
+        <TextView
+            android:text="보내기"
+            android:textSize="14sp"
+            android:textColor="#FF4D4D"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"/>
+    </RelativeLayout>
+</RelativeLayout>

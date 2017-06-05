@@ -114,24 +114,4 @@
             layout="@layout/search_main"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     </android.support.design.widget.CoordinatorLayout>
-
-    <LinearLayout
-        android:background="#c0c0c0"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_gravity="end">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test!!!!!!"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test!!!!!!"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="test!!!!!!"/>
-    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

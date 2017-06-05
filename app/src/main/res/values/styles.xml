@@ -31,4 +31,10 @@
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">#7F7F7F</item>
     </style>
+
+    <!-- MessageDetailActivity Theme -->
+    <style name="AppTheme.Message" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorWhite</item>
+        <item name="colorPrimaryDark">@color/colorBrown</item>
+    </style>
 </resources>
