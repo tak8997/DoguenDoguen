@@ -26,9 +26,6 @@
         <activity android:name=".app.base.search.PostDetailActivity">
         </activity>
 
-        <activity android:name=".app.sign.LoginActivity">
-        </activity>
-
         <activity android:name=".app.sign.SignUpActivity">
         </activity>
 

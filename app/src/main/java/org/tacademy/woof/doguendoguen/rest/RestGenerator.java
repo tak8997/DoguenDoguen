@@ -46,7 +46,7 @@ public class RestGenerator {
                             return chain.proceed(request);
                         }
                     })
-                    .connectTimeout(15, TimeUnit.SECONDS);
+                    .connectTimeout(20, TimeUnit.SECONDS);
 
             builder.client(httpClient.build());
             retrofit = builder.build();

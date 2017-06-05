@@ -30,6 +30,7 @@ public interface PostService {
                                       @Query("gender") String gender, @Query("region1") String region1, @Query("region2") String region2,
                                        @Query("age") String age);
 
-    @GET("/doglists")
-    Call<List<PostListModel>> getPosts(@Query("page") int page);
+    //가장 시급한 분양 글 6개
+    @GET("/doglists/emergency")
+    Call<List<PostListModel>> getUrgentPosts();
 }

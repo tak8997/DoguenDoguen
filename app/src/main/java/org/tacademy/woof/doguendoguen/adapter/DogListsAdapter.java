@@ -65,7 +65,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
         }
     }
 
-    public void addPostList(ArrayList<PostListModel> postLists) {
+    public void addPost(ArrayList<PostListModel> postLists) {
         this.postLists = postLists;
     }
 }
