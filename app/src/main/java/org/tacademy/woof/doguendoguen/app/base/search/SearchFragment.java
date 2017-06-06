@@ -162,9 +162,9 @@ public class SearchFragment extends Fragment {
 
     private void getUrgentPostService() {
         PostService postService = RestGenerator.createService(PostService.class);
-        Call<List<PostListModel>> postListModel = postService.getUrgentPosts();
+        Call<List<PostListModel>> getPostListCall = postService.getUrgentPosts();
 
-        postListModel.enqueue(new Callback<List<PostListModel>>() {
+        getPostListCall.enqueue(new Callback<List<PostListModel>>() {
             @Override
             public void onResponse(Call<List<PostListModel>> call, Response<List<PostListModel>> response) {
                 if(response.isSuccessful()) {
@@ -185,9 +185,9 @@ public class SearchFragment extends Fragment {
 
     private void getPostService() {
         PostService postService = RestGenerator.createService(PostService.class);
-        Call<List<PostListModel>> postListModel = postService.getPosts(0, "", "", "", "", "");
+        Call<List<PostListModel>> getPostListCall = postService.getPosts(0, "", "", "", "", "");
 
-        postListModel.enqueue(new Callback<List<PostListModel>>() {
+        getPostListCall.enqueue(new Callback<List<PostListModel>>() {
             @Override
             public void onResponse(Call<List<PostListModel>> call, Response<List<PostListModel>> response) {
                 if(response.isSuccessful()) {
@@ -213,6 +213,7 @@ public class SearchFragment extends Fragment {
     private static class DogEmergencyAdapter extends RecyclerView.Adapter<DogEmergencyAdapter.ViewHolder> {
         private Context context;
         private ArrayList<PostListModel> urgentPostLists;
+        private PostListModel postList;
 
         public DogEmergencyAdapter(Context context) {
             this.context = context;
@@ -226,6 +227,7 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
+                    intent.putExtra("postId", postList.postId);
                     context.startActivity(intent);
                 }
             });
@@ -235,7 +237,7 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            PostListModel postList = urgentPostLists.get(position);
+            postList = urgentPostLists.get(position);
 
             Glide.with(DoguenDoguenApplication.getContext())
                     .load(postList.petImageUrl)
@@ -245,6 +247,7 @@ public class SearchFragment extends Fragment {
 
             holder.postTitle.setText(postList.title);
             holder.postUserName.setText(postList.username);
+
         }
 
         @Override

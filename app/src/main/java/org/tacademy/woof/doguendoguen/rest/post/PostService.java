@@ -1,5 +1,6 @@
 package org.tacademy.woof.doguendoguen.rest.post;
 
+import org.tacademy.woof.doguendoguen.model.PostDetailModel;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
 import org.tacademy.woof.doguendoguen.model.PostModel;
 
@@ -12,6 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -33,4 +35,8 @@ public interface PostService {
     //가장 시급한 분양 글 6개
     @GET("/doglists/emergency")
     Call<List<PostListModel>> getUrgentPosts();
+
+    //분양글 1개 상세보기
+    @GET("/doglists/{parcel_id}")
+    Call<PostDetailModel> getPost(@Path("parcel_id") int parcel_id);
 }

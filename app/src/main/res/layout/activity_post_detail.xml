@@ -14,11 +14,13 @@
             android:layout_height="match_parent">
 
             <ImageView
+                android:id="@+id/dog_image"
                 android:layout_width="match_parent"
                 android:layout_height="241dp"
                 android:src="@drawable/dog_sample"
                 android:scaleType="fitXY"/>
             <TextView
+                android:id="@+id/post_title"
                 android:text="건강하게 태어난 말티즈 삼남매 분양해요!"
                 android:textSize="18sp"
                 android:textColor="#5B4319"
@@ -28,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/user_name"
                 android:text="연뚜"
                 android:textSize="13sp"
                 android:textColor="#3E3A39"
@@ -77,7 +80,7 @@
                         android:layout_height="50dp" />
                     <TextView
                         android:id="@+id/dog_gender_detail"
-                        android:text="말티즈"
+                        android:text="남아"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
@@ -93,7 +96,7 @@
                         android:layout_height="50dp" />
                     <TextView
                         android:id="@+id/dog_age_detail"
-                        android:text="말티즈"
+                        android:text="2개월"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
@@ -109,7 +112,7 @@
                         android:layout_height="50dp" />
                     <TextView
                         android:id="@+id/dog_region_detail"
-                        android:text="말티즈"
+                        android:text="관악구"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
@@ -137,6 +140,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/dog_price"
                 android:text="100,000$"
                 android:textSize="18sp"
                 android:textColor="#5B4319"
@@ -165,6 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/post_intro"
                 android:text="소중한 가족 두부의 귀여운 새끼들을 분양합니다. 태어난지 2개월 되었구요, 활기가 넘치는 건강한 아이들이랍니다."
                 android:textSize="14sp"
                 android:textColor="#595757"
@@ -206,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:id="@+id/fur_color"
+                    android:id="@+id/dog_color"
                     android:text="흰색"
                     android:textColor="#595757"
                     android:textSize="14sp"
@@ -292,7 +297,7 @@
                     android:layout_alignParentLeft="true"/>
 
                 <Button
-                    android:id="@+id/vacinn_one"
+                    android:id="@+id/vacinn_dhppl"
                     android:text="종합백신"
                     android:textSize="14sp"
                     android:textColor="#595757"
@@ -300,9 +305,9 @@
                     android:layout_width="70dp"
                     android:layout_height="24dp"
                     android:background="@drawable/border_dog_size_btn"
-                    android:layout_toLeftOf="@+id/vacinn_two"/>
+                    android:layout_toLeftOf="@+id/vacinn_corona"/>
                 <Button
-                    android:id="@+id/vacinn_two"
+                    android:id="@+id/vacinn_corona"
                     android:text="코로나"
                     android:textSize="14sp"
                     android:textColor="#595757"
@@ -310,9 +315,9 @@
                     android:layout_width="70dp"
                     android:layout_height="24dp"
                     android:background="@drawable/border_dog_size_btn"
-                    android:layout_toLeftOf="@+id/vacinn_three"/>
+                    android:layout_toLeftOf="@+id/vacinn_kennel"/>
                 <Button
-                    android:id="@+id/vacinn_three"
+                    android:id="@+id/vacinn_kennel"
                     android:text="켄넬코프"
                     android:textSize="14sp"
                     android:textColor="#595757"
@@ -350,6 +355,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:id="@+id/dog_parent_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -367,6 +373,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
+                    android:id="@+id/blood_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -393,6 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
                 <TextView
+                    android:id="@+id/regions"
                     android:text="서울특별시 관악구"
                     android:textColor="#595757"
                     android:textSize="14sp"
@@ -419,6 +427,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
+                android:id="@+id/post_condition"
                 android:text="자리를 비우면 강아지를 돌볼 수 없는 상황에 계신 1인 가구 분들보다는 강아지를 돌봐줄 수 있는 가족이 함께 사시는 분들이 저희 아가 데려갔으면 좋겠습니다. 입양 후에도 꾸준히 연락하면서 어떻게 자라는지 공유해주실분"
                 android:textColor="#595757"
                 android:textSize="14sp"
@@ -461,7 +470,7 @@
             android:text="남아 / "
             android:textSize="14sp"
             android:textColor="#5B4319"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="18dp"
             android:layout_marginLeft="22dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -471,13 +480,14 @@
             android:text="관악구"
             android:textSize="14sp"
             android:textColor="#5B4319"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@id/dog_gender"/>
 
         <Button
+            android:id="@+id/message_btn"
             android:layout_width="172dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
