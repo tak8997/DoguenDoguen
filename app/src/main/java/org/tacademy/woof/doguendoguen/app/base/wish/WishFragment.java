@@ -1,6 +1,7 @@
 package org.tacademy.woof.doguendoguen.app.base.wish;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,13 +9,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogListsAdapter;
+import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
+import org.tacademy.woof.doguendoguen.app.sign.SignUpActivity;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WishFragment extends Fragment {
     public WishFragment() {
@@ -32,12 +39,23 @@ public class WishFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
         }
     }
+
+    @BindView(R.id.GoToLoginFragment) Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wish, container, false);
+        ButterKnife.bind(this, view);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, LoginFragment.newInstance()).commit();
+            }
+        });
 
         RecyclerView wishLists = (RecyclerView) view.findViewById(R.id.wish_recyclerview);
         wishLists.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
@@ -49,7 +67,7 @@ public class WishFragment extends Fragment {
         DogListsAdapter dogListsAdapter = new DogListsAdapter();
         wishLists.setAdapter(dogListsAdapter);
 
-        dogListsAdapter.addPostList(postListModels);
+        dogListsAdapter.addPost(postListModels);
         dogListsAdapter.notifyDataSetChanged();
 
         return view;

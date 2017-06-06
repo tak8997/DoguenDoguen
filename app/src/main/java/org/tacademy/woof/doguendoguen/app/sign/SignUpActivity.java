@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by Tak on 2017. 6. 4..
  */
 
-class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.next_btn) Button nextBtn;
 
