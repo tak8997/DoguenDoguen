@@ -34,8 +34,17 @@
     </style>
 
     <!-- MessageDetailActivity Theme -->
-    <style name="AppTheme.Message" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Message" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorPrimaryDark">@color/colorBrown</item>
     </style>
+    <!-- Styles -->
+    <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/overflow</item>
+    </style>
+
 </resources>

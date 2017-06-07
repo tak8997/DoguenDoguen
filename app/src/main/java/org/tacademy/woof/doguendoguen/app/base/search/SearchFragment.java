@@ -42,10 +42,10 @@ import retrofit2.Response;
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
 
-    @BindView(R.id.dog_type) TextView typeTv;
-    @BindView(R.id.dog_gender) TextView genderTv;
-    @BindView(R.id.dog_age) TextView ageTv;
-    @BindView(R.id.dog_regions) TextView regionTv;
+    @BindView(R.id.dog_type) TextView dogType;
+    @BindView(R.id.dog_gender) TextView dogGender;
+    @BindView(R.id.dog_age) TextView dogAge;
+    @BindView(R.id.dog_regions) TextView dogRegion;
     @BindView(R.id.dog_lists) RecyclerView dogListsView;
     @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
     @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
@@ -77,7 +77,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
 
-        typeTv.setOnClickListener(new View.OnClickListener() {
+        dogType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -94,21 +94,21 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        genderTv.setOnClickListener(new View.OnClickListener() {
+        dogGender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-        ageTv.setOnClickListener(new View.OnClickListener() {
+        dogAge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
 
-        regionTv.setOnClickListener(new View.OnClickListener() {
+        dogRegion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

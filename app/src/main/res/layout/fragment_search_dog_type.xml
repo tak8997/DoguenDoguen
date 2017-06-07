@@ -8,6 +8,7 @@
     <ImageView
         android:layout_width="16dp"
         android:layout_height="16dp"
+        android:src="@drawable/cancel"
         android:layout_marginLeft="11dp"
         android:layout_marginTop="32dp"/>
     <RelativeLayout
@@ -19,7 +20,8 @@
         <ImageView
             android:id="@+id/search_dog_type"
             android:layout_width="22dp"
-            android:layout_height="22dp" />
+            android:layout_height="22dp"
+            android:src="@drawable/dog_search"/>
         <AutoCompleteTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

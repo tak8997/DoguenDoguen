@@ -15,8 +15,9 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="12dp">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="11dp"
+                android:layout_height="30dp"
+                android:src="@drawable/left_arrow_message"
                 android:layout_marginLeft="11dp"/>
             <TextView
                 android:text="분양글 등록하기"
@@ -82,9 +83,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
+                android:src="@drawable/down_arrow2"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
         </RelativeLayout>
@@ -92,6 +93,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
 
         <RelativeLayout
@@ -110,8 +113,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView
+                android:src="@drawable/down_arrow2"
                 android:layout_alignParentRight="true"
-                android:gravity="center"
                 android:layout_centerInParent="true"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
@@ -120,6 +123,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
 
         <RelativeLayout
@@ -140,7 +145,7 @@
             <ImageView
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
+                android:src="@drawable/down_arrow2"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
         </RelativeLayout>
@@ -148,6 +153,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
 
         <RelativeLayout
@@ -167,7 +174,7 @@
                 android:layout_height="wrap_content" />
             <ImageView
                 android:layout_alignParentRight="true"
-                android:gravity="center"
+                android:src="@drawable/down_arrow2"
                 android:layout_centerInParent="true"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
@@ -176,6 +183,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
 
         <RelativeLayout
@@ -196,7 +205,7 @@
             <ImageView
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:gravity="center"
+                android:src="@drawable/down_arrow2"
                 android:layout_width="30dp"
                 android:layout_height="30dp" />
         </RelativeLayout>
@@ -204,6 +213,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
     </LinearLayout>
 
@@ -214,25 +225,50 @@
         android:layout_marginRight="22dp"
         android:layout_marginBottom="84dp"
         android:layout_alignParentBottom="true">
-        <Button
+
+        <RelativeLayout
             android:id="@+id/prev_btn"
             android:layout_width="150dp"
             android:layout_height="48dp"
-            android:background="@drawable/border_next_btn"
             android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="이전"
-            android:textColor="#FF4D4D"
-            android:textSize="14sp" />
-        <Button
+            android:background="@drawable/border_next_btn">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이전"
+                android:textSize="14sp"
+                android:textColor="#FF4D4D"
+                android:layout_centerInParent="true" />
+            <ImageView
+                android:src="@drawable/previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="15dp"
+                />
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/next_btn"
             android:layout_width="150dp"
             android:layout_height="48dp"
-            android:background="@drawable/border_next_btn"
             android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="다음"
-            android:textColor="#FF4D4D"
-            android:textSize="14sp" />
+            android:background="@drawable/border_next_btn">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이전"
+                android:textSize="14sp"
+                android:textColor="#FF4D4D"
+                android:layout_centerInParent="true" />
+            <ImageView
+                android:src="@drawable/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

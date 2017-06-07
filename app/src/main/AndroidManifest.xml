@@ -32,8 +32,7 @@
         <activity android:name=".app.sign.SignUpEndActivity">
         </activity>
 
-        <activity android:name=".app.base.message.MessageDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".app.base.message.MessageDetailActivity">
         </activity>
     </application>
 </manifest>

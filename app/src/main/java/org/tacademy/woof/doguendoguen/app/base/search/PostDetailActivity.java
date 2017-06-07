@@ -120,7 +120,8 @@ public class PostDetailActivity extends AppCompatActivity {
         String dogImageUrl = null;
         if(postDetail.dogImage != null) {
             ArrayList<DogImage> dogImages = (ArrayList<DogImage>) postDetail.dogImage;
-            dogImageUrl = dogImages.get(0).dogImageUrl;
+            if (dogImages.size() != 0)
+                dogImageUrl = dogImages.get(0).dogImageUrl;
         }
 
         //지역 정보
@@ -137,6 +138,7 @@ public class PostDetailActivity extends AppCompatActivity {
             ArrayList<ParentDogImage> parentDogImages = (ArrayList<ParentDogImage>) postDetail.parentDogImage;
             parentDogImageUrl = parentDogImages.get(0).parentDogImageUrl;
         }
+
 
         Glide.with(this)
                 .load(dogImageUrl)
@@ -156,26 +158,29 @@ public class PostDetailActivity extends AppCompatActivity {
 
         switch (dogSize) {
             case 0:
-                dogSmall.setBackgroundColor(Color.parseColor("#EDBC64"));
+                dogSmall.setBackgroundResource(R.drawable.btn_selected);
+                dogSmall.setTextColor(Color.WHITE);
                 break;
             case 1:
-                dogMiddle.setBackgroundColor(Color.parseColor("#EDBC64"));
+                dogMiddle.setBackgroundResource(R.drawable.btn_selected);
+                dogMiddle.setTextColor(Color.WHITE);
                 break;
             case 2:
-                dogBig.setBackgroundColor(Color.parseColor("#EDBC64"));
+                dogBig.setBackgroundResource(R.drawable.btn_selected);
+                dogBig.setTextColor(Color.WHITE);
                 break;
         }
 
         if(postDetail.vaccinKennel==1) {
-            vaccinKennel.setBackgroundColor(Color.parseColor("#EDBC64"));
+            vaccinKennel.setBackgroundResource(R.drawable.btn_selected);
             vaccinKennel.setTextColor(Color.WHITE);
         }
         if(postDetail.vaccinCorona==1) {
-            vaccinCorona.setBackgroundColor(Color.parseColor("#EDBC64"));
+            vaccinCorona.setBackgroundResource(R.drawable.btn_selected);
             vaccinCorona.setTextColor(Color.WHITE);
         }
         if(postDetail.vacinnDHPPL==1) {
-            vaccinDhppl.setBackgroundColor(Color.parseColor("#EDBC64"));
+            vaccinDhppl.setBackgroundResource(R.drawable.btn_selected);
             vaccinDhppl.setTextColor(Color.WHITE);
         }
 

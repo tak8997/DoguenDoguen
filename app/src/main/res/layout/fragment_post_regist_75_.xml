@@ -1,433 +1,566 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context="org.tacademy.woof.doguendoguen.app.home.HomeActivity">
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="22dp"
-                android:layout_marginTop="12dp">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"/>
-                <TextView
-                    android:text="분양글 등록하기"
-                    android:textSize="15sp"
-                    android:textColor="#5b4319"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="338dp"
-                android:layout_height="8dp"
-                android:layout_marginLeft="11dp"
-                android:layout_marginRight="11dp"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal"
-                android:weightSum="1">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:background="#EDBC64"
-                    android:padding="1dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:background="#EDBC64"
-                    android:padding="1dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:background="#EDBC64"
-                    android:padding="4dp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.25"
-                    android:padding="4dp" />
-            </LinearLayout>
-
-
-            <TextView
-                android:text="외모정보"
-                android:textSize="13sp"
-                android:textColor="#EDBC64"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="친구의 털 색깔을 선택해주세요."
-                android:textColor="#3E3A39"
-                android:textSize="15sp"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_white"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_ivory"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_toRightOf="@+id/color_white"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_bright_brown"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_toLeftOf="@+id/color_dark_brown"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_dark_brown"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <TextView
-                    android:id="@+id/text_white"
-                    android:text="흰색"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"/>
-                <TextView
-                    android:id="@+id/text_ivory"
-                    android:text="아이보리"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_toRightOf="@+id/text_white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/text_bright_brown"
-                    android:text="밝은 갈색"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_toLeftOf="@+id/text_dark_brown"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/text_dark_brown"
-                    android:text="어두운 갈색"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:orientation="horizontal">
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_grey"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp"/>
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_black"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_toRightOf="@+id/color_grey"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_spot"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_toLeftOf="@+id/color_etc"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/color_etc"
-                    android:src="@drawable/girls_eneration_yuri"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="39dp"
-                    android:layout_height="39dp" />
-            </RelativeLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <TextView
-                    android:id="@+id/text_grey"
-                    android:text="회색"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"/>
-                <TextView
-                    android:id="@+id/text_black"
-                    android:text="검정색"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_toRightOf="@+id/text_grey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/text_spot"
-                    android:text="얼룩무늬"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_toLeftOf="@+id/text_etc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/text_etc"
-                    android:text="기타"
-                    android:textSize="10sp"
-                    android:textColor="#3E3A39"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
-
-            <TextView
-                android:text="친구의 크기를 선택해주세요."
-                android:textSize="15sp"
-                android:textColor="#3E3A39"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <Button
-                    android:text="소형견"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:text="중형견"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:text="대형견"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="@drawable/divider"/>
-
-            <TextView
-                android:text="의료정보"
-                android:textSize="13sp"
-                android:textColor="#EDBC64"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:text="완료된 접종 사항을 선택해주세요."
-                android:textColor="#3E3A39"
-                android:textSize="15sp"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <Button
-                    android:text="종합백신"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_alignParentLeft="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:text="코로나"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <Button
-                    android:text="켄넬코프"
-                    android:textSize="13sp"
-                    android:textColor="#3E3A39"
-                    android:background="@drawable/border_dog_size_btn"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="@drawable/divider"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <TextView
-                    android:id="@+id/dog_parent_image"
-                    android:text="부모견 사진을 등록해주세요."
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="@drawable/divider"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
-                <TextView
-                    android:id="@+id/dog_blood_hierarchy"
-                    android:text="혈통서를 등록해주세요."
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <ImageView
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_width="11dp"
-                    android:layout_height="42dp" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="@drawable/divider"/>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:layout_marginTop="36dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="84dp"
-        android:layout_alignParentBottom="true">
-        <Button
-            android:id="@+id/prev_btn"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
-            android:background="@drawable/border_next_btn"
-            android:layout_alignParentLeft="true"
-            android:gravity="center"
-            android:text="이전"
-            android:textColor="#FF4D4D"
-            android:textSize="14sp" />
-        <Button
-            android:id="@+id/next_btn"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
-            android:background="@drawable/border_next_btn"
-            android:layout_alignParentRight="true"
-            android:gravity="center"
-            android:text="다음"
-            android:textColor="#FF4D4D"
-            android:textSize="14sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="org.tacademy.woof.doguendoguen.app.home.HomeActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="12dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="11dp"/>
+                    <TextView
+                        android:text="분양글 등록하기"
+                        android:textSize="15sp"
+                        android:textColor="#5b4319"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="338dp"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:background="#EDBC64"
+                        android:padding="1dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:background="#EDBC64"
+                        android:padding="1dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:background="#EDBC64"
+                        android:padding="4dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:padding="4dp" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:text="외모정보"
+                    android:textSize="13sp"
+                    android:textColor="#EDBC64"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="친구의 털 색깔을 선택해주세요."
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_white"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_ivory"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_centerInParent="true"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_bright_brown"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_centerInParent="true"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_dark_brown"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="0.25"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_white"
+                            android:text="흰색"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_ivory"
+                            android:text="아이보리"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_bright_brown"
+                            android:text="밝은 갈색"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_dark_brown"
+                            android:text="어두운 갈색"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_alignParentRight="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_grey"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_black"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_centerInParent="true"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_spot"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_centerInParent="true"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/color_etc"
+                            android:src="@drawable/girls_eneration_yuri"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="0.25"
+                            android:layout_width="39dp"
+                            android:layout_height="39dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_grey"
+                            android:text="회색"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_black"
+                            android:text="검정색"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_spot"
+                            android:text="얼룩무늬"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_centerInParent="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25">
+                        <TextView
+                            android:id="@+id/text_etc"
+                            android:text="기타"
+                            android:textSize="10sp"
+                            android:textColor="#3E3A39"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:text="친구의 크기를 선택해주세요."
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <Button
+                        android:text="소형견"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_alignParentLeft="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                    <Button
+                        android:text="중형견"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                    <Button
+                        android:text="대형견"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/divider"/>
+
+                <TextView
+                    android:text="의료정보"
+                    android:textSize="13sp"
+                    android:textColor="#EDBC64"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="완료된 접종 사항을 선택해주세요."
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <Button
+                        android:text="종합백신"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_alignParentLeft="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                    <Button
+                        android:text="코로나"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                    <Button
+                        android:text="켄넬코프"
+                        android:textSize="13sp"
+                        android:textColor="#3E3A39"
+                        android:background="@drawable/border_dog_size_btn"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="100dp"
+                        android:layout_height="25dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <TextView
+                        android:id="@+id/dog_parent_image"
+                        android:text="부모견 사진을 등록해주세요."
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/right_arrow"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp">
+                    <TextView
+                        android:id="@+id/dog_blood_hierarchy"
+                        android:text="혈통서를 등록해주세요."
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="11dp"
+                        android:layout_height="30dp" />
+                    <ImageView
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/right_arrow"
+                        android:layout_width="11dp"
+                        android:layout_height="30dp" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_alignParentBottom="true">
+
+                    <RelativeLayout
+                        android:id="@+id/prev_btn"
+                        android:layout_width="150dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@drawable/border_next_btn">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="이전"
+                            android:textSize="14sp"
+                            android:textColor="#FF4D4D"
+                            android:layout_centerInParent="true" />
+                        <ImageView
+                            android:src="@drawable/previous"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="15dp"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/next_btn"
+                        android:layout_width="150dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/border_next_btn">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="이전"
+                            android:textSize="14sp"
+                            android:textColor="#FF4D4D"
+                            android:layout_centerInParent="true" />
+                        <ImageView
+                            android:src="@drawable/next"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

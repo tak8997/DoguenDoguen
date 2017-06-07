@@ -54,9 +54,10 @@ public class MessageDetailActivity extends AppCompatActivity{
 
     private void setSupportToolBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_arrow_message);
     }
 
     @Override

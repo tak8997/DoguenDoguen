@@ -17,8 +17,9 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="12dp">
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="11dp"
+                android:layout_height="30dp"
+                android:src="@drawable/left_arrow_message"
                 android:layout_marginLeft="11dp"/>
             <TextView
                 android:text="분양글 등록하기"
@@ -69,14 +70,14 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="240dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/dog_image"
                 android:layout_width="43dp"
                 android:layout_height="43dp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/girls_eneration_hyoyeon"/>
+                android:src="@drawable/add_photo"/>
             <TextView
                 android:id="@+id/dog_image_title"
                 android:text="사진 추가하기"
@@ -103,6 +104,7 @@
                 android:textColor="#595757"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:gravity="center"
                 android:layout_below="@id/dog_image_sub1_title"/>
         </RelativeLayout>
@@ -145,18 +147,28 @@
             android:background="@drawable/divider"/>
     </LinearLayout>
 
-    <Button
+    <RelativeLayout
         android:id="@+id/next_btn"
         android:layout_width="316dp"
         android:layout_height="48dp"
-        android:layout_gravity="bottom"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
         android:layout_marginBottom="84dp"
-        android:background="@drawable/border_next_btn"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:text="다음"
-        android:textColor="#FF4D4D"
-        android:textSize="14sp" />
+        android:background="@drawable/border_next_btn">
+        <TextView
+            android:text="다음"
+            android:textColor="#FF4D4D"
+            android:textSize="14sp"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@drawable/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import org.tacademy.woof.doguendoguen.R;
 
@@ -33,8 +34,8 @@ public class PostRegist_50_Fragment extends Fragment {
         }
     }
 
-    @BindView(R.id.next_btn) Button nextBtn;
-    @BindView(R.id.prev_btn) Button prevBtn;
+    @BindView(R.id.next_btn) RelativeLayout nextBtn;
+    @BindView(R.id.prev_btn) RelativeLayout prevBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:theme="@style/AppTheme.Message"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
+        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
         <TextView
             android:text="김다은"
             android:textSize="15sp"

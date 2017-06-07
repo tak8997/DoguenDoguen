@@ -1,6 +1,7 @@
 package org.tacademy.woof.doguendoguen.app.base.profile;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.UserPostAdapter;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -16,6 +18,8 @@ import butterknife.ButterKnife;
 
 public class UserProfileDetailActivity extends AppCompatActivity{
 
+    @BindView(R.id.fab) FloatingActionButton fab;
+
     private RecyclerView userPostRecyclerview;
 
     @Override
@@ -23,6 +27,8 @@ public class UserProfileDetailActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile_detail);
         ButterKnife.bind(this);
+
+        fab.setImageDrawable(getResources().getDrawable(R.drawable.user_update));
 
         userPostRecyclerview = (RecyclerView) findViewById(R.id.user_post_recyclerview);
 

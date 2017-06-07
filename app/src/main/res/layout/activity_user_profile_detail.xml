@@ -1,135 +1,243 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/detail_user_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="이름"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="탁쓰"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="성별"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="남자"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+            <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="가족 형태"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="4인 이상 가구"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+                <ImageView
+                    android:id="@+id/detail_user_image"
+                    android:src="@drawable/dog_sample"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="239dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="거주 형태"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="아파트"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/left_arrow_message"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_alignTop="@+id/detail_user_image"
+                    android:layout_alignLeft="@+id/detail_user_image" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="거주 지역"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="경기도 성남시"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+                <!--<ImageView-->
+                    <!--android:layout_width="31dp"-->
+                    <!--android:layout_height="31dp"-->
+                    <!--android:layout_marginTop="15.5dp"-->
+                    <!--android:layout_marginRight="11dp"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:src="@drawable/user_update"-->
+                    <!--android:layout_alignBottom="@+id/detail_user_image"-->
+                    <!--android:layout_alignRight="@+id/detail_user_image"/>-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="반려동물 유무"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:text="없음"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"/>
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/divider"/>
+            </RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="31dp"
+                android:layout_height="31dp"
+                app:layout_anchor="@id/user"
+                app:layout_anchorGravity="right|bottom"
+                android:src = "@drawable/user_update"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="50dp" />
 
-    <TextView
-        android:text="등록한 글 목록"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"/>
+            </android.support.design.widget.CoordinatorLayout>
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="이름"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="탁쓰"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/user_post_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="성별"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="남자"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="가족 형태"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="4인 이상 가구"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="거주 형태"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="아파트"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="거주 지역"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="경기도 성남시"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="반려동물 유무"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="없음"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:text="등록한 글 목록"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_post_recyclerview"
+                android:layout_marginLeft="22dp"
+                android:layout_marginBottom="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+</ScrollView>

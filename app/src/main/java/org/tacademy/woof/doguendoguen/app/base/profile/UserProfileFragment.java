@@ -45,11 +45,9 @@ public class UserProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
 
-        //버튼 제거
-//        getActivity().findViewById(R.id.nextBtn).setVisibility(View.INVISIBLE);
-
         registDrawer = (DrawerLayout) view.findViewById(R.id.registDrawer);
 
+        //유저 프로필 확인
         userImage = (ImageView) view.findViewById(R.id.profile_user_image);
         userImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +57,7 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+        //분양글 등록하기
         postRegist = (TextView) view.findViewById(R.id.post_regist);
         postRegist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +70,8 @@ public class UserProfileFragment extends Fragment {
             }
         });
 
+
+        //내가 쓴 글 목록
         userPostList = (TextView) view.findViewById(R.id.user_post_list);
         userPostList.setOnClickListener(new View.OnClickListener() {
             @Override

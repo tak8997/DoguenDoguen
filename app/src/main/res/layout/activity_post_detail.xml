@@ -34,7 +34,7 @@
                 android:text="연뚜"
                 android:textSize="13sp"
                 android:textColor="#3E3A39"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -50,74 +50,132 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp"
                 android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp">
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/dog_type_icon"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
-                    <TextView
-                        android:id="@+id/dog_type_detail"
-                        android:text="말티즈"
-                        android:textSize="13sp"
-                        android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/dog_type_icon"/>
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dog_type_post" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/dog_gender_icon"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
-                    <TextView
-                        android:id="@+id/dog_gender_detail"
-                        android:text="남아"
-                        android:textSize="13sp"
-                        android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/dog_gender_icon"/>
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dog_male" />
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/dog_age_icon"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
-                    <TextView
-                        android:id="@+id/dog_age_detail"
-                        android:text="2개월"
-                        android:textSize="13sp"
-                        android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/dog_age_icon"/>
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dog_age_post" />
                 </RelativeLayout>
+
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/dog_region_icon"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp" />
-                    <TextView
-                        android:id="@+id/dog_region_detail"
-                        android:text="관악구"
-                        android:textSize="13sp"
-                        android:textColor="#3E3A39"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/dog_region_icon"/>
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/dog_region_post" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
+                    <TextView
+                        android:id="@+id/dog_type_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="말티즈"
+                        android:textColor="#3E3A39"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
+                    <TextView
+                        android:id="@+id/dog_gender_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="남아"
+                        android:textColor="#3E3A39"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
+                    <TextView
+                        android:id="@+id/dog_age_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="2개월"
+                        android:textColor="#3E3A39"
+                        android:textSize="13sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25">
+
+                    <TextView
+                        android:id="@+id/dog_region_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="관악구"
+                        android:textColor="#3E3A39"
+                        android:textSize="13sp" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -141,11 +199,10 @@
 
             <TextView
                 android:id="@+id/dog_price"
-                android:text="100,000$"
+                android:text="100,000"
                 android:textSize="18sp"
                 android:textColor="#5B4319"
-                android:paddingTop="12dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -173,7 +230,7 @@
                 android:text="소중한 가족 두부의 귀여운 새끼들을 분양합니다. 태어난지 2개월 되었구요, 활기가 넘치는 건강한 아이들이랍니다."
                 android:textSize="14sp"
                 android:textColor="#595757"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -356,6 +413,8 @@
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/dog_parent_image"
+                    android:src="@drawable/right_arrow"
+                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -374,6 +433,8 @@
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/blood_image"
+                    android:src="@drawable/right_arrow"
+                    android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
@@ -470,7 +531,7 @@
             android:text="남아 / "
             android:textSize="14sp"
             android:textColor="#5B4319"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="22dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -480,7 +541,7 @@
             android:text="관악구"
             android:textSize="14sp"
             android:textColor="#5B4319"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

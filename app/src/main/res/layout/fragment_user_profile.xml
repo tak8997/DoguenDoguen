@@ -47,146 +47,143 @@
                         android:id="@+id/profile_user_image"
                         android:layout_width="53dp"
                         android:layout_height="53dp"
-                        android:src="@drawable/girls_eneration_taeyeon"
+                        android:src="@drawable/user_login_off"
                         android:layout_alignParentRight="true"/>
                 </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="24dp"
                     android:background="@drawable/divider"/>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="70dp">
                     <TextView
                         android:id="@+id/post_regist"
                         android:text="@string/post_register"
                         android:textSize="15sp"
                         android:textColor="#C8C9CA"
-                        android:layout_marginTop="25dp"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <ImageView
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/regist_post_off"
                         android:layout_width="30dp"
                         android:layout_height="30dp" />
-                </LinearLayout>
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/divider"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/user_post_list"
-                        android:text="@string/post_my_list"
-                        android:layout_marginTop="25dp"
-                        android:textColor="#C8C9CA"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/divider"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:text="@string/question"
-                        android:textSize="15sp"
-                        android:textColor="#3E3A39"
-                        android:layout_marginTop="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/divider"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:text="@string/service_terms"
-                        android:textSize="15sp"
-                        android:textColor="#3E3A39"
-                        android:layout_marginTop="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="25dp"
                     android:background="@drawable/divider"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="70dp">
+                    <TextView
+                        android:id="@+id/user_post_list"
+                        android:text="@string/post_my_list"
+                        android:textColor="#C8C9CA"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/my_post_off"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp">
+                    <TextView
+                        android:text="@string/question"
+                        android:textSize="15sp"
+                        android:textColor="#3E3A39"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/question"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp">
+                    <TextView
+                        android:text="@string/service_terms"
+                        android:textSize="15sp"
+                        android:textColor="#3E3A39"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:src="@drawable/agreement"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+                </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@drawable/divider"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp">
                     <TextView
                         android:text="@string/message_alarm"
                         android:textColor="#C8C9CA"
                         android:textSize="15sp"
-                        android:layout_marginTop="25dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
                         android:layout_alignParentLeft="true"/>
                     <com.rey.material.widget.Switch
                         style="@style/Material.Widget.Switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="25dp"
                         android:layout_alignParentRight="true"
-                        android:gravity="center_horizontal"
+                        android:layout_centerInParent="true"
                         android:checked="false"/>
                 </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_height="0.5dp"
                     android:background="@drawable/divider"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:text="@string/logout"
-                        android:textColor="#C8C9CA"
-                        android:textSize="15sp"
-                        android:layout_marginTop="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
-                </LinearLayout>
+                <TextView
+                    android:text="@string/logout"
+                    android:textColor="#C8C9CA"
+                    android:textSize="15sp"
+                    android:layout_marginTop="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_marginTop="25dp"
                     android:background="@drawable/divider"/>
             </LinearLayout>

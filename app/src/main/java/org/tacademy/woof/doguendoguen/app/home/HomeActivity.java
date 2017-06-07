@@ -1,5 +1,7 @@
 package org.tacademy.woof.doguendoguen.app.home;
 
+import android.graphics.Color;
+import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,12 +15,13 @@ import org.tacademy.woof.doguendoguen.app.base.profile.UserProfileFragment;
 import org.tacademy.woof.doguendoguen.app.base.search.SearchFragment;
 import org.tacademy.woof.doguendoguen.app.base.wish.WishFragment;
 
+import java.util.logging.Handler;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
-    @BindView(R.id.tablayout)
-    TabLayout tabLayout;
+    @BindView(R.id.tablayout) TabLayout tabLayout;
 
     Fragment selectedFragment;
 
@@ -33,6 +36,10 @@ public class HomeActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
         }
 
+//        tabLayout.addTab(tabLayout.newTab().setText("새가족 찾기").setIcon(R.drawable.search));
+//        tabLayout.addTab(tabLayout.newTab().setText("두근두근").setIcon(R.drawable.wish));
+//        tabLayout.addTab(tabLayout.newTab().setText("메시지").setIcon(R.drawable.message));
+//        tabLayout.addTab(tabLayout.newTab().setText("마이 페이지").setIcon(R.drawable.profile));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -61,7 +68,22 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+//                int position = tab.getPosition();
 
+//                switch (position) {
+//                    case 0:
+//                        tabLayout.getTabAt(position).setIcon(R.drawable.search);
+//                        break;
+//                    case 1:
+//                        tabLayout.getTabAt(position).setIcon(R.drawable.wish);
+//                        break;
+//                    case 2:
+//                        tabLayout.getTabAt(position).setIcon(R.drawable.message);
+//                        break;
+//                    case 3:
+//                        tabLayout.getTabAt(position).setIcon(R.drawable.profile);
+//                        break;
+//                }
             }
 
             @Override
