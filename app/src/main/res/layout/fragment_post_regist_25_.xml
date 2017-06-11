@@ -17,10 +17,9 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="12dp">
             <ImageView
-                android:layout_width="11dp"
-                android:layout_height="30dp"
-                android:src="@drawable/left_arrow_message"
-                android:layout_marginLeft="11dp"/>
+                android:layout_width="10dp"
+                android:layout_height="18dp"
+                android:src="@drawable/left_arrow_message" />
             <TextView
                 android:text="분양글 등록하기"
                 android:textSize="15sp"
@@ -69,6 +68,18 @@
             android:background="@drawable/divider"/>
 
         <RelativeLayout
+            android:id="@+id/add_pet_image"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="240dp">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/add_pet_image_container"
             android:layout_width="match_parent"
             android:layout_height="240dp">
 
@@ -105,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:layout_below="@id/dog_image_sub1_title"/>
         </RelativeLayout>
@@ -112,8 +124,17 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:layout_marginTop="24dp"
             android:background="@drawable/divider"/>
+
+        <ImageView
+            android:id="@+id/add_image"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/add_post"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -130,6 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <EditText
+                android:id="@+id/title"
                 android:hint="제목을 작성해주세요."
                 android:textSize="15sp"
                 android:textColor="#969696"

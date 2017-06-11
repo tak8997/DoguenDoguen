@@ -81,7 +81,7 @@ public class PostRegist_75_Fragment extends Fragment {
                 if (scrollY < oldScrollY) {
                     Log.i(TAG, "Scroll UP");
 
-                    appBarLayout.setVisibility(View.INVISIBLE);
+                    appBarLayout.setVisibility(View.VISIBLE);
                 }
 
                 if (scrollY == 0) {

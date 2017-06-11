@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.tacademy.woof.doguendoguen.app.base.search.SearchDogTypeFragment">
+    tools:context="org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity">
 
     <ImageView
         android:layout_width="16dp"
@@ -23,6 +23,7 @@
             android:layout_height="22dp"
             android:src="@drawable/dog_search"/>
         <AutoCompleteTextView
+            android:id="@+id/search_dog_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -37,4 +38,10 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/divider"/>
+    <Button
+        android:id="@+id/search_finish_btn"
+        android:text="완료"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

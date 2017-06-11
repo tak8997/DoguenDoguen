@@ -3,6 +3,8 @@
     package="org.tacademy.woof.doguendoguen">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".DoguenDoguenApplication"
@@ -34,5 +36,19 @@
 
         <activity android:name=".app.base.message.MessageDetailActivity">
         </activity>
+
+        <provider
+            android:authorities="org.tacademy.woof.doguendoguen.provider"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
+        <activity android:name=".app.base.SearchDogTypeActivity">
+        </activity>
+
     </application>
 </manifest>

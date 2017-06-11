@@ -1,274 +1,555 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_50_Fragment"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_50_Fragment">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="22dp"
-            android:layout_marginTop="12dp">
-            <ImageView
-                android:layout_width="11dp"
-                android:layout_height="30dp"
-                android:src="@drawable/left_arrow_message"
-                android:layout_marginLeft="11dp"/>
-            <TextView
-                android:text="분양글 등록하기"
-                android:textSize="15sp"
-                android:textColor="#5b4319"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
 
         <LinearLayout
-            android:layout_width="338dp"
-            android:layout_height="8dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="11dp"
-            android:layout_marginRight="11dp"
-            android:weightSum="1">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="12dp">
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/left_arrow_message" />
+                <TextView
+                    android:text="분양글 등록하기"
+                    android:textSize="15sp"
+                    android:textColor="#5b4319"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:background="#EDBC64"
-                android:padding="1dp" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:background="#EDBC64"
-                android:padding="1dp"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:padding="4dp"/>
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:padding="4dp"/>
+            <LinearLayout
+                android:layout_width="338dp"
+                android:layout_height="8dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:background="#EDBC64"
+                    android:padding="1dp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:background="#EDBC64"
+                    android:padding="1dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:padding="4dp"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:padding="4dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:id="@+id/search_dog_type"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/dog_type"
+                    android:text="어떤 친구를 분양할까요?"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:id="@+id/dog_type_selected"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_type_arrow"
+                    android:layout_marginRight="24dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/dog_type_arrow"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:id="@+id/search_dog_gender"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/dog_gender"
+                    android:text="성별은요?"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="여아"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:id="@+id/dog_gender_selected"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_gender_arrow"
+                    android:layout_marginRight="24dp"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/dog_gender_arrow"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/dog_gender_box"
+                android:visibility="gone"
+                android:layout_width="317dp"
+                android:layout_height="138dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_layout"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/female"
+                    android:text="여아"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_female_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:background="@drawable/divider"/>
+                <TextView
+                    android:id="@+id/male"
+                    android:text="남아"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_male_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginRight="11dp"
+                    android:background="@drawable/divider"/>
+                <TextView
+                    android:id="@+id/any_gender"
+                    android:text="상관없음"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_both_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <!-- 펫 나이 관련 -->
+            <RelativeLayout
+                android:id="@+id/search_dog_age"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/dog_age"
+                    android:text="몇살인가요?"
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:id="@+id/dog_age_selected"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_age_arrow"
+                    android:layout_marginRight="24dp"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/dog_age_arrow"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
+
+            <!--<Spinner-->
+                <!--android:id="@+id/dog_age_box"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="22dp"-->
+                <!--android:layout_marginRight="22dp" />-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:id="@+id/search_dog_region"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/dog_region"
+                    android:text="희망 분양지역을 선택해주세요."
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:gravity="center"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_region_arrow"
+                    android:layout_marginRight="24dp">
+                    <TextView
+                        android:id="@+id/dog_city_selected"
+                        android:textSize="15sp"
+                        android:textColor="#3E3A39"
+                        android:visibility="gone"
+                        android:layout_gravity="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/dog_district_selected"
+                        android:textSize="15sp"
+                        android:textColor="#3E3A39"
+                        android:layout_gravity="end"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/dog_region_arrow"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_centerInParent="true"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/dog_region_box"
+                android:layout_width="317dp"
+                android:layout_height="156dp"
+                android:orientation="vertical"
+                android:background="@drawable/border_layout"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                    <TextView
+                        android:id="@+id/city"
+                        android:text="시/도"
+                        android:textSize="12sp"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"
+                        android:background="#EDBC64"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75" />
+                    <TextView
+                        android:id="@+id/district"
+                        android:text="시/군/구"
+                        android:textSize="12sp"
+                        android:textColor="#3E3A39"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"/>
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    >
+                    <GridView
+                        android:id="@+id/region_city_gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:columnWidth="26dp"
+                        android:numColumns="6"
+                        android:verticalSpacing="26dp"
+                        android:horizontalSpacing="16dp"
+                        android:stretchMode="columnWidth"
+                        android:gravity="center" />
+                    <GridView
+                        android:id="@+id/region_district_gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:columnWidth="40dp"
+                        android:numColumns="5"
+                        android:verticalSpacing="26dp"
+                        android:horizontalSpacing="16dp"
+                        android:stretchMode="columnWidth"
+                        android:visibility="invisible"
+                        android:gravity="center" />
+                </FrameLayout>
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:id="@+id/search_dog_price"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/dog_price"
+                    android:text="희망 분양 가격을 입력해주세요."
+                    android:textSize="15sp"
+                    android:textColor="#825621"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:id="@+id/dog_price_selected"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_price_arrow"
+                    android:layout_marginRight="24dp"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/dog_price_arrow"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_width="16dp"
+                    android:layout_height="8dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dog_price_box"
+                android:layout_width="317dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/border_layout">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_centerInParent="true">
+                    <EditText
+                        android:id="@+id/dog_price_money"
+                        android:layout_width="77dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="7dp"
+                        android:layout_toLeftOf="@+id/dog_price_won"
+                        android:background="@android:color/transparent"
+                        android:textColor="#585857"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/dog_price_won"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="만원"
+                        android:textColor="#EDBC64"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/price_selection"
+                    android:layout_width="11dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/down_arrow2" />
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+
+                <RelativeLayout
+                    android:id="@+id/prev_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/border_next_btn">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이전"
+                        android:textSize="14sp"
+                        android:textColor="#FF4D4D"
+                        android:layout_centerInParent="true" />
+                    <ImageView
+                        android:src="@drawable/previous"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="15dp"
+                        />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/next_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/border_next_btn">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="다음"
+                        android:textSize="14sp"
+                        android:textColor="#FF4D4D"
+                        android:layout_centerInParent="true" />
+                    <ImageView
+                        android:src="@drawable/next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        />
+                </RelativeLayout>
+            </RelativeLayout><!-- button -->
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/divider"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <TextView
-                android:id="@+id/dog_type"
-                android:text="어떤 친구를 분양할까요?"
-                android:textSize="15sp"
-                android:textColor="#825621"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:src="@drawable/down_arrow2"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/divider"/>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <TextView
-                android:id="@+id/dog_gender"
-                android:text="성별은요?"
-                android:textSize="15sp"
-                android:textColor="#825621"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:src="@drawable/down_arrow2"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/divider"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <TextView
-                android:id="@+id/dog_age"
-                android:text="몇살인가요?"
-                android:textSize="15sp"
-                android:textColor="#825621"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:src="@drawable/down_arrow2"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/divider"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <TextView
-                android:id="@+id/dog_region"
-                android:text="희망 분양지역을 선택해주세요."
-                android:textSize="15sp"
-                android:textColor="#825621"
-                android:gravity="center"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:src="@drawable/down_arrow2"
-                android:layout_centerInParent="true"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/divider"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp">
-            <TextView
-                android:id="@+id/dog_price"
-                android:text="희망 분양 가격을 입력해주세요."
-                android:textSize="15sp"
-                android:textColor="#825621"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:src="@drawable/down_arrow2"
-                android:layout_width="30dp"
-                android:layout_height="30dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:background="@drawable/divider"/>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginBottom="84dp"
-        android:layout_alignParentBottom="true">
-
-        <RelativeLayout
-            android:id="@+id/prev_btn"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/border_next_btn">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이전"
-                android:textSize="14sp"
-                android:textColor="#FF4D4D"
-                android:layout_centerInParent="true" />
-            <ImageView
-                android:src="@drawable/previous"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="15dp"
-                />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/next_btn"
-            android:layout_width="150dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/border_next_btn">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이전"
-                android:textSize="14sp"
-                android:textColor="#FF4D4D"
-                android:layout_centerInParent="true" />
-            <ImageView
-                android:src="@drawable/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="15dp"
-                />
-        </RelativeLayout>
-    </RelativeLayout>
-</RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

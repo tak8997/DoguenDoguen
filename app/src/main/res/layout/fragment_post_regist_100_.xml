@@ -19,9 +19,9 @@
                 android:layout_marginRight="22dp"
                 android:layout_marginTop="12dp">
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="11dp"/>
+                    android:src="@drawable/left_arrow_message"
+                    android:layout_width="10dp"
+                    android:layout_height="18dp" />
                 <TextView
                     android:text="분양글 등록하기"
                     android:textSize="15sp"
@@ -95,7 +95,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/border_regist_post"
                 android:layout_width="wrap_content"
-                android:layout_height="200dp" />
+                android:layout_height="294dp" />
 
             <TextView
                 android:text="원하는 입양 희망자에 대한 글을 작성해주세요."
@@ -122,7 +122,7 @@
                 android:layout_marginTop="12dp"
                 android:background="@drawable/border_regist_post"
                 android:layout_width="wrap_content"
-                android:layout_height="200dp" />
+                android:layout_height="294dp" />
 
             <Button
                 android:id="@+id/regist_btn"

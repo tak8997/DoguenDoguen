@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    android:id="@+id/city_region"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="14sp"
+    android:textColor="#3E3A39"
+    android:clickable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android" />

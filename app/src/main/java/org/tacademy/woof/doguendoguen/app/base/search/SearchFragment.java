@@ -26,6 +26,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogListsAdapter;
+import org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
 import org.tacademy.woof.doguendoguen.rest.RestGenerator;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
@@ -35,20 +36,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
     private static final String TAG = "SearchFragment";
-
-    @BindView(R.id.dog_type) TextView dogType;
-    @BindView(R.id.dog_gender) TextView dogGender;
-    @BindView(R.id.dog_age) TextView dogAge;
-    @BindView(R.id.dog_regions) TextView dogRegion;
-    @BindView(R.id.dog_lists) RecyclerView dogListsView;
-    @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
-    @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
 
     public SearchFragment() {
     }
@@ -72,6 +66,14 @@ public class SearchFragment extends Fragment {
     DogListsAdapter dogAdapter;
     DogEmergencyAdapter dogEmergencyAdapter;
 
+    @BindView(R.id.dog_type) TextView dogType;
+    @BindView(R.id.dog_gender) TextView dogGender;
+    @BindView(R.id.dog_age) TextView dogAge;
+    @BindView(R.id.dog_regions) TextView dogRegion;
+    @BindView(R.id.dog_lists) RecyclerView dogListsView;
+    @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
+    @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -80,11 +82,8 @@ public class SearchFragment extends Fragment {
         dogType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.replace(R.id.container, SearchDogTypeFragment.newInstance());
-                fragmentTransaction.commit();
+                Intent intent = new Intent(DoguenDoguenApplication.getContext(), SearchDogTypeActivity.class);
+                startActivity(intent);
 
 //                if (drawer.isDrawerOpen(GravityCompat.END)) {
 //                    drawer.closeDrawer(GravityCompat.END);
@@ -148,6 +147,16 @@ public class SearchFragment extends Fragment {
         refreshLayout.setColorSchemeColors(Color.YELLOW, Color.RED, Color.GREEN);
 
         return view;
+    }
+
+    @OnClick({R.id.dog_gender})
+    public void onCondtionClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.dog_gender:
+
+                break;
+        }
     }
 
     Handler handler = new Handler(Looper.getMainLooper());

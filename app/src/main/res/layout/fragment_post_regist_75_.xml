@@ -23,9 +23,9 @@
                     android:layout_marginRight="22dp"
                     android:layout_marginTop="12dp">
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="11dp"/>
+                        android:src="@drawable/left_arrow_message"
+                        android:layout_width="10dp"
+                        android:layout_height="18dp" />
                     <TextView
                         android:text="분양글 등록하기"
                         android:textSize="15sp"
@@ -106,7 +106,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_white"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/white"
                             android:layout_width="39dp"
                             android:layout_height="39dp"/>
                     </RelativeLayout>
@@ -114,11 +114,11 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="9dp"
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_ivory"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/ivory"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -127,11 +127,11 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="9dp"
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_bright_brown"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/bright_brown"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -143,7 +143,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_dark_brown"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/dark_brown"
                             android:layout_alignParentRight="true"
                             android:layout_weight="0.25"
                             android:layout_width="39dp"
@@ -176,7 +176,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="9dp"
                         android:layout_weight="0.25">
                         <TextView
                             android:id="@+id/text_ivory"
@@ -191,7 +191,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="9dp"
                         android:layout_weight="0.25">
                         <TextView
                             android:id="@+id/text_bright_brown"
@@ -231,7 +231,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_grey"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/grey"
                             android:layout_width="39dp"
                             android:layout_height="39dp"/>
                     </RelativeLayout>
@@ -239,11 +239,11 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="9dp"
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_black"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/black"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -252,11 +252,11 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="9dp"
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_spot"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/spot"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -268,7 +268,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_etc"
-                            android:src="@drawable/girls_eneration_yuri"
+                            android:src="@drawable/etc"
                             android:layout_alignParentRight="true"
                             android:layout_weight="0.25"
                             android:layout_width="39dp"
@@ -301,7 +301,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="9dp"
                         android:layout_weight="0.25">
                         <TextView
                             android:id="@+id/text_black"
@@ -316,7 +316,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="9dp"
                         android:layout_weight="0.25">
                         <TextView
                             android:id="@+id/text_spot"
@@ -469,8 +469,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:src="@drawable/right_arrow"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp" />
+                        android:layout_width="8dp"
+                        android:layout_height="16dp" />
                 </RelativeLayout>
 
                 <View
@@ -490,14 +490,14 @@
                         android:text="혈통서를 등록해주세요."
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
-                        android:layout_width="11dp"
-                        android:layout_height="30dp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                     <ImageView
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:src="@drawable/right_arrow"
-                        android:layout_width="11dp"
-                        android:layout_height="30dp" />
+                        android:layout_width="8dp"
+                        android:layout_height="16dp" />
                 </RelativeLayout>
 
                 <View
@@ -547,7 +547,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="이전"
+                            android:text="다음"
                             android:textSize="14sp"
                             android:textColor="#FF4D4D"
                             android:layout_centerInParent="true" />
