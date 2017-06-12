@@ -95,7 +95,7 @@
                         android:gravity="center|left"
                         android:background="#FFFFFF"
                         android:textColor="#8c8c8c"
-                        android:text="희망 분양지역을 선택해 주세요"
+                        android:text="희망 분양 지역을 선택해 주세요"
                         android:textSize="14sp"
                         android:paddingLeft="11dp"
                         android:drawableLeft="@drawable/dog_region"

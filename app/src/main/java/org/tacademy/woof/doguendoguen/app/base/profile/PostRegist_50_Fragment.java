@@ -111,44 +111,10 @@ public class PostRegist_50_Fragment extends Fragment {
         ButterKnife.bind(this, view);
 
         //희망 분양지역 중 도시 선택
-        final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
-        cityRegionAdapter.setCityRegions();
-        cityRegionAdapter.notifyDataSetChanged();
-        cityRegionAdapter.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
-            @Override
-            public void onAdapterItemClick(int position) {
-                String city = (String) cityRegionAdapter.getItem(position);
-                dogCityTv.setVisibility(View.VISIBLE);
-                dogCityTv.setText(city);
-
-                ViewGroup.LayoutParams districtLayoutParams = dogRegionBox.getLayoutParams();
-                districtLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(200, getContext());
-                dogRegionBox.setLayoutParams(districtLayoutParams);
-
-                districtGridView.setVisibility(View.VISIBLE);
-                districtTextView.setBackgroundColor(Color.parseColor("#EDBC64"));
-                districtTextView.setTextColor(Color.parseColor("#ffffffff"));
-                cityGridview.setVisibility(View.GONE);
-                cityTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
-                cityTextView.setTextColor(Color.parseColor("#3E3A39"));
-            }
-        });
-        cityGridview.setAdapter(cityRegionAdapter);
-
+        setCitiyRegion();
 
         //희망 분양지역 중 시군구 선택
-        final RegionAdapter districtRegionAdatper = new RegionAdapter(REGION_DISTRICT);
-        districtRegionAdatper.setDistrictRegions();
-        districtRegionAdatper.notifyDataSetChanged();
-        districtRegionAdatper.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
-            @Override
-            public void onAdapterItemClick(int position) {
-                String district = (String) districtRegionAdatper.getItem(position);
-                dogDistrictTv.setVisibility(View.VISIBLE);
-                dogDistrictTv.setText(district);
-            }
-        });
-        districtGridView.setAdapter(districtRegionAdatper);
+        setDistrictRegion();
 
         scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
@@ -178,6 +144,47 @@ public class PostRegist_50_Fragment extends Fragment {
 
 
         return view;
+    }
+
+    private void setDistrictRegion() {
+        final RegionAdapter districtRegionAdatper = new RegionAdapter(REGION_DISTRICT);
+        districtRegionAdatper.setDistrictRegions();
+        districtRegionAdatper.notifyDataSetChanged();
+        districtRegionAdatper.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
+            @Override
+            public void onAdapterItemClick(int position) {
+                String district = (String) districtRegionAdatper.getItem(position);
+                dogDistrictTv.setVisibility(View.VISIBLE);
+                dogDistrictTv.setText(district);
+            }
+        });
+        districtGridView.setAdapter(districtRegionAdatper);
+    }
+
+    private void setCitiyRegion() {
+        final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
+        cityRegionAdapter.setCityRegions();
+        cityRegionAdapter.notifyDataSetChanged();
+        cityRegionAdapter.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
+            @Override
+            public void onAdapterItemClick(int position) {
+                String city = (String) cityRegionAdapter.getItem(position);
+                dogCityTv.setVisibility(View.VISIBLE);
+                dogCityTv.setText(city);
+
+                ViewGroup.LayoutParams districtLayoutParams = dogRegionBox.getLayoutParams();
+                districtLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(200, getContext());
+                dogRegionBox.setLayoutParams(districtLayoutParams);
+
+                districtGridView.setVisibility(View.VISIBLE);
+                districtTextView.setBackgroundColor(Color.parseColor("#EDBC64"));
+                districtTextView.setTextColor(Color.parseColor("#ffffffff"));
+                cityGridview.setVisibility(View.GONE);
+                cityTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
+                cityTextView.setTextColor(Color.parseColor("#3E3A39"));
+            }
+        });
+        cityGridview.setAdapter(cityRegionAdapter);
     }
 
     boolean genderFlag = false;

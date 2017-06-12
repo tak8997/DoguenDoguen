@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,42 +77,6 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
 
-        dogType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DoguenDoguenApplication.getContext(), SearchDogTypeActivity.class);
-                startActivity(intent);
-
-//                if (drawer.isDrawerOpen(GravityCompat.END)) {
-//                    drawer.closeDrawer(GravityCompat.END);
-//                } else {
-//                    drawer.openDrawer(GravityCompat.END);
-//                }
-            }
-        });
-
-        dogGender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        dogAge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        dogRegion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
         //분양이 시급한 강아지들에 대한 글을 가로로 보여줌.
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DoguenDoguenApplication.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -149,12 +111,30 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
-    @OnClick({R.id.dog_gender})
+    @OnClick({R.id.dog_type, R.id.dog_gender, R.id.dog_age, R.id.dog_regions})
     public void onCondtionClicked(View view) {
-
         switch (view.getId()) {
-            case R.id.dog_gender:
+            case R.id.dog_type:
+                Intent intent = new Intent(DoguenDoguenApplication.getContext(), SearchDogTypeActivity.class);
+                startActivity(intent);
 
+//                if (drawer.isDrawerOpen(GravityCompat.END)) {
+//                    drawer.closeDrawer(GravityCompat.END);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.END);
+//                }
+                break;
+            case R.id.dog_gender:
+                GenderSearchDialogFragment genderSearchDialog = new GenderSearchDialogFragment();
+                genderSearchDialog.show(getFragmentManager(), "genderSearch");
+                break;
+            case R.id.dog_age:
+                AgeSearchDialogFragment ageSearchDialog = new AgeSearchDialogFragment();
+                ageSearchDialog.show(getFragmentManager(), "ageSearch");
+                break;
+            case R.id.dog_regions:
+                RegionSearchDialogFragment regionSearchDialog = new RegionSearchDialogFragment();
+                regionSearchDialog.show(getFragmentManager(), "regionSearch");
                 break;
         }
     }

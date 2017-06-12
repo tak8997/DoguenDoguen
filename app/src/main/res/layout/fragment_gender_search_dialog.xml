@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="11dp"
+    android:paddingRight="11dp">
+
+    <TextView
+        android:id="@+id/dog_gender"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="88dp"
+        android:gravity="center|left"
+        android:completionHint="성별은요?"
+        android:background="@drawable/border_search_dialog"
+        android:text="성별은요?"
+        android:textColor="#8c8c8c"
+        android:textSize="14sp"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:drawablePadding="11dp"
+        android:drawableLeft="@drawable/dog_gender"
+        android:drawableRight="@drawable/icon_arrow_searchbox" />
+
+    <LinearLayout
+        android:layout_marginTop="4dp"
+        android:background="@drawable/border_search_dialog"
+        android:paddingLeft="11dp"
+        android:paddingRight="11dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="여아"
+            android:textSize="14sp"
+            android:textColor="#3E3A39"
+            android:drawableLeft="@drawable/icon_female_off_dialogue"
+            android:drawablePadding="11dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"/>
+        <TextView
+            android:text="남아"
+            android:textSize="14sp"
+            android:textColor="#3E3A39"
+            android:drawableLeft="@drawable/icon_male_off_dialogue"
+            android:drawablePadding="11dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"/>
+        <TextView
+            android:text="상관없음"
+            android:textSize="14sp"
+            android:textColor="#3E3A39"
+            android:drawablePadding="11dp"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@drawable/icon_both_off_dialogue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"/>
+    </LinearLayout>
+
+</LinearLayout>
