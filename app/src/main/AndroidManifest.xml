@@ -14,21 +14,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".app.home.HomeActivity">
+        <meta-data android:name="org.tacademy.woof.doguendoguen.DoguenDoguenGlideModule"
+            android:value="GlideModule" />
+        <activity android:name=".app.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".app.home.HomeActivity"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
 
-        <activity android:name=".app.base.profile.UserProfileDetailActivity">
+
+        <activity android:name=".app.base.profile.UserProfileDetailActivity"
+            android:windowSoftInputMode="adjustPan">
+
         </activity>
 
         <activity android:name=".app.base.search.PostDetailActivity">
         </activity>
 
-        <activity android:name=".app.sign.SignUpActivity">
+        <activity android:name=".app.sign.SignUpActivity"
+            android:windowSoftInputMode="adjustResize">
         </activity>
 
         <activity android:name=".app.sign.SignUpEndActivity">

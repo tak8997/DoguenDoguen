@@ -2,6 +2,7 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,7 +20,7 @@ public class DogImageRegistFragment extends Fragment {
     public DogImageRegistFragment() {
     }
 
-    public static DogImageRegistFragment newInstance(Bitmap dogImage) {
+    public static DogImageRegistFragment newInstance(Uri dogImage) {
         DogImageRegistFragment fragment = new DogImageRegistFragment();
         Bundle args = new Bundle();
         args.putParcelable(DOGIMAGE, dogImage);
@@ -35,7 +36,7 @@ public class DogImageRegistFragment extends Fragment {
         }
     }
 
-    Bitmap dogImage;
+    Uri dogImage;
     ImageView image;
 
     @Override
@@ -43,7 +44,7 @@ public class DogImageRegistFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dog_image_regist, container, false);
 
         image = (ImageView) view.findViewById(R.id.dog_image);
-        image.setImageBitmap(dogImage);
+        image.setImageURI(dogImage);
 
         return view;
     }

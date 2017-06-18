@@ -1,144 +1,224 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:layout_marginTop="12dp">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/back_arrow"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true" />
-        <TextView
-            android:text="회원가입"
-            android:textSize="15sp"
-            android:textColor="#5b4319"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-    </RelativeLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="12dp">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/back_arrow"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true" />
+                <TextView
+                    android:text="회원가입"
+                    android:textSize="15sp"
+                    android:textColor="#5b4319"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="338dp"
-        android:layout_height="8dp"
-        android:orientation="horizontal"
-        android:layout_marginLeft="11dp"
-        android:layout_marginRight="11dp"
-        android:weightSum="1">
+            <LinearLayout
+                android:layout_width="338dp"
+                android:layout_height="8dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:weightSum="1">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:background="#EDBC64" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5" />
-    </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:background="#EDBC64" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5" />
+            </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/divider"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/divider"/>
 
-    <RelativeLayout
-        android:id="@+id/sign_up_user"
-        android:layout_marginTop="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="240dp">
+            <RelativeLayout
+                android:id="@+id/sign_up_user"
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/add_user_image"
-            android:src="@drawable/add_photo"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="사진 추가하기"
-            android:textColor="#3E3A39"
-            android:textSize="14sp"
-            android:gravity="center_horizontal"
-            android:layout_below="@+id/add_user_image"
-            android:layout_marginTop="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/user_image"
+                    android:visibility="gone"
+                    android:scaleType="fitXY"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@drawable/divider"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/add_user_image"
+                    android:src="@drawable/add_photo"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/add_user"
+                    android:text="사진 추가하기"
+                    android:textColor="#3E3A39"
+                    android:textSize="14sp"
+                    android:gravity="center_horizontal"
+                    android:layout_below="@+id/add_user_image"
+                    android:layout_marginTop="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp">
-        <TextView
-            android:text="이름"
-            android:textColor="#3E3A39"
-            android:textSize="15sp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="김다은"
-            android:textColor="#3E3A39"
-            android:textSize="15sp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/divider"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp"
-        android:background="@drawable/divider"/>
+            <RelativeLayout
+                android:id="@+id/add_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:text="이름"
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <EditText
+                    android:id="@+id/user_name"
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:textCursorDrawable="@null"
+                    android:background="@android:color/transparent"
+                    android:layout_toLeftOf="@+id/edit"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="11dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/edit"
+                    android:src="@drawable/edit_user_name"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="22dp">
-        <TextView
-            android:text="성별"
-            android:textColor="#3E3A39"
-            android:textSize="15sp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:text="여성"
-            android:textColor="#3E3A39"
-            android:textSize="15sp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
 
-    <Button
-        android:id="@+id/next_btn"
-        android:layout_width="316dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:background="@drawable/border_next_btn"
-        android:text="다음"
-        android:textColor="#FF4D4D"
-        android:textSize="14sp" />
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/add_user_gender"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:text="성별"
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:background="@android:color/transparent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/user_gender"
+                    android:textColor="#3E3A39"
+                    android:textSize="15sp"
+                    android:layout_toLeftOf="@+id/edit_gender"
+                    android:layout_marginRight="11dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/edit_gender"
+                    android:src="@drawable/down_arrow2"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/user_gender_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/dog_gender_box"
+                android:visibility="gone"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp">
+                <TextView
+                    android:id="@+id/female"
+                    android:text="여성"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_female_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/male"
+                    android:text="남성"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_male_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/any_gender"
+                    android:text="상관없음"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_both_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="316dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/border_next_btn"
+                android:text="다음"
+                android:textColor="#FF4D4D"
+                android:textSize="14sp" />
+        </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

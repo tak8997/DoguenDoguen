@@ -4,8 +4,17 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/other_user"
-        android:layout_alignParentLeft="true"
+        android:id="@+id/other_user_message"
+        android:background="@drawable/other_user"
+        android:layout_toLeftOf="@+id/other_user_image"
+        android:layout_marginRight="11dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/other_user_image"
+        android:src="@drawable/yeon_su"
+        android:layout_marginTop="14dp"
+        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

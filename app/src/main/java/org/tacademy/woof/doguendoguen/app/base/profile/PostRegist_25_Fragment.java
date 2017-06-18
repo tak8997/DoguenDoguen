@@ -25,11 +25,16 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
+import org.tacademy.woof.doguendoguen.model.PostDetailModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -53,10 +58,10 @@ public class PostRegist_25_Fragment extends Fragment {
     public PostRegist_25_Fragment() {
     }
 
-    public static PostRegist_25_Fragment newInstance() {
+    public static PostRegist_25_Fragment newInstance(PostDetailModel postDetail) {
         PostRegist_25_Fragment fragment = new PostRegist_25_Fragment();
         Bundle args = new Bundle();
-
+        args.putParcelable("PostDetailModel", postDetail);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,12 +70,11 @@ public class PostRegist_25_Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            postDetail = getArguments().getParcelable("PostDetailModel");
         }
 
         String currentAppPackage = getActivity().getPackageName();
-
         myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
-
         checkPermission();
 
         if (!myImageDir.exists()) {
@@ -79,6 +83,7 @@ public class PostRegist_25_Fragment extends Fragment {
             }
         }
     }
+    PostDetailModel postDetail = null;
 
     private void checkPermission() {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -104,10 +109,10 @@ public class PostRegist_25_Fragment extends Fragment {
     @BindView(R.id.add_pet_image) RelativeLayout addPetImage;
     @BindView(R.id.add_pet_image_container) RelativeLayout addPetImageContainer;
     @BindView(R.id.pager) ViewPager pager;
-    @BindView(R.id.add_image) ImageView addImage;
+//    @BindView(R.id.add_image) ImageView addImage;
     @BindView(R.id.title) EditText postTitle;
 
-    ArrayList<String> dogImagesFileLocation = new ArrayList<>();
+    ArrayList<String> dogImagesFileLocation ;
     DogImageFragmentAdapter adapter;
     int cnt = 0;
 
@@ -116,38 +121,33 @@ public class PostRegist_25_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_post_regist_25_, container, false);
         ButterKnife.bind(this, view);
 
-        adapter = new DogImageFragmentAdapter(getActivity().getSupportFragmentManager());
-
+        dogImagesFileLocation = new ArrayList<>();
+        adapter = new DogImageFragmentAdapter(getActivity().getSupportFragmentManager(), 1);
         pager.setAdapter(adapter);
-        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        //게시글 수정
+        if(postDetail != null)
+            editPost();
 
         return view;
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Log.d(TAG, "onDestroyView");
+    @BindView(R.id.edit_post) TextView updatePostTitle;
+    @BindView(R.id.udpate_dog_image) ImageView updateDog;
+    private void editPost() {
+        String updateDogImageUrl = postDetail.dogImage.get(0).dogImageUrl;
+        String title = postDetail.postTitle;
 
-        adapter.clearAllImgaes();
+        updatePostTitle.setText("분양글 수정하기");
+        Glide.with(DoguenDoguenApplication.getContext())
+                .load(updateDogImageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(updateDog);
+
+        postTitle.setText(title);
     }
 
-    @OnClick({R.id.next_btn, R.id.add_pet_image_container, R.id.add_image})
+    @OnClick({R.id.next_btn, R.id.add_pet_image_container})
     public void onButtonClicked(View view) {
         int id = view.getId();
 
@@ -157,29 +157,29 @@ public class PostRegist_25_Fragment extends Fragment {
                 break;
             case R.id.add_pet_image_container:
                 addPetImagesFromGallery();
-                addImage.setVisibility(View.VISIBLE);
+//                addImage.setVisibility(View.VISIBLE);
                 break;
-            case R.id.add_image:
-                addPetImagesFromGallery();
-                break;
+//            case R.id.add_image:
+//                addPetImagesFromGallery();
+//                break;
         }
     }
 
     private void registNextPost() {
         String title = postTitle.getText().toString();
+        Log.d(TAG, title + "," + dogImagesFileLocation);
 
-//        if(title == null)
-//            Toast.makeText(DoguenDoguenApplication.getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
-//        else if(dogImageFileLocation == null)
-//            Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
-//        else {
-
+        if(title.equals(""))
+            Toast.makeText(DoguenDoguenApplication.getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
+        else if(dogImagesFileLocation.size() == 0)
+            Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
+        else {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.container, PostRegist_50_Fragment.newInstance(null, null));
+            fragmentTransaction.replace(R.id.container, PostRegist_50_Fragment.newInstance(postDetail,  postTitle.getText().toString(), dogImagesFileLocation));
             fragmentTransaction.commit();
-//        }
+        }
     }
 
     private void addPetImagesFromGallery() {
@@ -205,42 +205,36 @@ public class PostRegist_25_Fragment extends Fragment {
                 Log.d(TAG, "dataGet");
 
                 Uri imageUri = data.getData();
-                   try {
-                        if(imageUri != null) {
-                            Bitmap dogImageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri);
+                if(imageUri != null) {
+                    adapter.addDogImage(imageUri);
+                    adapter.notifyDataSetChanged();
 
-                            adapter.addDogImage(dogImageBitmap);
-                            adapter.notifyDataSetChanged();
+                    addPetImage.setVisibility(View.VISIBLE);
+                    addPetImageContainer.setVisibility(View.GONE);
 
-                            addPetImage.setVisibility(View.VISIBLE);
-                            addPetImageContainer.setVisibility(View.GONE);
+                    //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
+                    String fileLocation = findImageFileNameFromUri(imageUri);
 
-                            //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
-                            String fileLocation = findImageFileNameFromUri(imageUri);
+                    if (fileLocation!=null) {
+                        Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
 
-                            if (fileLocation!=null) {
-                                Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
-
-                                dogImagesFileLocation.add(fileLocation);
-                            }else {
-                                Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
-                            }
-                        } else {
-                            Bundle extras = data.getExtras();
-                            Bitmap returedBitmap = (Bitmap) extras.get("data");
-
-                            String fileLoaction = tempSavedBitmapFile(returedBitmap);
-                            if (fileLoaction != null) {
-                                Log.e(TAG, "갤러리에서 Uri값이 없어 실제 파일로 저장 성공");
-
-                                dogImagesFileLocation.add(fileLoaction);
-                            } else {
-                                Log.e(TAG,"갤러리에서 Uri값이 없어 실제 파일로 저장 실패");
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                        dogImagesFileLocation.add(fileLocation);
+                    }else {
+                        Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
                     }
+                } else {
+                    Bundle extras = data.getExtras();
+                    Bitmap returedBitmap = (Bitmap) extras.get("data");
+
+                    String fileLoaction = tempSavedBitmapFile(returedBitmap);
+                    if (fileLoaction != null) {
+                        Log.e(TAG, "갤러리에서 Uri값이 없어 실제 파일로 저장 성공");
+
+                        dogImagesFileLocation.add(fileLoaction);
+                    } else {
+                        Log.e(TAG,"갤러리에서 Uri값이 없어 실제 파일로 저장 실패");
+                    }
+                }
             }
 
         }

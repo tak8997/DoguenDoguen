@@ -1,6 +1,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,6 +28,7 @@
                         android:layout_width="10dp"
                         android:layout_height="18dp" />
                     <TextView
+                        android:id="@+id/edit_post_title"
                         android:text="분양글 등록하기"
                         android:textSize="15sp"
                         android:textColor="#5b4319"
@@ -106,7 +108,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_white"
-                            android:src="@drawable/white"
+                            android:background="@drawable/white_selector"
                             android:layout_width="39dp"
                             android:layout_height="39dp"/>
                     </RelativeLayout>
@@ -118,8 +120,8 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_ivory"
-                            android:src="@drawable/ivory"
                             android:layout_centerInParent="true"
+                            android:background="@drawable/ivory_selector"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
                     </RelativeLayout>
@@ -131,8 +133,8 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_bright_brown"
-                            android:src="@drawable/bright_brown"
                             android:layout_centerInParent="true"
+                            android:background="@drawable/bright_brown_selector"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
                     </RelativeLayout>
@@ -143,8 +145,8 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_dark_brown"
-                            android:src="@drawable/dark_brown"
                             android:layout_alignParentRight="true"
+                            android:background="@drawable/dark_brown_selector"
                             android:layout_weight="0.25"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -231,7 +233,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_grey"
-                            android:src="@drawable/grey"
+                            android:background="@drawable/grey_selector"
                             android:layout_width="39dp"
                             android:layout_height="39dp"/>
                     </RelativeLayout>
@@ -243,7 +245,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_black"
-                            android:src="@drawable/black"
+                            android:background="@drawable/black_selector"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -256,7 +258,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_spot"
-                            android:src="@drawable/spot"
+                            android:background="@drawable/spot_selector"
                             android:layout_centerInParent="true"
                             android:layout_width="39dp"
                             android:layout_height="39dp" />
@@ -268,7 +270,7 @@
                         android:layout_weight="0.25">
                         <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/color_etc"
-                            android:src="@drawable/etc"
+                            android:background="@drawable/etc_selector"
                             android:layout_alignParentRight="true"
                             android:layout_weight="0.25"
                             android:layout_width="39dp"
@@ -361,6 +363,7 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp">
                     <Button
+                        android:id="@+id/small"
                         android:text="소형견"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -369,6 +372,7 @@
                         android:layout_width="100dp"
                         android:layout_height="25dp" />
                     <Button
+                        android:id="@+id/middle"
                         android:text="중형견"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -377,6 +381,7 @@
                         android:layout_width="100dp"
                         android:layout_height="25dp" />
                     <Button
+                        android:id="@+id/big"
                         android:text="대형견"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -420,6 +425,7 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp">
                     <Button
+                        android:id="@+id/dhppl"
                         android:text="종합백신"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -428,6 +434,7 @@
                         android:layout_width="100dp"
                         android:layout_height="25dp" />
                     <Button
+                        android:id="@+id/corrona"
                         android:text="코로나"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -436,6 +443,7 @@
                         android:layout_width="100dp"
                         android:layout_height="25dp" />
                     <Button
+                        android:id="@+id/kennel"
                         android:text="켄넬코프"
                         android:textSize="13sp"
                         android:textColor="#3E3A39"
@@ -473,6 +481,61 @@
                         android:layout_height="16dp" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/add_parent_image"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:id="@+id/parent_image"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/dog_image"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="60dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/add_photo"/>
+                    <TextView
+                        android:id="@+id/dog_image_title"
+                        android:text="사진 추가하기"
+                        android:textSize="14sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:layout_below="@+id/dog_image"/>
+                    <TextView
+                        android:id="@+id/dog_image_sub1_title"
+                        android:text="얼굴이 잘 보이는 사진을 등록해주세요"
+                        android:textSize="11sp"
+                        android:textColor="#595757"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:layout_below="@+id/dog_image_title"/>
+                    <TextView
+                        android:id="@+id/dog_image_sub2_title"
+                        android:text="가정견임을 잘 보여줄 수 있는 신뢰감 있는 사진이 좋아요!"
+                        android:textSize="11sp"
+                        android:textColor="#595757"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="24dp"
+                        android:gravity="center"
+                        android:layout_below="@id/dog_image_sub1_title"/>
+                </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
@@ -498,6 +561,49 @@
                         android:src="@drawable/right_arrow"
                         android:layout_width="8dp"
                         android:layout_height="16dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/add_blood_hierarchy"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+
+                    <ImageView
+                        android:id="@+id/hierarchy_image"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="fitXY"/>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/doc_image"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="60dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/add_photo"/>
+                    <TextView
+                        android:id="@+id/doc_title"
+                        android:text="사진 추가하기"
+                        android:textSize="14sp"
+                        android:textColor="#3E3A39"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:layout_below="@+id/doc_image"/>
+                    <TextView
+                        android:id="@+id/doc_sub_title"
+                        android:text="혈통서 사진을 등록해주세요"
+                        android:textSize="11sp"
+                        android:textColor="#595757"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:layout_below="@+id/doc_title"/>
                 </RelativeLayout>
 
                 <View

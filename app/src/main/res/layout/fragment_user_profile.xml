@@ -155,6 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp">
                     <TextView
+                        android:id="@+id/chatting_alarm"
                         android:text="@string/message_alarm"
                         android:textColor="#C8C9CA"
                         android:textSize="15sp"
@@ -163,6 +164,7 @@
                         android:layout_centerInParent="true"
                         android:layout_alignParentLeft="true"/>
                     <com.rey.material.widget.Switch
+                        android:id="@+id/chatting_alarm_switch"
                         style="@style/Material.Widget.Switch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -176,6 +178,7 @@
                     android:background="@drawable/divider"/>
 
                 <TextView
+                    android:id="@+id/logout"
                     android:text="@string/logout"
                     android:textColor="#EDBC64"
                     android:textSize="15sp"

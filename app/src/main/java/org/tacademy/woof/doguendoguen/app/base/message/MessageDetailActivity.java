@@ -1,24 +1,36 @@
 package org.tacademy.woof.doguendoguen.app.base.message;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.MessageListsAdapter;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.R.attr.data;
 
 /**
  * Created by Tak on 2017. 6. 5..
@@ -28,11 +40,29 @@ public class MessageDetailActivity extends AppCompatActivity{
     @BindView(R.id.message_toolbar) Toolbar toolbar;
     @BindView(R.id.message_detail_recyclerview) RecyclerView messageRecyclerView;
 
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket("");
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    String roomId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
         ButterKnife.bind(this);
+        mSocket.connect();
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            roomId = intent.getExtras().getString("roomId");
+            Log.d("roomId", roomId);
+        }
+
 
         setSupportToolBar();
 
@@ -49,7 +79,31 @@ public class MessageDetailActivity extends AppCompatActivity{
         messageRecyclerView.setAdapter(messageDetailAdapter);
         messageDetailAdapter.addItem(arrayList);
         messageDetailAdapter.notifyDataSetChanged();
-        
+
+        mSocket.on("enterRoomResults", chattingList);
+    }
+    private Emitter.Listener chattingList = new Emitter.Listener() {
+
+        @Override
+        public void call(Object... args) {
+            JSONObject chatList = (JSONObject) args[0];
+
+            int participantId;
+            int userId;
+            JSONArray messages;
+            try {
+                participantId = chatList.getInt("participant_id");
+                userId = chatList.getInt("user_id");
+                messages = chatList.getJSONArray("messages");
+            } catch (JSONException e) {
+                return;
+            }
+        }
+    };
+    @Override
+    public void onStart() {
+        super.onStart();
+        mSocket.emit("enterRoom", roomId);
     }
 
     private void setSupportToolBar() {
@@ -75,8 +129,6 @@ public class MessageDetailActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
     private class MessageDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ArrayList<String> arrayList;

@@ -1,29 +1,32 @@
 package org.tacademy.woof.doguendoguen.app.home;
 
-import android.graphics.Color;
-import android.os.Looper;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
 import org.tacademy.woof.doguendoguen.app.base.profile.UserProfileFragment;
 import org.tacademy.woof.doguendoguen.app.base.search.SearchFragment;
 import org.tacademy.woof.doguendoguen.app.base.wish.WishFragment;
-
-import java.util.logging.Handler;
+import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
+import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
+    private static final String TAG = "HomeActivity";
+
     @BindView(R.id.tablayout) TabLayout tabLayout;
 
-    Fragment selectedFragment;
+    private Fragment selectedFragment;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,13 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
+        init();
+
         if (savedInstanceState == null) {
             selectedFragment = SearchFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.container, selectedFragment).commit();
         }
 
-//        tabLayout.addTab(tabLayout.newTab().setText("새가족 찾기").setIcon(R.drawable.search));
-//        tabLayout.addTab(tabLayout.newTab().setText("두근두근").setIcon(R.drawable.wish));
-//        tabLayout.addTab(tabLayout.newTab().setText("메시지").setIcon(R.drawable.message));
-//        tabLayout.addTab(tabLayout.newTab().setText("마이 페이지").setIcon(R.drawable.profile));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -68,29 +69,27 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-//                int position = tab.getPosition();
-
-//                switch (position) {
-//                    case 0:
-//                        tabLayout.getTabAt(position).setIcon(R.drawable.search);
-//                        break;
-//                    case 1:
-//                        tabLayout.getTabAt(position).setIcon(R.drawable.wish);
-//                        break;
-//                    case 2:
-//                        tabLayout.getTabAt(position).setIcon(R.drawable.message);
-//                        break;
-//                    case 3:
-//                        tabLayout.getTabAt(position).setIcon(R.drawable.profile);
-//                        break;
-//                }
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        userId = SharedPreferencesUtil.getInstance().getUserId();
+    }
+
+    private void init() {
+        Intent intent = getIntent();
+        userId = intent.getStringExtra("userId");
+        SharedPreferencesUtil.getInstance().setUserId(userId);
+
+        Log.d(TAG, userId+" /kakao");
     }
 
 }

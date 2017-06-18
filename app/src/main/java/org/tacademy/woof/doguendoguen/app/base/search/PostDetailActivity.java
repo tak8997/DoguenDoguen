@@ -1,47 +1,72 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
+import org.tacademy.woof.doguendoguen.app.base.profile.PostEdit_25_Dialog;
+import org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment;
+import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.DogImage;
 import org.tacademy.woof.doguendoguen.model.ParentDogImage;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
-import org.tacademy.woof.doguendoguen.rest.RestGenerator;
+import org.tacademy.woof.doguendoguen.rest.RestService;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
+import org.tacademy.woof.doguendoguen.rest.user.UserService;
+import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
+import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.media.CamcorderProfile.get;
-import static org.tacademy.woof.doguendoguen.rest.RestGenerator.createService;
+import static android.R.attr.port;
+import static android.view.View.GONE;
+import static org.tacademy.woof.doguendoguen.R.id.edit_photo;
+import static org.tacademy.woof.doguendoguen.R.id.pager;
+import static org.tacademy.woof.doguendoguen.R.id.submenuarrow;
 
 /**
  * Created by Tak on 2017. 6. 2..
  */
 
-public class PostDetailActivity extends AppCompatActivity {
+public class PostDetailActivity extends AppCompatActivity implements NestedScrollView.OnScrollChangeListener {
     private static final String TAG = "PostDetailActivity";
 
-    @BindView(R.id.dog_image) ImageView dogImage;
     @BindView(R.id.post_title) TextView postTitle;
     @BindView(R.id.user_name) TextView userName;
     @BindView(R.id.dog_type_detail) TextView dogTypeDetail;
@@ -61,13 +86,22 @@ public class PostDetailActivity extends AppCompatActivity {
     @BindView(R.id.blood_image) ImageView bloodImage;
     @BindView(R.id.regions) TextView regions;
     @BindView(R.id.post_condition) TextView postCondition;
-    @BindView(R.id.dog_type) TextView dogType;
-    @BindView(R.id.dog_gender) TextView dogGender;
-    @BindView(R.id.dog_age) TextView dogAge;
-    @BindView(R.id.dog_region) TextView dogRegion;
     @BindView(R.id.message_btn) Button messageBtn;
 
-    PostDetailModel postDetail;
+    @BindView(R.id.pager) ViewPager pager;
+    @BindView(R.id.scroll_view) NestedScrollView scollView;
+    @BindView(R.id.message_layout) RelativeLayout messageLayout;
+    @BindView(R.id.report) ImageView report;
+    @BindView(R.id.heart) ImageView heart;
+
+    private PostDetailModel postDetail;
+    private DogImageFragmentAdapter dogImageAdapter;
+    private int postId;
+    private String userId;
+    private int position;
+    private int myList;
+    private int isWish;
+    private String context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,24 +110,158 @@ public class PostDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        int postId = intent.getExtras().getInt("postId");
+        if(intent != null) {
+            postId = intent.getIntExtra("postId", 0);   //int로 넘어옴
+            userId = intent.getStringExtra("userId");   //string으로 넘어옴
+            position = intent.getIntExtra("position", 0);
+            isWish = intent.getIntExtra("isWish", 0);
+            myList = intent.getIntExtra("myList", 0);   //int로 넘어옴. UserPostListFragment에서
+            Log.d(TAG, postId + ", " + userId + ", " + myList);
 
-        //게시판 상세페이지 가져오기
-        getPostService(postId);
+            //게시판 상세페이지 가져오기
+            getPostService(postId);
+        }
 
-        //대화시작
-        messageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        dogImageAdapter = new DogImageFragmentAdapter(getSupportFragmentManager(), 0);
+        pager.setAdapter(dogImageAdapter);
+
+        scollView.setOnScrollChangeListener(this);
+    }
+
+    @OnClick({R.id.message_btn})
+    public void onStartMessageClicked(View view) {
+        switch (view.getId()){
+            //대화시작
+            case R.id.message_btn:
                 Intent intent = new Intent(PostDetailActivity.this, MessageDetailActivity.class);
                 startActivity(intent);
+                break;
+        }
+    }
+
+    boolean reportFlag = false;
+    boolean heartFlag = false;
+
+    @OnClick({R.id.report, R.id.heart})
+    public void onToolbarClicked(View view){
+        switch (view.getId()) {
+            case R.id.report:
+                if(reportFlag == false)
+                    floatDialog();
+                else {
+                    report.setImageResource(R.drawable.toolbar_report);
+                    reportFlag = false;
+                }
+                break;
+            case R.id.heart:
+                if(userId == null) {
+                    LoginFragment loginFragment = new LoginFragment();
+                    loginFragment.show(getSupportFragmentManager(), "loginFragment");
+                } else {
+                    if (isWish == 0) {  //위시에 추가가 안되어있는 상태
+                        heart.setImageResource(R.drawable.toolbar_heart_selected);  //위시추가
+
+                        UserService userService = RestService.createService(UserService.class);
+                        Call<ResponseBody> addWishService = userService.registerWishList(postId, Integer.parseInt(userId));
+                        addWishService.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                JSONObject jsonObject ;
+                                String message ;
+                                try {
+                                    jsonObject = new JSONObject(response.body().string());
+                                    message = jsonObject.getString("message");
+
+                                    Log.d("PostDetail", "message : " + message );
+                                    if(message.equals("add")) {
+                                        Log.d("DogLists", "add");
+                                        Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    } else if(isWish == 1) {    //이미 위시에 추가되있는 상태
+                        heart.setImageResource(R.drawable.toolbar_heart);   //위세 제거
+
+                        UserService userService = RestService.createService(UserService.class);
+                        Call<ResponseBody> removeWishService = userService.registerWishList(postId, Integer.parseInt(userId));
+                        removeWishService.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                JSONObject jsonObject;
+                                String message;
+                                try {
+                                    jsonObject = new JSONObject(response.body().string());
+                                    message = jsonObject.getString("message");
+
+                                    Log.d("PostDetail", "message : " + message);
+                                    if (message.equals("remove")) {
+                                        Log.d("DogLists", "remove");
+                                        Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }
+
+                }
+                break;
+        }
+    }
+
+    private void floatDialog() {
+        report.setImageResource(R.drawable.toolbar_report_selected);
+        PostReportDialogFragment postReportDialogFragment = new PostReportDialogFragment();
+        postReportDialogFragment.show(getSupportFragmentManager(), "postReport");
+        postReportDialogFragment.setOnAdapterItemClickListener(new PostReportDialogFragment.OnAdapterItemClickLIstener() {
+            @Override
+            public void onAdapterItemClick(String answer) {
+                if(answer.equals("yes")) {
+                    ReportReasonDialogFragment reportReasonDialogFragment = new ReportReasonDialogFragment();
+                    reportReasonDialogFragment.show(getSupportFragmentManager(), "reportReason");
+                    reportReasonDialogFragment.setOnAdapterItemClickListener(new ReportReasonDialogFragment.OnAdapterItemClickLIstener() {
+                        @Override
+                        public void onAdapterItemClick(String answer) {
+                            if (answer.equals("yes"))
+                                Toast.makeText(PostDetailActivity.this, "해당글이 신고되었습니다.", Toast.LENGTH_SHORT).show();
+                            else
+                                report.setImageResource(R.drawable.toolbar_report);
+                        }
+                    });
+                } else {
+                    report.setImageResource(R.drawable.toolbar_report);
+                }
             }
         });
+
+        reportFlag = true;
     }
 
     private void getPostService(int postId) {
-        PostService service = RestGenerator.createService(PostService.class);
-        Call<PostDetailModel> getPostCall = service.getPost(130);
+        PostService service = RestService.createService(PostService.class);
+        Call<PostDetailModel> getPostCall = service.getPost(postId);
 
         getPostCall.enqueue(new Callback<PostDetailModel>() {
             @Override
@@ -101,27 +269,33 @@ public class PostDetailActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     postDetail = response.body();
 
-                    Log.d(TAG, postDetail.toString());
+                    Log.d(TAG, "onResponse" +postDetail.dogSize + ", " + postDetail.toString());
 
                     //서버로 부터 가져온 값에 따라 게시판 구성
-                    setPost();
+                    if(postDetail != null)
+                        setPost();
                 }
             }
 
             @Override
             public void onFailure(Call<PostDetailModel> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
+                Log.e(TAG, "onFailure" + t.getMessage());
             }
         });
     }
 
     private void setPost() {
         //펫 사진을 받아옴
-        String dogImageUrl = null;
-        if(postDetail.dogImage != null) {
+//        String dogImageUrl = null;
+        if(postDetail.dogImage.size() != 0) {
             ArrayList<DogImage> dogImages = (ArrayList<DogImage>) postDetail.dogImage;
-            if (dogImages.size() != 0)
-                dogImageUrl = dogImages.get(0).dogImageUrl;
+            //null일 수 없음
+//            if (dogImages != null) {
+//                dogImageUrl = dogImages.get(0).dogImageUrl;
+            Log.d(TAG, "dogImageNotNull" + dogImages.get(0).toString());
+            dogImageAdapter.setDogImages(dogImages);
+            dogImageAdapter.notifyDataSetChanged();
+//            }
         }
 
         //지역 정보
@@ -130,21 +304,14 @@ public class PostDetailActivity extends AppCompatActivity {
         String region = region1 + " " + region2;
 
         //펫 크기 정보
-        int dogSize = postDetail.dogSize;
+        String dogSize = postDetail.dogSize;
 
         //부모견 사진을 받아옴
         String parentDogImageUrl = null;
-        if(postDetail.parentDogImage != null) {
+        if(postDetail.parentDogImage.size() != 0) {
             ArrayList<ParentDogImage> parentDogImages = (ArrayList<ParentDogImage>) postDetail.parentDogImage;
             parentDogImageUrl = parentDogImages.get(0).parentDogImageUrl;
         }
-
-
-        Glide.with(this)
-                .load(dogImageUrl)
-                .placeholder(R.drawable.dog_sample)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(dogImage);
 
         postTitle.setText(postDetail.postTitle);
         userName.setText(postDetail.username);
@@ -154,18 +321,18 @@ public class PostDetailActivity extends AppCompatActivity {
         dogRegionDetail.setText(region);
         dogPrice.setText(postDetail.dogPrice);
         postIntro.setText(postDetail.postIntro);
-        dogColor.setText(postDetail.dogColor+"");  //??????
+        dogColor.setText(postDetail.dogColor);  //??????
 
         switch (dogSize) {
-            case 0:
+            case "소":
                 dogSmall.setBackgroundResource(R.drawable.btn_selected);
                 dogSmall.setTextColor(Color.WHITE);
                 break;
-            case 1:
+            case "중":
                 dogMiddle.setBackgroundResource(R.drawable.btn_selected);
                 dogMiddle.setTextColor(Color.WHITE);
                 break;
-            case 2:
+            case "대":
                 dogBig.setBackgroundResource(R.drawable.btn_selected);
                 dogBig.setTextColor(Color.WHITE);
                 break;
@@ -198,9 +365,127 @@ public class PostDetailActivity extends AppCompatActivity {
 
         regions.setText(region);
         postCondition.setText(postDetail.postCondition);
-        dogType.setText(postDetail.dogType + " / ");
-        dogAge.setText(postDetail.dogAge);
-        dogGender.setText(postDetail.dogGender + " / ");
-        dogRegion.setText(postDetail.region1);
+
+
+        //본인의 글을 확인하는 것인지 구별.
+        String uId = SharedPreferencesUtil.getInstance().getUserId();
+        Log.d(TAG, "userId: " + userId +", " + SharedPreferencesUtil.getInstance().getUserId());
+        if(myList == 1) {
+            report.setVisibility(View.GONE);
+            heart.setVisibility(View.GONE);
+            overflowMenu.setVisibility(View.VISIBLE);
+            overflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(isSelected == false) {
+                        View view = getLayoutInflater().inflate(R.layout.edit_post_layout, null);
+                        view.setBackgroundColor(Color.WHITE);
+//                    view.setPadding();
+
+                        editPost = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        editPost.showAtLocation(view, Gravity.TOP, 450, (int) ConvertPxToDpUtil.convertDpToPixel(75, PostDetailActivity.this));
+                        editPost.setOutsideTouchable(true);
+                        editPost.showAsDropDown(view);
+
+                        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                editPost.dismiss();
+                                final PostDeleteDialogFragment postDeleteDialog = new PostDeleteDialogFragment();
+                                postDeleteDialog.setOnAdapterItemClickListener(new PostDeleteDialogFragment.OnAdapterItemClickLIstener() {
+                                    @Override
+                                    public void onAdapterItemClick(String answer) {
+                                        if(answer.equals("yes")) {
+                                            PostService postService = RestService.createService(PostService.class);
+                                            Call<ResponseBody> deletePostService = postService.deletePost(postDetail.postId);
+                                            deletePostService.enqueue(new Callback<ResponseBody>() {
+                                                @Override
+                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                                    JSONObject jsonObject = null;
+                                                    String message ;
+
+                                                    if(response.isSuccessful()) {
+                                                        try {
+                                                            jsonObject = new JSONObject(response.body().string());
+                                                            message = jsonObject.getString("message");
+
+                                                            if (message.equals("save")) {
+                                                                Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                                                Intent intent = new Intent();
+                                                                intent.putExtra("position", position);
+                                                                setResult(RESULT_OK, intent);
+                                                                finish();
+                                                            }
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        } catch (IOException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                                }
+                                            });
+                                        } else {    //no
+                                            getSupportFragmentManager().beginTransaction().remove(postDeleteDialog).commit();
+                                        }
+                                    }
+                                });
+                                postDeleteDialog.show(getSupportFragmentManager(), "deleteDialog");
+                            }
+                        });
+                        view.findViewById(R.id.edit).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                PostEdit_25_Dialog postEditFragmentDialog = PostEdit_25_Dialog.newInstance(postDetail);
+                                postEditFragmentDialog.show(getSupportFragmentManager(), "post25Edit");
+                            }
+                        });
+
+                        isSelected = true;
+                    } else {
+                        editPost.dismiss();
+                        isSelected = false;
+                    }
+                }
+            });
+
+        }
+    }
+    boolean isSelected = false;
+    PopupWindow editPost;
+    @BindView(R.id.overflow_dots) ImageView overflowMenu;
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(editPost != null)
+            editPost.dismiss();
+    }
+
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY > oldScrollY) {
+            Log.i(TAG, "Scroll DOWN");
+
+            messageLayout.setVisibility(GONE);
+        }
+        if (scrollY < oldScrollY) {
+            Log.i(TAG, "Scroll UP");
+
+            messageLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (scrollY == 0) {
+            Log.i(TAG, "TOP SCROLL");
+        }
+
+        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+            Log.i(TAG, "BOTTOM SCROLL");
+        }
     }
 }

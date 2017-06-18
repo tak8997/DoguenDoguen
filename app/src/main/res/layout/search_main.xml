@@ -10,39 +10,7 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="NEW"
-                android:textSize="7sp"
-                android:textColor="#FF4D4D"
-                android:layout_marginTop="22dp"
-                android:layout_marginLeft="22dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/dog_emergency_title"
-                android:textColor="#7C4A0F"
-                android:textSize="16sp"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="19dp"
-                />
-
-            <!-- HORIZONTAL -->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/dog_emergency"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="14dp"/>
-        </LinearLayout>
 
         <TextView
             android:text="@string/dog_post_title"

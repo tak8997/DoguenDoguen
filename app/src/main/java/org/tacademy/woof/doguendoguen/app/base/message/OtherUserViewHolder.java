@@ -16,6 +16,6 @@ class OtherUserViewHolder extends RecyclerView.ViewHolder {
     public OtherUserViewHolder(View view) {
         super(view);
 
-        otherUser = (TextView) view.findViewById(R.id.other_user);
+        otherUser = (TextView) view.findViewById(R.id.other_user_message);
     }
 }

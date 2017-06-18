@@ -1,0 +1,132 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.tacademy.woof.doguendoguen.app.base.search.ReportReasonDialogFragment">
+
+    <LinearLayout
+        android:layout_width="243dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="27dp"
+        android:paddingRight="27dp"
+        android:paddingTop="28dp"
+        android:paddingBottom="21dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/border_dialog">
+        <TextView
+            android:text="신고 사유"
+            android:textSize="16sp"
+            android:textColor="#000000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="21dp">
+            <TextView
+                android:text="지나치게 상업 목적의 글"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+
+            <CheckBox
+                android:id="@+id/first_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp">
+            <TextView
+                android:text="사기분양으로 의심"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+
+            <CheckBox
+                android:id="@+id/second_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp">
+            <TextView
+                android:text="대화 중 욕설 또는 비하 발언"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+
+            <CheckBox
+                android:id="@+id/third_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp">
+            <TextView
+                android:text="기타"
+                android:textSize="13sp"
+                android:textColor="#757575"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"/>
+
+            <CheckBox
+                android:id="@+id/fourth_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+        <EditText
+            android:layout_marginTop="10dp"
+            android:hint="@string/dialog_report_reason"
+            android:background="@drawable/border_layout"
+            android:padding="8dp"
+            android:gravity="left|top"
+            android:textColor="#9E9E9F"
+            android:textSize="11sp"
+            android:layout_width="189dp"
+            android:layout_height="100dp" />
+        <RelativeLayout
+            android:layout_marginTop="28dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/no"
+                android:text="취소"
+                android:textSize="12sp"
+                android:textColor="#FF4D4D"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/yes"
+                android:text="확인"
+                android:textSize="12sp"
+                android:textColor="#757575"
+                android:paddingLeft="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>

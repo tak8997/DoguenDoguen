@@ -1,24 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="org.tacademy.woof.doguendoguen.app.home.HomeActivity">
+
+    <FrameLayout
+        android:id="@+id/edit_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="28dp">
 
-            <ImageView
-                android:id="@+id/dog_image"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="241dp"
-                android:src="@drawable/dog_sample"
-                android:scaleType="fitXY"/>
+                android:layout_height="241dp">
+                <ImageView
+                    android:src="@drawable/toolbar_left_arrow"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_alignTop="@+id/pager"
+                    android:layout_alignLeft="@+id/pager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/dog_image"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:id="@+id/report"
+                    android:src="@drawable/toolbar_report"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_alignTop="@+id/pager"
+                    android:layout_toLeftOf="@+id/heart"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/heart"
+                    android:src="@drawable/toolbar_heart"
+                    android:scaleType="fitXY"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_alignTop="@+id/pager"
+                    android:layout_alignRight="@+id/pager"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/overflow_dots"
+                    android:src="@drawable/post_toolbar_dots"
+                    android:scaleType="fitXY"
+                    android:visibility="gone"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_alignTop="@+id/pager"
+                    android:layout_alignRight="@+id/pager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
             <TextView
                 android:id="@+id/post_title"
                 android:text="건강하게 태어난 말티즈 삼남매 분양해요!"
@@ -128,7 +189,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="말티즈"
                         android:textColor="#3E3A39"
                         android:textSize="13sp" />
                 </RelativeLayout>
@@ -143,7 +203,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="남아"
                         android:textColor="#3E3A39"
                         android:textSize="13sp" />
                 </RelativeLayout>
@@ -155,12 +214,12 @@
 
                     <TextView
                         android:id="@+id/dog_age_detail"
+                        android:text="4개월 이상 - 12개월 미만"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="2개월"
                         android:textColor="#3E3A39"
-                        android:textSize="13sp" />
+                        android:textSize="12sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -173,7 +232,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="관악구"
                         android:textColor="#3E3A39"
                         android:textSize="13sp" />
                 </RelativeLayout>
@@ -497,63 +555,65 @@
                 android:layout_marginRight="22dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <RelativeLayout
+        android:id="@+id/message_layout"
         android:layout_width="match_parent"
         android:layout_height="78dp"
         android:background="#FFFFFF"
         android:layout_gravity="bottom">
-        <TextView
-            android:id="@+id/dog_type"
-            android:text="말티즈 / "
-            android:textSize="14sp"
-            android:textColor="#5B4319"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="22dp"
-            android:layout_alignParentLeft="true"/>
-        <TextView
-            android:id="@+id/dog_age"
-            android:text="2개월"
-            android:textSize="14sp"
-            android:textColor="#5B4319"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_toRightOf="@id/dog_type"/>
+        <!--<TextView-->
+            <!--android:id="@+id/dog_type"-->
+            <!--android:text="말티즈/"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#5B4319"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_marginLeft="22dp"-->
+            <!--android:layout_alignParentLeft="true"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/dog_age"-->
+            <!--android:text="2개월"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#5B4319"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="0dp"-->
+            <!--android:layout_marginTop="16dp"-->
+            <!--android:layout_toRightOf="@id/dog_type"/>-->
 
-        <TextView
-            android:id="@+id/dog_gender"
-            android:text="남아 / "
-            android:textSize="14sp"
-            android:textColor="#5B4319"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="22dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"/>
-        <TextView
-            android:id="@+id/dog_region"
-            android:text="관악구"
-            android:textSize="14sp"
-            android:textColor="#5B4319"
-            android:layout_marginBottom="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@id/dog_gender"/>
+        <!--<TextView-->
+            <!--android:id="@+id/dog_gender"-->
+            <!--android:text="남아 / "-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#5B4319"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_marginLeft="22dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/dog_region"-->
+            <!--android:text="관악구"-->
+            <!--android:textSize="14sp"-->
+            <!--android:textColor="#5B4319"-->
+            <!--android:layout_marginBottom="20dp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_toRightOf="@id/dog_gender"/>-->
 
         <Button
             android:id="@+id/message_btn"
-            android:layout_width="172dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginRight="22dp"
             android:background="@drawable/bg_regist_btn"
             android:text="분양 희망자와 대화하기"
             android:textColor="#FFFFFF" />

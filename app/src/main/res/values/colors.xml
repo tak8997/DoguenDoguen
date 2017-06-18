@@ -2,11 +2,11 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-
-    <color name="colorAccent">#FF4D4D</color>
+    <color name="colorAccent">#EDBC64</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBrown">#91612D</color>
 
     <drawable name="dialog_background">#70000000</drawable>
+    <drawable name="login_dialog_background">#FFFFFF</drawable>
     <!--@android:color/transparent-->
 </resources>

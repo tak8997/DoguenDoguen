@@ -35,6 +35,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/female"
             android:text="여아"
             android:textSize="14sp"
             android:textColor="#3E3A39"
@@ -44,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"/>
         <TextView
+            android:id="@+id/male"
             android:text="남아"
             android:textSize="14sp"
             android:textColor="#3E3A39"
@@ -54,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"/>
         <TextView
+            android:id="@+id/any_gender"
             android:text="상관없음"
             android:textSize="14sp"
             android:textColor="#3E3A39"

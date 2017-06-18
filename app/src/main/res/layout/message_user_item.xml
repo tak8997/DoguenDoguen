@@ -3,9 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image"
+        android:src="@drawable/da_euen"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <TextView
-        android:id="@+id/user"
-        android:layout_alignParentRight="true"
+        android:id="@+id/user_message"
+        android:layout_toRightOf="@+id/user_image"
+        android:background="@drawable/user"
+        android:layout_marginLeft="11dp"
+        android:layout_marginTop="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </RelativeLayout>

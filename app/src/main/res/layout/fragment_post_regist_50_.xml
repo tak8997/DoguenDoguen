@@ -2,6 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_50_Fragment"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFFFFF"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,6 +27,7 @@
                     android:layout_height="18dp"
                     android:src="@drawable/left_arrow_message" />
                 <TextView
+                    android:id="@+id/edit_post_title"
                     android:text="분양글 등록하기"
                     android:textSize="15sp"
                     android:textColor="#5b4319"
@@ -132,7 +134,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:text="여아"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
                     android:id="@+id/dog_gender_selected"
@@ -140,7 +141,6 @@
                     android:layout_centerInParent="true"
                     android:layout_toLeftOf="@+id/dog_gender_arrow"
                     android:layout_marginRight="24dp"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
@@ -169,7 +169,7 @@
                     android:drawableLeft="@drawable/icon_female_off_dialogue"
                     android:drawablePadding="11dp"
                     android:paddingLeft="11dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -207,7 +207,7 @@
                     android:drawableLeft="@drawable/icon_both_off_dialogue"
                     android:drawablePadding="11dp"
                     android:paddingLeft="11dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="8dp"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
@@ -238,6 +238,15 @@
                     android:layout_alignParentLeft="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
+                <Spinner
+                    android:id="@+id/dog_age_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/dog_age_arrow"
+                    android:gravity="center"
+                    style="@style/Spinner_style"
+                    android:dropDownWidth="match_parent" />
                 <TextView
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
@@ -246,7 +255,6 @@
                     android:layout_centerInParent="true"
                     android:layout_toLeftOf="@+id/dog_age_arrow"
                     android:layout_marginRight="24dp"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
@@ -258,12 +266,17 @@
                     android:layout_height="8dp" />
             </RelativeLayout>
 
-            <!--<Spinner-->
+            <!--<LinearLayout-->
                 <!--android:id="@+id/dog_age_box"-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_height="133dp"-->
+                <!--android:background="@drawable/dog_gender_box"-->
+                <!--android:orientation="vertical"-->
                 <!--android:layout_marginLeft="22dp"-->
-                <!--android:layout_marginRight="22dp" />-->
+                <!--android:layout_marginRight="22dp">-->
+            <!--</LinearLayout>-->
+
+
 
             <View
                 android:layout_width="match_parent"
@@ -300,7 +313,6 @@
                         android:id="@+id/dog_city_selected"
                         android:textSize="15sp"
                         android:textColor="#3E3A39"
-                        android:visibility="gone"
                         android:layout_gravity="end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -309,7 +321,6 @@
                         android:textSize="15sp"
                         android:textColor="#3E3A39"
                         android:layout_gravity="end"
-                        android:visibility="gone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -429,7 +440,6 @@
                     android:layout_centerInParent="true"
                     android:layout_toLeftOf="@+id/dog_price_arrow"
                     android:layout_marginRight="24dp"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
@@ -441,49 +451,66 @@
                     android:layout_height="8dp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/dog_price_box"
-                android:layout_width="317dp"
-                android:layout_height="55dp"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="@drawable/border_layout">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/dog_price_box"-->
+                <!---->
+                <!--android:layout_width="317dp"-->
+                <!--android:layout_height="55dp"-->
+                <!--android:layout_marginLeft="22dp"-->
+                <!--android:layout_marginRight="22dp"-->
+                <!--android:background="@drawable/border_layout">-->
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/dog_price_box"
+                    android:background="@drawable/border_layout"
+                    android:layout_width="317dp"
+                    android:layout_height="55dp"
+                    android:visibility="gone"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
                     android:orientation="horizontal"
-                    android:layout_centerInParent="true">
+                    android:gravity="center">
                     <EditText
                         android:id="@+id/dog_price_money"
-                        android:layout_width="77dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="4dp"
                         android:layout_marginRight="7dp"
+                        android:paddingLeft="100dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
                         android:layout_toLeftOf="@+id/dog_price_won"
                         android:background="@android:color/transparent"
+                        android:inputType="number"
                         android:textColor="#585857"
-                        android:textSize="15sp" />
-
+                        android:textSize="14sp" />
                     <TextView
                         android:id="@+id/dog_price_won"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:text="만원"
                         android:textColor="#EDBC64"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
+                    <Button
+                        android:id="@+id/price_selection"
+                        android:text="확인"
+                        android:textSize="11sp"
+                        android:background="@drawable/border_price_button"
+                        android:padding="3dp"
+                        android:layout_marginLeft="27dp"
+                        android:layout_width="49dp"
+                        android:layout_height="23dp" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/price_selection"
-                    android:layout_width="11dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="12dp"
-                    android:src="@drawable/down_arrow2" />
-            </RelativeLayout>
+                <!--<ImageView-->
+                    <!--android:id="@+id/price_selection"-->
+                    <!--android:layout_width="11dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerInParent="true"-->
+                    <!--android:layout_marginRight="12dp"-->
+                    <!--android:src="@drawable/down_arrow2" />-->
+            <!--</RelativeLayout>-->
 
 
             <View

@@ -2,6 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -21,6 +22,7 @@
                 android:layout_height="18dp"
                 android:src="@drawable/left_arrow_message" />
             <TextView
+                android:id="@+id/edit_post"
                 android:text="분양글 등록하기"
                 android:textSize="15sp"
                 android:textColor="#5b4319"
@@ -82,6 +84,12 @@
             android:id="@+id/add_pet_image_container"
             android:layout_width="match_parent"
             android:layout_height="240dp">
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/udpate_dog_image"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/dog_image"
@@ -110,6 +118,7 @@
                 android:gravity="center"
                 android:layout_below="@+id/dog_image_title"/>
             <TextView
+                android:id="@+id/dog_image_sub2_title"
                 android:text="가정견임을 잘 보여줄 수 있는 신뢰감 있는 사진이 좋아요!"
                 android:textSize="11sp"
                 android:textColor="#595757"
@@ -126,15 +135,15 @@
             android:layout_height="0.5dp"
             android:background="@drawable/divider"/>
 
-        <ImageView
-            android:id="@+id/add_image"
-            android:layout_marginLeft="22dp"
-            android:layout_marginRight="22dp"
-            android:layout_marginTop="12dp"
-            android:src="@drawable/add_post"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<ImageView-->
+            <!--android:id="@+id/add_image"-->
+            <!--android:layout_marginLeft="22dp"-->
+            <!--android:layout_marginRight="22dp"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:src="@drawable/add_post"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
 
         <LinearLayout
             android:layout_width="match_parent"

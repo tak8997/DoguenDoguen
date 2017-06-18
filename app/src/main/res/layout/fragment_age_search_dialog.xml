@@ -8,7 +8,7 @@
     >
 
     <TextView
-        android:id="@+id/dog_gender"
+        android:id="@+id/dog_age"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="134dp"
@@ -37,6 +37,7 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/under_four"
             android:text="2개월 이상 - 4개월 미만"
             android:textSize="14sp"
             android:textColor="#3E3A39"
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"/>
         <TextView
+            android:id="@+id/under_twelve"
             android:text="4개월 이상 - 12개월 미만"
             android:textSize="14sp"
             android:textColor="#3E3A39"
@@ -54,6 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"/>
         <TextView
+            android:id="@+id/up_twelve"
             android:text="12개월 이상"
             android:textSize="14sp"
             android:textColor="#3E3A39"
@@ -63,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"/>
         <TextView
+            android:id="@+id/all_age"
             android:text="상관없음"
             android:textSize="14sp"
             android:textColor="#3E3A39"

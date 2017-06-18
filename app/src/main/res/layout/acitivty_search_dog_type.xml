@@ -5,12 +5,18 @@
     android:orientation="vertical"
     tools:context="org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity">
 
-    <ImageView
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:src="@drawable/cancel"
-        android:layout_marginLeft="11dp"
-        android:layout_marginTop="32dp"/>
+    <LinearLayout
+        android:id="@+id/exit"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/cancel"
+            android:layout_marginLeft="11dp"
+            android:layout_marginTop="32dp"/>
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,8 +28,8 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/dog_search"/>
-        <AutoCompleteTextView
-            android:id="@+id/search_dog_text_view"
+        <EditText
+            android:id="@+id/search_dog_types"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
@@ -38,10 +44,21 @@
         android:layout_height="1dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/divider"/>
-    <Button
-        android:id="@+id/search_finish_btn"
-        android:text="완료"
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="380dp"
         android:layout_marginTop="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:paddingLeft="22dp"
+        android:paddingRight="22dp">
+        <ListView
+            android:id="@+id/android:list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:divider="#cbcbc8"
+            android:fadingEdge="none"
+            android:listSelector="#FFFFFF"
+            android:scrollingCache="false" />
+    </LinearLayout>
 </LinearLayout>

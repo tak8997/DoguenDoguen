@@ -1,5 +1,8 @@
 package org.tacademy.woof.doguendoguen.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,7 +12,7 @@ import java.util.List;
  * Created by Tak on 2017. 6. 6..
  */
 
-public class PostDetailModel {
+public class PostDetailModel implements Parcelable{
 
     @SerializedName("parcel_id")
     public int postId;
@@ -36,7 +39,7 @@ public class PostDetailModel {
     public String dogPrice;
 
     @SerializedName("size")
-    public int dogSize;
+    public String dogSize;
 
     @SerializedName("introduction")
     public String postIntro;
@@ -45,7 +48,7 @@ public class PostDetailModel {
     public String postCondition;
 
     @SerializedName("fur")
-    public int dogColor;
+    public String dogColor;
 
     @SerializedName("lineage")
     public String bloodImageUrl;
@@ -80,7 +83,7 @@ public class PostDetailModel {
     @SerializedName("favorite_number")
     public int favoriteNum;
 
-    public PostDetailModel(int postId, int userId, String dogType, String dogGender, String dogAge, String region1, String region2, String dogPrice, int dogSize, String postIntro, String postCondition, int dogColor, String bloodImageUrl, String dogImageUrl, String postTitle, int isDistributed, int vaccinKennel, int vaccinCorona, int vacinnDHPPL, String username, List<ParentDogImage> parentDogImage, List<DogImage> dogImage, int favoriteNum) {
+    public PostDetailModel(int postId, int userId, String dogType, String dogGender, String dogAge, String region1, String region2, String dogPrice, String dogSize, String postIntro, String postCondition, String dogColor, String bloodImageUrl, String dogImageUrl, String postTitle, int isDistributed, int vaccinKennel, int vaccinCorona, int vacinnDHPPL, String username, List<ParentDogImage> parentDogImage, List<DogImage> dogImage, int favoriteNum) {
         this.postId = postId;
         this.userId = userId;
         this.dogType = dogType;
@@ -104,5 +107,73 @@ public class PostDetailModel {
         this.parentDogImage = parentDogImage;
         this.dogImage = dogImage;
         this.favoriteNum = favoriteNum;
+    }
+
+    protected PostDetailModel(Parcel in) {
+        postId = in.readInt();
+        userId = in.readInt();
+        dogType = in.readString();
+        dogGender = in.readString();
+        dogAge = in.readString();
+        region1 = in.readString();
+        region2 = in.readString();
+        dogPrice = in.readString();
+        dogSize = in.readString();
+        postIntro = in.readString();
+        postCondition = in.readString();
+        dogColor = in.readString();
+        bloodImageUrl = in.readString();
+        dogImageUrl = in.readString();
+        postTitle = in.readString();
+        isDistributed = in.readInt();
+        vaccinKennel = in.readInt();
+        vaccinCorona = in.readInt();
+        vacinnDHPPL = in.readInt();
+        username = in.readString();
+        dogImage = in.createTypedArrayList(DogImage.CREATOR);
+        favoriteNum = in.readInt();
+    }
+
+    public static final Creator<PostDetailModel> CREATOR = new Creator<PostDetailModel>() {
+        @Override
+        public PostDetailModel createFromParcel(Parcel in) {
+            return new PostDetailModel(in);
+        }
+
+        @Override
+        public PostDetailModel[] newArray(int size) {
+            return new PostDetailModel[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(postId);
+        dest.writeInt(userId);
+        dest.writeString(dogType);
+        dest.writeString(dogGender);
+        dest.writeString(dogAge);
+        dest.writeString(region1);
+        dest.writeString(region2);
+        dest.writeString(dogPrice);
+        dest.writeString(dogSize);
+        dest.writeString(postIntro);
+        dest.writeString(postCondition);
+        dest.writeString(dogColor);
+        dest.writeString(bloodImageUrl);
+        dest.writeString(dogImageUrl);
+        dest.writeString(postTitle);
+        dest.writeInt(isDistributed);
+        dest.writeInt(vaccinKennel);
+        dest.writeInt(vaccinCorona);
+        dest.writeInt(vacinnDHPPL);
+        dest.writeString(username);
+        dest.writeTypedList(dogImage);
+        dest.writeInt(favoriteNum);
     }
 }

@@ -11,51 +11,57 @@
             <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <RelativeLayout
-                android:id="@+id/user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/detail_user_image"
-                    android:src="@drawable/dog_sample"
-                    android:scaleType="fitXY"
+                <RelativeLayout
+                    android:id="@+id/user"
                     android:layout_width="match_parent"
-                    android:layout_height="239dp" />
+                    android:layout_height="wrap_content">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/left_arrow_message"
-                    android:scaleType="fitXY"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginLeft="11dp"
-                    android:layout_alignTop="@+id/detail_user_image"
-                    android:layout_alignLeft="@+id/detail_user_image" />
+                    <ImageView
+                        android:id="@+id/detail_user_image"
+                        android:src="@drawable/dog_sample"
+                        android:scaleType="fitXY"
+                        android:layout_width="match_parent"
+                        android:layout_height="239dp" />
+                    <ImageView
+                        android:id="@+id/edit_photo"
+                        android:background="@drawable/add_photo"
+                        android:layout_centerInParent="true"
+                        android:visibility="gone"
+                        android:layout_width="43dp"
+                        android:layout_height="43dp" />
 
-                <!--<ImageView-->
-                    <!--android:layout_width="31dp"-->
-                    <!--android:layout_height="31dp"-->
-                    <!--android:layout_marginTop="15.5dp"-->
-                    <!--android:layout_marginRight="11dp"-->
-                    <!--android:scaleType="fitXY"-->
-                    <!--android:src="@drawable/user_update"-->
-                    <!--android:layout_alignBottom="@+id/detail_user_image"-->
-                    <!--android:layout_alignRight="@+id/detail_user_image"/>-->
-
-            </RelativeLayout>
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="31dp"
-                android:layout_height="31dp"
-                app:layout_anchor="@id/user"
-                app:layout_anchorGravity="right|bottom"
-                android:src = "@drawable/user_update"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="50dp" />
-
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/left_arrow_message"
+                        android:scaleType="fitXY"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginLeft="11dp"
+                        android:layout_alignTop="@+id/detail_user_image"
+                        android:layout_alignLeft="@+id/detail_user_image" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="31dp"-->
+                        <!--android:layout_height="31dp"-->
+                        <!--android:layout_marginTop="15.5dp"-->
+                        <!--android:layout_marginRight="11dp"-->
+                        <!--android:scaleType="fitXY"-->
+                        <!--android:src="@drawable/user_update"-->
+                        <!--android:layout_alignBottom="@+id/detail_user_image"-->
+                        <!--android:layout_alignRight="@+id/detail_user_image"/>-->
+                </RelativeLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab"
+                    android:layout_width="31dp"
+                    android:layout_height="31dp"
+                    app:layout_anchor="@id/user"
+                    app:layout_anchorGravity="right|bottom"
+                    android:src = "@drawable/user_update"
+                    android:background="@android:color/transparent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="50dp" />
             </android.support.design.widget.CoordinatorLayout>
+
             <RelativeLayout
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
@@ -69,14 +75,26 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
-                <TextView
-                    android:text="탁쓰"
+                <EditText
+                    android:id="@+id/user_name"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
+                    android:enabled="false"
+                    android:imeOptions="actionSearch"
+                    android:background="@android:color/transparent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/edit_user"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_user"
+                    android:src="@drawable/edit_user_name"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"
@@ -86,6 +104,7 @@
                 android:background="@drawable/divider"/>
 
             <RelativeLayout
+                android:id="@+id/gender_layout"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -99,14 +118,71 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:text="남자"
+                    android:id="@+id/user_gender"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
+                    android:layout_toLeftOf="@+id/edit_gender"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_gender"
+                    android:src="@drawable/down_arrow2"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/user_gender_layout"
+                android:layout_width="317dp"
+                android:layout_height="138dp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:background="@drawable/dog_gender_box"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginBottom="24dp">
+                <TextView
+                    android:id="@+id/woman"
+                    android:text="여성"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_female_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/man"
+                    android:text="남성"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_male_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/both"
+                    android:text="기타"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:drawableLeft="@drawable/icon_both_off_dialogue"
+                    android:drawablePadding="11dp"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -115,6 +191,7 @@
                 android:background="@drawable/divider"/>
 
             <RelativeLayout
+                android:id="@+id/size_layout"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -128,14 +205,75 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:text="4인 이상 가구"
+                    android:id="@+id/user_family_size"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/edit_family_type"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_family_type"
+                    android:src="@drawable/down_arrow2"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/user_family_size_layout"
+                android:layout_width="317dp"
+                android:layout_height="138dp"
+                android:orientation="vertical"
+                android:background="@drawable/family_type"
+                android:visibility="gone"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginBottom="24dp">
+                <TextView
+                    android:id="@+id/one"
+                    android:text="1인 가구"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:id="@+id/two"
+                    android:text="2인 가구"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/three"
+                    android:text="3인 가구"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/four_over"
+                    android:text="4인 가구 이상"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="13dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -144,6 +282,7 @@
                 android:background="@drawable/divider"/>
 
             <RelativeLayout
+                android:id="@+id/apart_type_layout"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -157,14 +296,74 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:text="아파트"
+                    android:id="@+id/user_apart"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/edit_apart_type"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_apart_type"
+                    android:src="@drawable/down_arrow2"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/user_apart_type_layout"
+                android:layout_width="317dp"
+                android:layout_height="138dp"
+                android:orientation="vertical"
+                android:background="@drawable/family_type"
+                android:visibility="gone"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginBottom="24dp">
+                <TextView
+                    android:id="@+id/one_room"
+                    android:text="원룸"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/apart"
+                    android:text="아파트"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/house"
+                    android:text="주택"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/etc"
+                    android:text="기타"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:paddingLeft="11dp"
+                    android:layout_marginTop="13dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -173,6 +372,7 @@
                 android:background="@drawable/divider"/>
 
             <RelativeLayout
+                android:id="@+id/region_layout"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -186,14 +386,39 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:text="경기도 성남시"
+                    android:id="@+id/user_region"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/edit_region"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_region"
+                    android:src="@drawable/down_arrow2"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
+            <EditText
+                android:id="@+id/user_region_edit"
+                android:background="@drawable/user_live_area"
+                android:hint="시/군/구 단위까지만 작성해주세요. ex)서울시 관악구"
+                android:visibility="gone"
+                android:textSize="14sp"
+                android:textColor="#3E3A39"
+                android:gravity="center"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:imeOptions="actionSearch"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginBottom="24dp"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -202,6 +427,7 @@
                 android:background="@drawable/divider"/>
 
             <RelativeLayout
+                android:id="@+id/is_own_layout"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:layout_width="match_parent"
@@ -215,14 +441,54 @@
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
                 <TextView
-                    android:text="없음"
+                    android:id="@+id/user_pet_own"
                     android:textSize="15sp"
                     android:textColor="#3E3A39"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/edit_pet_own"
                     android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"/>
+                <ImageView
+                    android:id="@+id/edit_pet_own"
+                    android:src="@drawable/down_arrow2"
+                    android:visibility="gone"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/pet_own_layout"
+                android:layout_width="match_parent"
+                android:layout_height="94dp"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:background="@drawable/user_pet_own"
+                android:paddingLeft="11dp"
+                android:paddingRight="11dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginBottom="24dp">
+                <TextView
+                    android:id="@+id/keep"
+                    android:text="있음"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp" />
+                <TextView
+                    android:id="@+id/none"
+                    android:text="없음"
+                    android:textSize="14sp"
+                    android:textColor="#3E3A39"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="23dp" />
+            </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -243,13 +509,78 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:text="없음"
+                    android:id="@+id/post_list"
+                    android:textSize="15sp"
+                    android:textColor="#3E3A39"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
-
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0.5dp"-->
+                <!--android:layout_marginLeft="22dp"-->
+                <!--android:layout_marginRight="22dp"-->
+                <!--android:background="@drawable/divider"/>-->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/user_post_recyclerview"
                 android:layout_marginLeft="22dp"
-                android:layout_marginBottom="24dp"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <RelativeLayout
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+                <TextView
+                    android:id="@+id/user_drop"
+                    android:text="회원탈퇴"
+                    android:textSize="15sp"
+                    android:textColor="#FF4D4D"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+            </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
+
+            <Button
+                android:id="@+id/regist_btn"
+                android:layout_width="316dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/bg_regist_btn"
+                android:gravity="center"
+                android:text="프로필 수정 완료"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:background="@drawable/divider"/>
         </LinearLayout>
 </ScrollView>

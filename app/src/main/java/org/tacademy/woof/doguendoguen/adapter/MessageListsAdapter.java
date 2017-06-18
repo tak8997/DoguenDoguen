@@ -12,7 +12,10 @@ import android.widget.TextView;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
-import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
+import org.tacademy.woof.doguendoguen.model.ChattingRoomList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Tak on 2017. 5. 31..
@@ -20,32 +23,35 @@ import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
 
 public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapter.ViewHolder> {
     private Context context;
+    private ArrayList<ChattingRoomList> chattingRoomLists;
 
-    public MessageListsAdapter(Context context) {
+    public MessageListsAdapter(Context context, List<ChattingRoomList> chattingRoomLists) {
         this.context = context;
+        this.chattingRoomLists = (ArrayList<ChattingRoomList>) chattingRoomLists;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.mesage_item, null, false);
 
-        rootView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DoguenDoguenApplication.getContext(), MessageDetailActivity.class);
-                context.startActivity(intent);
-
-            }
-        });
         return new ViewHolder(rootView);
     }
 
     @Override
-    public void onBindViewHolder(MessageListsAdapter.ViewHolder holder, int position) {
-        holder.userImage.setImageResource(R.drawable.girls_eneration_hyoyeon);
+    public void onBindViewHolder(MessageListsAdapter.ViewHolder holder, final int position) {
+        holder.userImage.setImageResource(R.drawable.dog_sample);
         holder.userName.setText("유저 이름");
         holder.messageTime.setText("시간");
         holder.messageContent.setText("메시지 내용입니다");
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoguenDoguenApplication.getContext(), MessageDetailActivity.class);
+                intent.putExtra("roomId", chattingRoomLists.get(position).roomId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

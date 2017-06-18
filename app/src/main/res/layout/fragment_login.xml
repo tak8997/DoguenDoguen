@@ -2,18 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp"
     tools:context="org.tacademy.woof.doguendoguen.app.sign.LoginFragment">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/heart"
-        android:layout_centerInParent="true"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/dog_sample"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="225dp"
+        android:src="@drawable/heart_brown" />
 
     <TextView
         android:id="@+id/login_title"
         android:text="로그인이 필요한 서비스입니다."
+        android:textColor="#9E9E9F"
+        android:textSize="14sp"
+        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/heart"
@@ -22,6 +28,8 @@
     <TextView
         android:id="@+id/login_sub_title"
         android:text="로그인 후 이용해주세요."
+        android:textColor="#9E9E9F"
+        android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_title"
@@ -29,7 +37,8 @@
         android:gravity="center"/>
     <Button
         android:id="@+id/kakao_login"
-        android:text="로그인"
+        android:background="@drawable/kakao_login"
+        android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

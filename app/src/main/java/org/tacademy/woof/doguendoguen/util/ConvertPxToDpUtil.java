@@ -8,7 +8,7 @@ import android.util.DisplayMetrics;
  * Created by Tak on 2017. 6. 11..
  */
 
-public class ConvertPxToDp {
+public class ConvertPxToDpUtil {
 
     public static float convertDpToPixel(float dp, Context context){
         Resources resources = context.getResources();
@@ -19,4 +19,6 @@ public class ConvertPxToDp {
         return px;
 
     }
+
+
 }

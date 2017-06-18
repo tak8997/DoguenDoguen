@@ -30,6 +30,7 @@ public class RestGenerator {
     private static Retrofit retrofit = builder.build();
 
 
+
     public static <S> S createService(Class<S> serviceClass) {
         if(!httpClient.interceptors().contains(loggingInterceptor)) {
             httpClient

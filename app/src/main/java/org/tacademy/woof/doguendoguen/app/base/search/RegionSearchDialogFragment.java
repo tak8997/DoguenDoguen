@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.RegionAdapter;
-import org.tacademy.woof.doguendoguen.util.ConvertPxToDp;
-import org.w3c.dom.Text;
+import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,7 +59,7 @@ public class RegionSearchDialogFragment extends DialogFragment {
         switch (view.getId()) {
             case R.id.city:
                 ViewGroup.LayoutParams cityLayoutParams = regionLayout.getLayoutParams();
-                cityLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(156, getContext());
+                cityLayoutParams.height = (int) ConvertPxToDpUtil.convertDpToPixel(156, getContext());
                 regionLayout.setLayoutParams(cityLayoutParams);
 
                 cityGridView.setVisibility(View.VISIBLE);
@@ -72,7 +71,42 @@ public class RegionSearchDialogFragment extends DialogFragment {
                 break;
             case R.id.district:
                 ViewGroup.LayoutParams districtLayoutParams = regionLayout.getLayoutParams();
-                districtLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(200, getContext());
+                districtLayoutParams.height = (int) ConvertPxToDpUtil.convertDpToPixel(200, getContext());
+                regionLayout.setLayoutParams(districtLayoutParams);
+
+                cityGridView.setVisibility(View.INVISIBLE);
+                cityTitle.setBackgroundColor(Color.parseColor("#ffffffff"));
+                cityTitle.setTextColor(Color.parseColor("#3E3A39"));
+                districtGridView.setVisibility(View.VISIBLE);
+                districtTitle.setBackgroundColor(Color.parseColor("#EDBC64"));
+                districtTitle.setTextColor(Color.parseColor("#ffffffff"));
+                break;
+        }
+    }
+
+    public interface OnAdapterItemClickLIstener {
+        public void onAdapterItemClick(String city, String district);
+    }
+
+    OnAdapterItemClickLIstener listener;
+    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
+        this.listener = listener;
+    }
+
+    String district;
+    String city;
+
+    private void setCityRegion() {
+        final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
+        cityRegionAdapter.setCityRegions();
+        cityRegionAdapter.notifyDataSetChanged();
+        cityRegionAdapter.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
+            @Override
+            public void onAdapterItemClick(int position) {
+                city = (String) cityRegionAdapter.getItem(position);
+
+                ViewGroup.LayoutParams districtLayoutParams = regionLayout.getLayoutParams();
+                districtLayoutParams.height = (int) ConvertPxToDpUtil.convertDpToPixel(200, getContext());
                 regionLayout.setLayoutParams(districtLayoutParams);
 
                 districtGridView.setVisibility(View.VISIBLE);
@@ -81,9 +115,9 @@ public class RegionSearchDialogFragment extends DialogFragment {
                 cityGridView.setVisibility(View.INVISIBLE);
                 cityTitle.setBackgroundColor(Color.parseColor("#ffffffff"));
                 cityTitle.setTextColor(Color.parseColor("#3E3A39"));
-                break;
-        }
-
+            }
+        });
+        cityGridView.setAdapter(cityRegionAdapter);
     }
 
     private void setDistrictRegion() {
@@ -93,39 +127,20 @@ public class RegionSearchDialogFragment extends DialogFragment {
         districtRegionAdatper.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
             @Override
             public void onAdapterItemClick(int position) {
-                String district = (String) districtRegionAdatper.getItem(position);
+                district = (String) districtRegionAdatper.getItem(position);
 
-                ViewGroup.LayoutParams cityLayoutParams = regionLayout.getLayoutParams();
-                cityLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(156, getContext());
-                regionLayout.setLayoutParams(cityLayoutParams);
+                if(listener != null)
+                    listener.onAdapterItemClick(city, district);
 
+                finishFragment();
             }
         });
         districtGridView.setAdapter(districtRegionAdatper);
     }
 
-    private void setCityRegion() {
-        final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
-        cityRegionAdapter.setCityRegions();
-        cityRegionAdapter.notifyDataSetChanged();
-        cityRegionAdapter.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
-            @Override
-            public void onAdapterItemClick(int position) {
-                String city = (String) cityRegionAdapter.getItem(position);
-
-                ViewGroup.LayoutParams districtLayoutParams = regionLayout.getLayoutParams();
-                districtLayoutParams.height = (int) ConvertPxToDp.convertDpToPixel(200, getContext());
-                regionLayout.setLayoutParams(districtLayoutParams);
-
-                districtGridView.setVisibility(View.VISIBLE);
-//                districtTextView.setBackgroundColor(Color.parseColor("#EDBC64"));
-//                districtTextView.setTextColor(Color.parseColor("#ffffffff"));
-//                cityGridview.setVisibility(View.GONE);
-//                cityTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
-//                cityTextView.setTextColor(Color.parseColor("#3E3A39"));
-            }
-        });
-        cityGridView.setAdapter(cityRegionAdapter);
+    private void finishFragment() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
+
 
 }

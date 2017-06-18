@@ -53,10 +53,34 @@
     <!-- 분양글 등록(PostRegist_25_Fragment) -->
     <string name="post_registration">분양글 등록하기</string>
 
+    <!-- 신고하기 다이얼로그 -->
+    <string name="dialog_report_reason">예)다른 커뮤니티에서 사기분양으로 유명한 사람이 도근도근에서도 똑같이
+    사기분양을 위해 글을 등록하고 있어요. 확인 부탁드려요!</string>
+
+    <!-- 나이 스피어 -->
+    <string-array name="age_spinner">
+        <item>1개월</item>
+        <item>2개월</item>
+        <item>3개월</item>
+        <item>4개월</item>
+        <item>5개월</item>
+        <item>6개월</item>
+        <item>7개월</item>
+        <item>8개월</item>
+        <item>9개월</item>
+        <item>10개월</item>
+        <item>11개월</item>
+        <item>12개월</item>
+        <item>13개월</item>
+        <item>14개월</item>
+        <item>15개월</item>
+        <item>16개월</item>
+        <item>17개월</item>
+        <item>18개월</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>
 
 
