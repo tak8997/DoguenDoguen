@@ -214,12 +214,13 @@
 
                     <TextView
                         android:id="@+id/dog_age_detail"
-                        android:text="4개월 이상 - 12개월 미만"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:textColor="#3E3A39"
-                        android:textSize="12sp" />
+                        android:textSize="13sp"
+                        android:layout_centerInParent="true"
+
+                        />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -257,7 +258,6 @@
 
             <TextView
                 android:id="@+id/dog_price"
-                android:text="100,000"
                 android:textSize="18sp"
                 android:textColor="#5B4319"
                 android:layout_marginTop="8dp"
@@ -285,7 +285,6 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/post_intro"
-                android:text="소중한 가족 두부의 귀여운 새끼들을 분양합니다. 태어난지 2개월 되었구요, 활기가 넘치는 건강한 아이들이랍니다."
                 android:textSize="14sp"
                 android:textColor="#595757"
                 android:layout_marginTop="8dp"
@@ -322,6 +321,7 @@
                     android:text="털색상"
                     android:textColor="#595757"
                     android:textSize="14sp"
+                    android:layout_centerInParent="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"/>
@@ -330,6 +330,13 @@
                     android:text="흰색"
                     android:textColor="#595757"
                     android:textSize="14sp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/color_icon"/>
+                <ImageView
+                    android:id="@+id/color_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
@@ -459,7 +466,9 @@
                 android:layout_marginRight="22dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
             <RelativeLayout
+                android:id="@+id/dog_parent_image"
                 android:layout_marginTop="24dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
@@ -470,14 +479,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
-                    android:id="@+id/dog_parent_image"
-                    android:src="@drawable/right_arrow"
+                    android:src="@drawable/right_arrow2"
+                    android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
+            <ImageView
+                android:id="@+id/parent_dog_image"
+                android:visibility="gone"
+                android:scaleType="fitXY"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
 
             <RelativeLayout
+                android:id="@+id/blood_image"
                 android:layout_marginTop="48dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
@@ -490,12 +509,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
-                    android:id="@+id/blood_image"
-                    android:src="@drawable/right_arrow"
+                    android:src="@drawable/right_arrow2"
+                    android:layout_centerInParent="true"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </RelativeLayout>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/blood_doc_image"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
 
             <View
                 android:layout_width="match_parent"
@@ -520,13 +548,13 @@
                     android:layout_alignParentLeft="true"/>
                 <TextView
                     android:id="@+id/regions"
-                    android:text="서울특별시 관악구"
                     android:textColor="#595757"
                     android:textSize="14sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>
+
 
             <View
                 android:layout_width="match_parent"
@@ -547,7 +575,6 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/post_condition"
-                android:text="자리를 비우면 강아지를 돌볼 수 없는 상황에 계신 1인 가구 분들보다는 강아지를 돌봐줄 수 있는 가족이 함께 사시는 분들이 저희 아가 데려갔으면 좋겠습니다. 입양 후에도 꾸준히 연락하면서 어떻게 자라는지 공유해주실분"
                 android:textColor="#595757"
                 android:textSize="14sp"
                 android:layout_marginTop="12dp"

@@ -66,9 +66,10 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
 
     public PostEdit_75_Dialog() {
     }
-    public static PostEdit_75_Dialog newInstance(PostDetailModel postDetail, String postTitle, ArrayList<String> dogImagesFileLocation, String dogType, String dogGender, String dogAge, String dogCity, String dogDistrict, String dogPrice) {
+    public static PostEdit_75_Dialog newInstance(int imageId, PostDetailModel postDetail, String postTitle, ArrayList<String> dogImagesFileLocation, String dogType, String dogGender, String dogAge, String dogCity, String dogDistrict, String dogPrice) {
         PostEdit_75_Dialog fragment = new PostEdit_75_Dialog();
         Bundle args = new Bundle();
+        args.putInt("imageId", imageId);
         args.putParcelable("PostDetailModel", postDetail);
         args.putString(POST_TITLE, postTitle);
         args.putStringArrayList(DOG_IMAGES_FILE_LOCATION, dogImagesFileLocation);
@@ -78,6 +79,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         args.putString(DOG_CITY, dogCity);
         args.putString(DOG_DISTRICT, dogDistrict);
         args.putString(DOG_PRICE, dogPrice);
+        Log.d("price", dogPrice);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,6 +89,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialogTheme);
         if (getArguments() != null) {
+            imageId = getArguments().getInt("imageId");
             postDetail = getArguments().getParcelable("PostDetailModel");
             postTitle = getArguments().getString(POST_TITLE);
             dogImagesFileLocation = getArguments().getStringArrayList(DOG_IMAGES_FILE_LOCATION);
@@ -96,9 +99,10 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
             dogCity = getArguments().getString(DOG_CITY);
             dogDistrict = getArguments().getString(DOG_DISTRICT);
             dogPrice = getArguments().getString(DOG_PRICE);
+//            Log.d("dogPrice" ,dogPrice);
         }
     }
-    PostDetailModel postDetail = null;
+
     @BindView(R.id.text_white) TextView colorWhite;
     @BindView(R.id.text_ivory) TextView colorIvory;
     @BindView(R.id.text_bright_brown) TextView colorBrightBrown;
@@ -122,17 +126,20 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     @BindView(R.id.scroll_view) NestedScrollView scrollView;
 
     //이전 분양글로 부터 가져온 데이터
-    String postTitle;
+    int imageId;
+    PostDetailModel postDetail = null;
+    String postTitle = " ";
     ArrayList<String> dogImagesFileLocation;
-    String dogType;
-    String dogGender;
-    String dogAge;
-    String dogCity;
-    String dogDistrict;
-    String dogPrice;
+    String dogType = " ";
+    String dogGender = " ";
+    String dogAge = " ";
+    String dogCity = " ";
+    String dogDistrict = " ";
+    String dogPrice = " ";
 
     //다음 분양글로 넘길 데이터
-    String color = null;
+    int parentId;
+    String color = " ";
     String size = null;
     int dhppl = 0;
     int corrona = 0;
@@ -170,6 +177,12 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     @BindView(R.id.doc_sub_title) TextView docSubTitle;
     private void editPost() {
         editPostTitle.setText("분양글 수정하기");
+        if(color == null)
+            color = " ";
+        else
+            color = postDetail.dogColor;
+        Log.d("asdf", color+ " ," + postDetail.dogColor);
+        
         size = postDetail.dogSize;
         switch (size) {
             case "소":
@@ -185,6 +198,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
                 sizeBig.setTextColor(Color.parseColor("#FFFFFF"));
                 break;
         }
+
         int dhppl = postDetail.vacinnDHPPL;
         int corrona = postDetail.vaccinCorona;
         int kennel = postDetail.vaccinKennel;
@@ -358,7 +372,9 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
                     etcFlag = true;
                 }
                 break;
+
         }
+        Log.d("colorr", color );
     }
 
     boolean smallFlag = false;
@@ -591,6 +607,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
 
                         parentImagesFileLocation = new ArrayList<>();
                         parentImagesFileLocation.add(fileLocation);
+                        imageId = postDetail.parentDogImage.get(0).imageId;
                     }else {
                         Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
                     }
@@ -604,6 +621,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
 
                         parentImagesFileLocation = new ArrayList<>();
                         parentImagesFileLocation.add(fileLoaction);
+                        imageId = postDetail.parentDogImage.get(0).imageId;
                     } else {
                         Log.e(TAG,"갤러리에서 Uri값이 없어 실제 파일로 저장 실패");
                     }
@@ -643,18 +661,37 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     } // End Of onActivityResult..
 
     private void nextRegistPage() {
+//        Log.d("price", color);
         if (size == null) {
             Toast.makeText(DoguenDoguenApplication.getContext(), "사이즈를 입력해주세요", Toast.LENGTH_SHORT).show();
         } else {
-            PostEdit_100_Dialog postEditDialog = PostEdit_100_Dialog.newInstance(postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity,
+            PostEdit_100_Dialog postEditDialog = PostEdit_100_Dialog.newInstance(imageId, parentId, postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity,
                     dogDistrict, dogPrice, color, size, dhppl, corrona, kennel, parentImagesFileLocation, bloodHierarchyFileLocation);
+//            Log.d("price", dogPrice);
+//            Log.d("price", color);
+            postEditDialog.setOnAdapterItemClickListener(new PostEdit_100_Dialog.OnAdapterItemClickLIstener() {
+                @Override
+                public void onAdapterItemClick(String answer) {
+                    if(listener != null) {
+                        listener.onAdapterItemClick("");
+                        dismiss();
+                    }
+                }
+            });
             postEditDialog.show(getActivity().getSupportFragmentManager(), "post100Edit");
         }
     }
 
+    public interface OnAdapterItemClickLIstener {
+        public void onAdapterItemClick(String answer);
+    }
+    OnAdapterItemClickLIstener listener;
+    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
+        this.listener = listener;
+    }
+
     private void previousRegistPage() {
-        final FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
+        dismiss();
     }
 
     @Override
@@ -751,4 +788,9 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         }
     }
 
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        this.dismiss();
+//        getFragmentManager().popBackStack();
+    }
 }

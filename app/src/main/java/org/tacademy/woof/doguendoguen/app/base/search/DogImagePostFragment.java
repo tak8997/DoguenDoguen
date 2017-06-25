@@ -50,12 +50,11 @@ public class DogImagePostFragment extends Fragment {
 
         Log.d(TAG, "viewCreated");
 
-        Toast.makeText(DoguenDoguenApplication.getContext(), "image", Toast.LENGTH_SHORT).show();
         ImageView dogImage = (ImageView) view.findViewById(R.id.dog_image);
 
         Glide.with(DoguenDoguenApplication.getContext())
                 .load(dogImageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(dogImage);
 
         return view;

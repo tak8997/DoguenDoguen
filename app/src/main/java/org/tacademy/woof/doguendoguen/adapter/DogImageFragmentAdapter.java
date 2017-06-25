@@ -58,12 +58,4 @@ public class  DogImageFragmentAdapter extends FragmentPagerAdapter {
     public void setDogImages(ArrayList<DogImage> dogImageModels) {
         this.dogImageModels = dogImageModels;
     }
-
-//    public void clearAllImgaes() {
-//        Log.d("DogImageFragmentAdapter", "clearAllImgaes");
-//        for(int i=0; i<dogImages.size(); i++)
-//            dogImages.remove(i);
-//
-//        this.notifyDataSetChanged();
-//    }
 }

@@ -2,15 +2,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/tools">
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical" android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
                 <RelativeLayout
                     android:id="@+id/user"
                     android:layout_width="match_parent"
@@ -30,44 +32,31 @@
                         android:layout_width="43dp"
                         android:layout_height="43dp" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/left_arrow_message"
-                        android:scaleType="fitXY"
-                        android:layout_marginTop="24dp"
-                        android:layout_marginLeft="11dp"
-                        android:layout_alignTop="@+id/detail_user_image"
-                        android:layout_alignLeft="@+id/detail_user_image" />
                     <!--<ImageView-->
-                        <!--android:layout_width="31dp"-->
-                        <!--android:layout_height="31dp"-->
-                        <!--android:layout_marginTop="15.5dp"-->
-                        <!--android:layout_marginRight="11dp"-->
+                        <!--android:id="@+id/back"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:src="@drawable/left_arrow_message"-->
                         <!--android:scaleType="fitXY"-->
-                        <!--android:src="@drawable/user_update"-->
-                        <!--android:layout_alignBottom="@+id/detail_user_image"-->
-                        <!--android:layout_alignRight="@+id/detail_user_image"/>-->
+                        <!--android:paddingRight="50dp"-->
+                        <!--android:layout_marginTop="24dp"-->
+                        <!--android:layout_marginLeft="11dp"-->
+                        <!--android:layout_alignTop="@+id/detail_user_image"-->
+                        <!--android:layout_alignLeft="@+id/detail_user_image" />-->
                 </RelativeLayout>
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="31dp"
-                    android:layout_height="31dp"
-                    app:layout_anchor="@id/user"
-                    app:layout_anchorGravity="right|bottom"
-                    android:src = "@drawable/user_update"
-                    android:background="@android:color/transparent"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="50dp" />
-            </android.support.design.widget.CoordinatorLayout>
-
-            <RelativeLayout
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:layout_width="match_parent"
-                android:layout_height="70dp">
-                <TextView
+            <!--<ImageView-->
+                <!--android:layout_width="31dp"-->
+                <!--android:layout_height="31dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:layout_gravity="end"-->
+                <!--android:layout_marginRight="22dp"-->
+                <!--android:src="@drawable/user_update" />-->
+        <RelativeLayout
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <TextView
                     android:text="이름"
                     android:textSize="15sp"
                     android:textColor="#825621"
@@ -165,7 +154,7 @@
                     android:drawableLeft="@drawable/icon_male_off_dialogue"
                     android:drawablePadding="11dp"
                     android:paddingLeft="11dp"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="23dp"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -178,7 +167,7 @@
                     android:drawableLeft="@drawable/icon_both_off_dialogue"
                     android:drawablePadding="11dp"
                     android:paddingLeft="11dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="27dp"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -475,7 +464,7 @@
                     android:text="있음"
                     android:textSize="14sp"
                     android:textColor="#3E3A39"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="14dp"
                     android:gravity="center|left"
                     android:layout_width="match_parent"
                     android:layout_height="23dp" />
@@ -530,12 +519,12 @@
                 android:layout_marginLeft="22dp"
                 android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"/>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="24dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
                 android:background="@drawable/divider"/>
@@ -583,4 +572,30 @@
                 android:layout_marginRight="22dp"
                 android:background="@drawable/divider"/>
         </LinearLayout>
+        <!--<com.github.clans.fab.FloatingActionButton-->
+            <!--android:id="@+id/fab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="8dp"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--app:layout_anchor="@id/detail_user_image"-->
+            <!--app:layout_anchorGravity="right|bottom|end"-->
+            <!--android:src="@drawable/user_update"-->
+            <!--fab:fab_colorNormal="@color/#80000000"-->
+            <!--fab:fab_colorPressed="@color/#80000000"-->
+            <!--fab:fab_colorRipple="@color/#80000000"/>-->
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/user_update"
+            app:elevation="0dp"
+            app:borderWidth="0dp"
+            app:fabSize="auto"
+            app:layout_anchor="@id/detail_user_image"
+            app:layout_anchorGravity="right|bottom|end" />
+    </android.support.design.widget.CoordinatorLayout>
 </ScrollView>

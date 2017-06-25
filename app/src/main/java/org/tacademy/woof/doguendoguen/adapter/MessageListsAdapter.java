@@ -3,16 +3,20 @@ package org.tacademy.woof.doguendoguen.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
-import org.tacademy.woof.doguendoguen.model.ChattingRoomList;
+import org.tacademy.woof.doguendoguen.model.ChattingRoom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +27,10 @@ import java.util.List;
 
 public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<ChattingRoomList> chattingRoomLists;
+    private ArrayList<ChattingRoom> chattingRooms;
 
-    public MessageListsAdapter(Context context, List<ChattingRoomList> chattingRoomLists) {
+    public MessageListsAdapter(Context context) {
         this.context = context;
-        this.chattingRoomLists = (ArrayList<ChattingRoomList>) chattingRoomLists;
     }
 
     @Override
@@ -39,24 +42,33 @@ public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapte
 
     @Override
     public void onBindViewHolder(MessageListsAdapter.ViewHolder holder, final int position) {
-        holder.userImage.setImageResource(R.drawable.dog_sample);
-        holder.userName.setText("유저 이름");
-        holder.messageTime.setText("시간");
-        holder.messageContent.setText("메시지 내용입니다");
+        if(chattingRooms.size() != 0) {
+            ChattingRoom chattingRoom = chattingRooms.get(position);
+            holder.userName.setText(chattingRoom.senderName);
+            holder.messageTime.setText(chattingRoom.sendTime);
+            holder.messageContent.setText(chattingRoom.content);
+            Glide.with(DoguenDoguenApplication.getContext())
+                    .load(chattingRoom.senderThumbnail)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.userImage);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DoguenDoguenApplication.getContext(), MessageDetailActivity.class);
-                intent.putExtra("roomId", chattingRoomLists.get(position).roomId);
-                context.startActivity(intent);
-            }
-        });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(DoguenDoguenApplication.getContext(), MessageDetailActivity.class);
+                    intent.putExtra("root", "MessageListsAdapter");
+                    intent.putExtra("roomId", chattingRooms.get(position).roomId);
+                    context.startActivity(intent);
+                    Log.d("adapter roomId : ", chattingRooms.get(position).roomId);
+
+                    }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return chattingRooms != null ? chattingRooms.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,7 +87,8 @@ public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapte
         }
     }
 
-    public void addMessageList() {
-
+    public void addMessageList(List<ChattingRoom> chattingRooms) {
+        this.chattingRooms = (ArrayList<ChattingRoom>) chattingRooms;
+        this.notifyDataSetChanged();
     }
 }

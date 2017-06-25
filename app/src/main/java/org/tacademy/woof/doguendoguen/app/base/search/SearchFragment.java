@@ -1,28 +1,36 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,9 +58,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
-import static org.tacademy.woof.doguendoguen.R.id.toolbar;
 
-public class SearchFragment extends Fragment {
+public class SearchFragment extends Fragment implements NestedScrollView.OnScrollChangeListener{
     private static final String TAG = "SearchFragment";
     private static final int SEARCH_DOG_TYPE = 100;
     private static final String USER_ID = "userId";
@@ -64,7 +71,6 @@ public class SearchFragment extends Fragment {
     public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
-//        args.getString(USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,10 +78,9 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
-//            userId = getArguments().getString(USER_ID);
         }
+
     }
     String userId;
 
@@ -89,22 +94,44 @@ public class SearchFragment extends Fragment {
     @BindView(R.id.dog_lists) RecyclerView dogListsView;
     @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
     @BindView(R.id.emergency_list) LinearLayout emergencyList;
+    //    @BindView(R.id.toolbar) Toolbar navToolbar;
+//    @BindView(R.id.swipyrefreshlayout) SwipyRefreshLayout swipyRefreshLayout;
 //    @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
-    @BindView(R.id.toolbar) Toolbar navToolbar;
+    @BindView(R.id.appbar) AppBarLayout appbar;
     @BindView(R.id.nav_result) TextView navResult;
+    @BindView(R.id.toolar_layout) RelativeLayout toolbarLayout;
+
+    @BindView(R.id.scroll_view) NestedScrollView nestedScrollView;
 
     StringBuffer strBuffer;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        final View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
-
 
         strBuffer = new StringBuffer();
 
+
+
+
         userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId);
+
+        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0) {
+                    toolbarLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    toolbarLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        nestedScrollView.setOnScrollChangeListener(this);
 
         //분양이 시급한 강아지들에 대한 글을 가로로 보여줌.
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(DoguenDoguenApplication.getContext());
@@ -119,46 +146,15 @@ public class SearchFragment extends Fragment {
         final LinearLayoutManager linearManager = new LinearLayoutManager(DoguenDoguenApplication.getContext());
         dogListsView.setLayoutManager(linearManager);
         dogListsView.setAdapter(dogAdapter);
-        dogListsView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if(dy > 0) //check for scroll down
-                {
-                    Log.v("Refresh", "scroll down");
-                    visibleItemCount = linearManager.getChildCount();
-                    totalItemCount = linearManager.getItemCount();
-                    pastVisiblesItems = linearManager.findFirstVisibleItemPosition();
-
-                    if (loading)
-                    {
-                        if (linearManager.findLastCompletelyVisibleItemPosition()==linearManager.getItemCount()-1) {
-                            Log.v("Refresh", "Last Item Wow !");
-
-                            getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
-                        }
-//                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-//                        {
-//                            loading = false;
-//                            Log.v("Refresh", "Last Item Wow !");
-//                            //Do pagination.. i.e. fetch new data
-//                        }
-                    }
-                }
-            }
-        });
+        dogListsView.setNestedScrollingEnabled(false);
 
         return view;
     }
-    int pastVisiblesItems, visibleItemCount, totalItemCount;
-    private boolean loading = true;
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
 
     @OnClick({R.id.dog_type, R.id.dog_gender, R.id.dog_age, R.id.dog_regions})
     public void onCondtionClicked(View view) {
@@ -216,8 +212,6 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    Handler handler = new Handler(Looper.getMainLooper());
-
     //조건 6개(아무 조건 안줬을때)
     int curPage = 0;
     String conDogType ="0";
@@ -226,7 +220,7 @@ public class SearchFragment extends Fragment {
     String conDogRegion2 ="0";
     String conDogAge ="0";
 
-    boolean isCondtion = false;
+    boolean isCondtion;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -249,8 +243,10 @@ public class SearchFragment extends Fragment {
 
                     for(int i=0; i<urgentPostLists.size(); i++) {
                         Log.d("emergencyPostList" , "favorite: " + urgentPostLists.get(i).favorite );
+                        Log.d("emergencyPostList" , "i: " + i + urgentPostLists.get(i).postId );
                     }
 
+                    Log.d("aaassd", dogEmergencyAdapter.getItemCount() + "");
                     dogEmergencyAdapter.addPost(urgentPostLists);
                     dogEmergencyAdapter.notifyDataSetChanged();
                 }
@@ -267,25 +263,28 @@ public class SearchFragment extends Fragment {
         PostService postService = RestService.createService(PostService.class);
         Call<PostListModel> getPostListCall = postService.getPosts(page, dogType, dogGender, region1, region2, age);
 
+        Log.d("emergencylist", isCondition + "");
         getPostListCall.enqueue(new Callback<PostListModel>() {
             @Override
             public void onResponse(Call<PostListModel> call, Response<PostListModel> response) {
                 if(response.isSuccessful()) {
                     PostListModel postListModel = response.body();
 
+                    Log.d("adpater", dogAdapter.getItemCount() + "");
+                    dogAdapter.removeAll();
                     if(postListModel.postLists.size() != 0) {
-                        for (int i=0; i<postListModel.postLists.size(); i++) {
-                            Log.d(TAG, "onResponse, postId: " + postListModel.postLists.get(i).postId
-                            + " page: " + postListModel.page + "post count : " + postListModel.postCount + ", favorit:" +postListModel.postLists.get(i).favorite);
+                        for (int i = 0; i < postListModel.postLists.size(); i++) {
+                            Log.d(TAG, "onResponse, postId: " + postListModel.postLists.get(i).postId );
                             dogAdapter.addPost(postListModel.postLists.get(i));
                         }
-                        dogAdapter.notifyDataSetChanged();
-                        curPage = postListModel.page;
+                    }
 
-//                        refreshLayout.setRefreshing(false);
+                    dogAdapter.notifyDataSetChanged();
+                    curPage = postListModel.page;
 
-                        if(isCondition == true)
-                            emergencyList.setVisibility(View.GONE);
+                    if(isCondition == true) {
+                        Log.d("emergencylist", "gone");
+                        emergencyList.setVisibility(View.GONE);
                     }
                 }
             }
@@ -308,10 +307,28 @@ public class SearchFragment extends Fragment {
             navResult.setText(strBuffer.toString());
             isCondtion = true;
 
+            Log.d("dogType", conDogType  + ", " + isCondtion);
             dogType.setText(type);
+            getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);//false가 들어감
+        }
+    }
+
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        if (scrollY > oldScrollY) {
+        }
+        if (scrollY < oldScrollY) {
+        }
+
+        if (scrollY == 0) {
+        }
+
+        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
             getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
         }
     }
+
+
 
 
     // 분양이 시급한 분양견들을 받아옴.
@@ -319,7 +336,7 @@ public class SearchFragment extends Fragment {
         boolean isWishSelected = false;
         private Context context;
         private ArrayList<PostList> urgentPostLists;
-        private PostList postList;
+//        private PostList postList;
         private String userId;
 
         public DogEmergencyAdapter(Context context, String userId) {
@@ -336,25 +353,28 @@ public class SearchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-            postList = urgentPostLists.get(position);
+            final PostList postList = urgentPostLists.get(position);
 
-            Glide.with(DoguenDoguenApplication.getContext())
-                    .load(postList.petImageUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.dog_sample)
-                    .into(holder.postImage);
-            holder.postTitle.setText(postList.title);
-            holder.postUserName.setText(postList.username);
             if(postList.favorite == 1) {
                 Log.d("emergencyWishList", "a");
                 holder.postWish.setImageResource(R.drawable.heart_wish_bigger);
             }
+            Glide.with(DoguenDoguenApplication.getContext())
+                    .load(postList.petImageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.postImage);
+            holder.postTitle.setText(postList.title);
+            holder.postUserName.setText(postList.username);
+
 
             holder.postImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("DogEmergencyPostLists", postList.postId + ", " + userId);
+                    Log.d("DogEmergencyPostLists", postList.postId + ", " + userId + " position : " + position);
+//                    PostList selected = urgentPostLists.get(position);
+//                    Log.d("selected", selected.postId + "");
                     Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
+                    Log.d("emergencyPostList", postList.postId+"");
                     intent.putExtra("isWish", postList.favorite);
                     intent.putExtra("postId", postList.postId);//int
                     intent.putExtra("userId", userId);//string
@@ -367,10 +387,12 @@ public class SearchFragment extends Fragment {
                     if(postList.favorite == 1 ) {   //하트가 찍혔다면 제거
                         holder.postWish.setImageResource(R.drawable.heart);
 
+                        Log.d("heart", "wish1");
                         removeWish(position);
                     } else if (postList.favorite == 0) {    //하트가 안찍혔다면 추가
                         holder.postWish.setImageResource(R.drawable.heart_wish_bigger);
 
+                        Log.d("heart", "wish2");
                         addWish(position);
                     }
 
@@ -470,4 +492,5 @@ public class SearchFragment extends Fragment {
             this.urgentPostLists = (ArrayList<PostList>) urgentPostLists;
         }
     }
+
 }

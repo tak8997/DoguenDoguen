@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,7 +45,7 @@ import butterknife.OnClick;
  * Created by Tak on 2017. 6. 4..
  */
 
-public class SignUpActivity extends AppCompatActivity implements NestedScrollView.OnScrollChangeListener {
+public class SignUpActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener {
     private static final String TAG = "SignUpActivity";
 
     @BindView(R.id.next_btn) Button nextBtn;

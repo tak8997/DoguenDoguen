@@ -1,15 +1,19 @@
 package org.tacademy.woof.doguendoguen.app.base.profile;
 
-
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PostRegist_100_Fragment extends Fragment {
+public class PostRegist_100_Fragment extends Fragment implements NestedScrollView.OnScrollChangeListener {
     private static final String TAG = "PostRegist_100_Fragment";
 
     public static final MediaType IMAGE_MIME_TYPE = MediaType.parse("image/*");
@@ -86,7 +90,7 @@ public class PostRegist_100_Fragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             postDetail = getArguments().getParcelable("PostDetailModel");
-            postTitle = getArguments().getParcelable(POST_TITLE);
+            postTitle = getArguments().getString(POST_TITLE);
             dogImagesFileLocation = getArguments().getStringArrayList(DOG_IMAGES_FILE_LOCATION);
             dogType = getArguments().getString(DOG_TYPE);
             dogGender = getArguments().getString(DOG_GENDER);
@@ -101,6 +105,7 @@ public class PostRegist_100_Fragment extends Fragment {
             kennel = getArguments().getInt(VACCIN_KENNEL);
             parentImagesFileLocation = getArguments().getStringArrayList(PARENT_IMAGES_FILE_LOCATION);
             bloodHierarchyFileLocation = getArguments().getString(BLOOD_HIERARCHY_FILE_LOCATION);
+            Log.d("postTitle" , postTitle);
         }
     }
     PostDetailModel postDetail = null;
@@ -126,36 +131,62 @@ public class PostRegist_100_Fragment extends Fragment {
     @BindView(R.id.regist_btn) Button registBtn;
     @BindView(R.id.post_intro) EditText postIntro;
     @BindView(R.id.post_sub_intro) EditText postSubIntro;
+    @BindView(R.id.scroll_view) NestedScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_100_, container, false);
+        ButterKnife.bind(this, view);
+
+        scrollView.setOnScrollChangeListener(this);
 
         return view;
     }
 
-    @BindView(R.id.postEditTitle) TextView postEditTitle;
-    private void editPost() {
-        postEditTitle.setText("분양글 수정하기");
-        postIntro.setText(postDetail.postIntro);
-        postSubIntro.setText(postDetail.postCondition);
-    }
-
     //이번 페이지에서 등록할 조건
-    String postContent = null;
-    String postSubContent = null;
+    String postContent = "";
+    String postSubContent = "";
+    private Handler progressBarbHandler = new Handler();
+    int progressBarStatus = 0;
+    @BindView(R.id.circularProgressbar) ProgressBar progressBar;
 
     @OnClick({R.id.regist_btn})
     public void onRegistrationFinishClicked(View view) {
         if(view.getId() == R.id.regist_btn) {
-            postContent = postIntro.getText().toString();   //소개글
+            postContent = postIntro.getText().toString().trim();   //소개글
             postSubContent = postSubIntro.getText().toString();//조건글
 
-            if(postContent == null || postSubContent == null) {
+
+
+            if(postContent.equals("") || postSubContent.equals("")) {
                 Toast.makeText(DoguenDoguenApplication.getContext(), "분양글을 모두 작성해주세요.", Toast.LENGTH_SHORT).show();
             } else {
                 //파일 업로드(3개)
                 //펫 이미지
+                registBtn.setEnabled(false);
+
+                progressBar.setVisibility(View.VISIBLE);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(true) {
+
+                            progressBarbHandler.post(new Runnable() {
+                                public void run() {
+                                    progressBar.setProgress(progressBarStatus);
+                                }
+                            });
+
+                            try {
+                                Thread.sleep(50);
+                            } catch (Exception ex) {
+
+                            }
+                            progressBarStatus++;
+                        }
+                    }
+                }).start();
+
                 String dogImageFileLocation = dogImagesFileLocation.get(0);
                 File uploadDogImages = new File(dogImageFileLocation);
                 RequestBody dogImageRequestFile = RequestBody.create(IMAGE_MIME_TYPE, uploadDogImages);
@@ -208,20 +239,52 @@ public class PostRegist_100_Fragment extends Fragment {
                             Toast.makeText(DoguenDoguenApplication.getContext(), "등록이 완료되었습니다", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "success" + response.code() + response.raw().toString());
 
+                            Thread.interrupted();
                             FragmentManager fm = getActivity().getSupportFragmentManager();
-                            for(int i=0; i < fm.getBackStackEntryCount(); ++i) {
+                            for(int i=0; i < fm.getBackStackEntryCount(); i++) {
                                 fm.popBackStack();
                             }
+                        } else {
+                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다. 다시 한번 시도해주세요", Toast.LENGTH_SHORT).show();
+                            registBtn.setEnabled(true);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e(TAG, t.getMessage());
+                        registBtn.setEnabled(true);
                     }
                 });   
             }
         } //End of onRegistrationFinishClicked
+    }
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        getFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+        AppBarLayout appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+        if (scrollY > oldScrollY) {
+            Log.i(TAG, "Scroll DOWN");
+
+            appBarLayout.setVisibility(View.INVISIBLE);
+        }
+        if (scrollY < oldScrollY) {
+            Log.i(TAG, "Scroll UP");
+
+            appBarLayout.setVisibility(View.VISIBLE);
+        }
+
+        if (scrollY == 0) {
+            Log.i(TAG, "TOP SCROLL");
+        }
+
+        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+            Log.i(TAG, "BOTTOM SCROLL");
+        }
     }
 }
 

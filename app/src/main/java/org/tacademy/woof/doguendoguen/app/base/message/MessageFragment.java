@@ -1,6 +1,7 @@
 package org.tacademy.woof.doguendoguen.app.base.message;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
@@ -20,7 +22,7 @@ import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.MessageListsAdapter;
-import org.tacademy.woof.doguendoguen.model.ChattingRoomList;
+import org.tacademy.woof.doguendoguen.model.ChattingRoom;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.net.URISyntaxException;
@@ -43,11 +45,13 @@ public class MessageFragment extends Fragment {
         return fragment;
     }
 
-    private Socket mSocket;{
-        try {
-            mSocket = IO.socket("http://13.124.26.143:3000/");
-        } catch (URISyntaxException e) {}
-    }
+//    private Socket mSocket;{
+//        try {
+//            mSocket = IO.socket("http://13.124.26.143:3000");
+//        } catch (URISyntaxException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,28 +59,32 @@ public class MessageFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        mSocket.connect();
-        mSocket.on("showListResults", chattingRoomList);
+//        messageListsAdapter= new MessageListsAdapter(getContext());
+//        chattingRooms = new ArrayList<>();
+//        mSocket.connect();
     }
-    String userId;
-
-    @BindView(R.id.message_recyclerview) RecyclerView messageRecyclerView;
+//    MessageListsAdapter messageListsAdapter;
+//    int userId;
+//
+//    @BindView(R.id.message_recyclerview) RecyclerView messageRecyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, view);
 
-        userId = SharedPreferencesUtil.getInstance().getUserId();
-
-        messageRecyclerView.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
-
-        MessageListsAdapter messageListsAdapter = new MessageListsAdapter(getContext(), chattingRoomLists);
-        messageListsAdapter.addMessageList();
-        messageListsAdapter.notifyDataSetChanged();
-
-        messageRecyclerView.setAdapter(messageListsAdapter);
-
+//        userId = Integer.parseInt(SharedPreferencesUtil.getInstance().getUserId());
+//        Log.d("MessageFragment", userId + " ");
+//
+//        mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+//        mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+//        mSocket.on("showListResults", chattingRoomList);
+//
+//        if (userId != 0)
+//            mSocket.emit("showList", userId);
+//
+//        messageRecyclerView.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
+//        messageRecyclerView.setAdapter(messageListsAdapter);
 
         return view;
     }
@@ -84,60 +92,85 @@ public class MessageFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        if (userId != null)
-            mSocket.emit("showList", userId);
     }
-
-    List<ChattingRoomList> chattingRoomLists;
-    private Emitter.Listener chattingRoomList = new Emitter.Listener() {
-
-        @Override
-        public void call(Object... args) {
-            chattingRoomLists = new ArrayList<>();
-            Log.d("message" , "onMessage" + args + "," + args[0] + ", " + args[0].toString());
-
-            try {
-                JSONArray chatList = new JSONArray(args);
-                Log.d("asdf", "a" + chatList.getJSONObject(0).getString("room_id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-//            try {
-//                Log.d("asdf", "a" + chatList.getJSONObject(0).getString("room_id"));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            String roomId;
-//            String sendTime;
-//            String senderName;
-//            String senderThumbnail;
-//            String content;
-//            int unreadCount;
-//            try {
-////                JSONArray chatLists = chatList.getJSONArray("");
-//                for(int i=0; i<chatList.length(); i++) {
-//                    JSONObject json = chatList.getJSONObject(i);
-//                    roomId = json.getString("room_id");
-//                    sendTime = json.getString("sent_time");
-//                    senderName = json.getString("sender_name");
-//                    senderThumbnail = json.getString("sender_thumbmail");
-//                    content = json.getString("content");
-//                    unreadCount = json.getInt("unread_count");
-//                    Log.d("message" , "romId: " + roomId + ", " + senderName);
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        }
-    };
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        mSocket.disconnect();
-        mSocket.off("showListResults", chattingRoomList);
+
     }
+
+//
+//    List<ChattingRoom> chattingRooms;
+//    ChattingRoom chattingRoom;
+//    private Emitter.Listener chattingRoomList = new Emitter.Listener() {
+//        @Override
+//        public void call(final Object... args) {
+//            Log.d("Message" , "onMessage" + args + "," + args[0]);
+//
+//             getActivity().runOnUiThread(new Runnable() {
+//                 @Override
+//                 public void run() {
+//                     String roomId;
+//                     String sendTime;
+//                     String senderName;
+//                     String senderThumbnail;
+//                     String content;
+//                     int unreadCount;
+//
+//                     try {
+//                         JSONObject room = (JSONObject) args[0];
+//                         JSONArray roomList = room.getJSONArray("roomList");
+//
+//                         for (int i=0; i<roomList.length(); i++) {
+//                             roomId = roomList.getJSONObject(i).getString("room_id");
+//                             sendTime = roomList.getJSONObject(i).getString("sent_time");
+//                             senderName = roomList.getJSONObject(i).getString("sender_name");
+//                             senderThumbnail = roomList.getJSONObject(i).getString("sender_thumbnail");
+//                             content = roomList.getJSONObject(i).getString("content");
+//                             unreadCount = roomList.getJSONObject(i).getInt("unread_count");
+//
+//                             chattingRoom = new ChattingRoom(roomId, sendTime, senderName, senderThumbnail, content, unreadCount);
+//                             chattingRooms.add(chattingRoom);
+//
+//                             Log.d("aasdf" , roomId + " asdf" );
+//                         }
+//                         addChattinRommList(chattingRooms);
+//                     } catch (JSONException e) {
+//                         e.printStackTrace();
+//                     }
+//                 }
+//             });//쓰레드 end
+//        }
+//    };
+//
+//    private Emitter.Listener onConnectError = new Emitter.Listener() {
+//        @Override
+//        public void call(Object... args) {
+//            getActivity().runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(getActivity().getApplicationContext(),
+//                            "서버와 연결 실패", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//    };
+//
+//    private void addChattinRommList(List<ChattingRoom> chattingRooms) {
+//        messageListsAdapter.addMessageList(chattingRooms);
+//        messageListsAdapter.notifyDataSetChanged();
+//
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//
+//        mSocket.disconnect();
+//        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
+//        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
+//        mSocket.off("showListResults", chattingRoomList);
+//    }
 }

@@ -2,6 +2,7 @@ package org.tacademy.woof.doguendoguen.app.base.message;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
@@ -11,11 +12,13 @@ import org.tacademy.woof.doguendoguen.R;
  */
 
 class UserViewHolder extends RecyclerView.ViewHolder {
-    TextView user;
+    TextView userMessage;
+    ImageView userImage;
 
     public UserViewHolder(View view) {
         super(view);
 
-        user = (TextView) view.findViewById(R.id.user_message);
+        userMessage = (TextView) view.findViewById(R.id.user_message);
+        userImage = (ImageView) view.findViewById(R.id.user_image);
     }
 }

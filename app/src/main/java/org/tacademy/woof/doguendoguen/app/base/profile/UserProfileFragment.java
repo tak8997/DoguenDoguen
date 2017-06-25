@@ -2,12 +2,12 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,19 +27,24 @@ import org.tacademy.woof.doguendoguen.rest.RestService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class UserProfileFragment extends Fragment {
     private static final String TAG ="UserProfileFragment";
     private static final String USER_ID = "userId";
+
+    private static final int USER_PROFILE_LOGOUT = 200;
 
     public UserProfileFragment() {
     }
@@ -68,6 +73,7 @@ public class UserProfileFragment extends Fragment {
     @BindView(R.id.user_post_list) TextView userPostList;
     @BindView(R.id.chatting_alarm) TextView chattingAlarm;
     @BindView(R.id.chatting_alarm_switch) Switch alarmSwitch;
+    @BindView(R.id.logout) TextView logout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,11 +84,14 @@ public class UserProfileFragment extends Fragment {
         userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId);
 
+        getActivity().findViewById(R.id.appbar).setVisibility(View.VISIBLE);
+
         userImage.setEnabled(false);
         postRegist.setEnabled(false);
         userPostList.setEnabled(false);
         chattingAlarm.setEnabled(false);
         alarmSwitch.setEnabled(false);
+        logout.setEnabled(true);
 
         return view;
     }
@@ -98,6 +107,8 @@ public class UserProfileFragment extends Fragment {
         }
     }
 
+    @BindView(R.id.post_img) ImageView registPost;
+    @BindView(R.id.my_post_list) ImageView myPostList;
     private void getUserService() {
         UserService userService = RestService.createService(UserService.class);
         Call<UserModel> getUser = userService.getUser(Integer.parseInt(userId));
@@ -108,18 +119,22 @@ public class UserProfileFragment extends Fragment {
                     user = response.body();
 
                     if(user != null) {
-                        Log.d(TAG, "userId: " + user.userId);
+                        Log.d(TAG, "onSuccess, userId: " + user.userId);
 
                         String name = user.userName;
                         String userImageThumbUrl = user.userImageThumbUrl;
 
                         userName.setText(name);
                         userProfileChange.setText("프로필 확인 및 수정");
+
                         Glide.with(DoguenDoguenApplication.getContext())
                                 .load(userImageThumbUrl)
-                                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                                .placeholder(R.drawable.user_login_off)
+                                .dontTransform()
+                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                                 .into(userImage);
+
+                        registPost.setImageResource(R.drawable.regist_on);
+                        myPostList.setImageResource(R.drawable.my_post_off);
 
                         postRegist.setTextColor(Color.parseColor("#3E3A39"));
                         userPostList.setTextColor(Color.parseColor("#3E3A39"));
@@ -142,14 +157,14 @@ public class UserProfileFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.profile_user_image, R.id.post_regist, R.id.user_post_list, R.id.logout})
+    @OnClick({R.id.profile_user_image, R.id.post_regist, R.id.user_post_list, R.id.question, R.id.agreement, R.id.logout})
     public void onMyPageClicked(View view) {
         switch (view.getId()) {
             //유저 프로필 확인
             case R.id.profile_user_image:
                 Intent intent = new Intent(DoguenDoguenApplication.getContext(), UserProfileDetailActivity.class);
                 intent.putExtra("user", user);
-                startActivity(intent);
+                startActivityForResult(intent, USER_PROFILE_LOGOUT);
                 break;
             //분양글 등록하기
             case R.id.post_regist:
@@ -167,24 +182,52 @@ public class UserProfileFragment extends Fragment {
                 ft.replace(R.id.container, UserPostListFragment.newInstance(user));
                 ft.commit();
                 break;
+            //자주 묻는 질문
+            case R.id.question:
+                FragmentManager fragManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragTransaction = fragManager.beginTransaction();
+                fragTransaction.addToBackStack(null);
+                fragTransaction.replace(R.id.container, QuestionFragment.newInstance());
+                fragTransaction.commit();
+                break;
+            //서비스 이용약관
+            case R.id.agreement:
+                FragmentManager fManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fTransaction = fManager.beginTransaction();
+                fTransaction.addToBackStack(null);
+                fTransaction.replace(R.id.container, AgreementFragment.newInstance());
+                fTransaction.commit();
+                break;
+            //로그아웃
             case R.id.logout:
                 if (userId != null) {
                     SharedPreferencesUtil.getInstance().clear();
                     Toast.makeText(DoguenDoguenApplication.getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "userId:" + SharedPreferencesUtil.getInstance().getUserId());
 
-                    userName.setText(R.string.profile_title);
-                    userProfileChange.setText(R.string.profile_sub_title);
-                    userImage.setImageResource(R.drawable.user_login_off);
-
-                    postRegist.setTextColor(Color.parseColor("#C8C9CA"));
-                    userPostList.setTextColor(Color.parseColor("#C8C9CA"));
-                    chattingAlarm.setTextColor(Color.parseColor("#C8C9CA"));
+                    logout();
                 }
                 break;
         }
     }
 
+    private void logout() {
+        userName.setText(R.string.profile_title);
+        userProfileChange.setText(R.string.profile_sub_title);
+        userImage.setImageResource(R.drawable.user_login_off);
+
+        postRegist.setTextColor(Color.parseColor("#C8C9CA"));
+        userPostList.setTextColor(Color.parseColor("#C8C9CA"));
+        chattingAlarm.setTextColor(Color.parseColor("#C8C9CA"));
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == USER_PROFILE_LOGOUT) {
+            logout();
+        }
+    }
 
 
 }

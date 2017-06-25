@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,11 +35,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.UserPostAdapter;
+import org.tacademy.woof.doguendoguen.app.base.search.UserDropDialogFragment;
+import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.UserModel;
 import org.tacademy.woof.doguendoguen.rest.RestService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
+import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,6 +61,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static org.tacademy.woof.doguendoguen.DoguenDoguenApplication.getContext;
 import static org.tacademy.woof.doguendoguen.R.id.etc;
 import static org.tacademy.woof.doguendoguen.R.id.house;
 import static org.tacademy.woof.doguendoguen.R.id.keep;
@@ -64,7 +71,7 @@ import static org.tacademy.woof.doguendoguen.R.id.user;
  * Created by Tak on 2017. 5. 31..
  */
 
-public class UserProfileDetailActivity extends AppCompatActivity{
+public class UserProfileDetailActivity extends BaseActivity {
     private static final String TAG = "UserProfileDetailActivity";
     private static final MediaType IMAGE_MIME_TYPE = MediaType.parse("image/*");
     private static final int PICK_FROM_GALLERY = 100;
@@ -119,6 +126,7 @@ public class UserProfileDetailActivity extends AppCompatActivity{
         updatedRegion = user.userRegion;
         updatedPetOwn = user.userPetOwn;
 
+        Log.d("asdffffx", updatedApartType);
         Glide.with(this)
             .load(updatedImage)
             .placeholder(R.drawable.dog_sample)
@@ -171,7 +179,7 @@ public class UserProfileDetailActivity extends AppCompatActivity{
         }
     }
 
-    @BindView(R.id.edit_user) ImageView editUser;
+
     @BindView(R.id.edit_gender) ImageView editGender;
     @BindView(R.id.edit_family_type) ImageView editFamilyType;
     @BindView(R.id.edit_apart_type) ImageView editApartType;
@@ -249,7 +257,7 @@ public class UserProfileDetailActivity extends AppCompatActivity{
 
     }
 
-    @BindView(R.id.user_name) EditText editUserName;
+
     private void updateUserName() {
         editUserName.setCursorVisible(false);
         editUserName.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
@@ -624,6 +632,8 @@ public class UserProfileDetailActivity extends AppCompatActivity{
         }
     }
 
+    @BindView(R.id.edit_user) ImageView editUser;
+    @BindView(R.id.user_name) EditText editUserName;
     @OnClick(R.id.regist_btn)
     public void onUserUpdateClicked() {
         if(editFlag == true) {
@@ -634,7 +644,8 @@ public class UserProfileDetailActivity extends AppCompatActivity{
             editRegion.setVisibility(View.INVISIBLE);
             editPetOwn.setVisibility(View.INVISIBLE);
 
-            editUser.setPadding(0, 0, 0, 0);
+            editUser.setVisibility(View.GONE);
+            editUserName.setPadding(0, 0, 0, 0);
             gender.setPadding(0, 0, 0, 0);
             familySize.setPadding(0, 0, 0, 0);
             apartType.setPadding(0, 0, 0, 0);
@@ -756,6 +767,63 @@ public class UserProfileDetailActivity extends AppCompatActivity{
             }
         }
     }
+
+    @OnClick(R.id.user_drop)
+    public void onUserDropClicked() {
+        final UserDropDialogFragment userDropDialog = UserDropDialogFragment.newInstance(userId);
+        userDropDialog.show(getSupportFragmentManager(), "userDrop");
+        userDropDialog.setOnAdapterItemClickListener(new UserDropDialogFragment.OnAdapterItemClickLIstener() {
+            @Override
+            public void onAdapterItemClick(String answer) {
+                if (answer.equals("yes")) {
+                    Toast.makeText(UserProfileDetailActivity.this, "정상적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+                    UserService userService = RestService.createService(UserService.class);
+                    Call<ResponseBody> dropUserService = userService.userDrop(userId);
+                    dropUserService.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if(response.isSuccessful()) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.body().string());
+                                    String message = jsonObject.getString("message");
+
+                                    if(message.equals("delete success")) {
+                                        Log.d("UserProfile", "drop user");
+                                        Toast.makeText(UserProfileDetailActivity.this, "정상적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                        //로그아웃
+                                        SharedPreferencesUtil.getInstance().clear();
+                                        Intent intent = new Intent();
+                                        setResult(RESULT_OK);
+                                        finish();
+                                    }
+                                        
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                } else {
+                    userDropDialog.dismiss();
+                }
+            }
+        });
+    }
+
+//    @OnClick(R.id.back)
+//    public void onBackClicked() {
+//        getFragmentManager().popBackStack();
+//    }
 }
 
 

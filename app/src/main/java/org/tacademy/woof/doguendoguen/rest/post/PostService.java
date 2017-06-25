@@ -40,7 +40,8 @@ public interface PostService {
     //게시글 수정 21개
     @Multipart
     @PUT("/doglists/{parcel_id}")
-    Call<ResponseBody> updatePost(@Path("parcel_id") int postId, @Part MultipartBody.Part dogImage, @Part MultipartBody.Part parentDogImage, @Part MultipartBody.Part hierarchyImage,
+    Call<ResponseBody> updatePost(@Part("pet_image_id") RequestBody imageId, @Part("parent_image_id") RequestBody parentId,
+            @Path("parcel_id") int postId, @Part MultipartBody.Part dogImage, @Part MultipartBody.Part parentDogImage, @Part MultipartBody.Part hierarchyImage,
                             @Part("user_id") RequestBody id, @Part("title") RequestBody title, @Part("spiece") RequestBody type, @Part("gender") RequestBody gender,
                             @Part("age") RequestBody age, @Part("region1") RequestBody city, @Part("region2") RequestBody district, @Part("price") RequestBody price,
                             @Part("fur") RequestBody color, @Part("size") RequestBody size, @Part("DHPPL") RequestBody dhppl, @Part("corona") RequestBody corrona, @Part("kennel") RequestBody kennel,

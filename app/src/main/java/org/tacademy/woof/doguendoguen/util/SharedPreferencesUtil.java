@@ -40,4 +40,24 @@ public class SharedPreferencesUtil {
         mEditor.clear();
         mEditor.commit();
     }
+
+
+    private static final String FCM_TOKEN_KEY = "fcmTokenKey";
+    private static final String UUID_KEY = "uuidKey";
+
+    public void setFcmTokenKey(String fcmTokenKey){
+        mEditor.putString(FCM_TOKEN_KEY, fcmTokenKey);
+        mEditor.commit();
+    }
+    public  String getFcmTokenKey() {
+        return mPref.getString(FCM_TOKEN_KEY,"");
+    }
+
+    public void setUuidKey(String uuid){
+        mEditor.putString(UUID_KEY, uuid);
+        mEditor.commit();
+    }
+    public String getUuidKey() {
+        return mPref.getString(UUID_KEY, "");
+    }
 }

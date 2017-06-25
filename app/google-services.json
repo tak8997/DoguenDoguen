@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "784137659054",
+    "firebase_url": "https://fcmdoguendoguen.firebaseio.com",
+    "project_id": "fcmdoguendoguen",
+    "storage_bucket": "fcmdoguendoguen.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784137659054:android:5fcd13fe0ed33f09",
+        "android_client_info": {
+          "package_name": "org.tacademy.woof.doguendoguen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784137659054-5i0rk4rdp64nf50s2ri4ofvqer4p4ckc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.tacademy.woof.doguendoguen",
+            "certificate_hash": "fd9f191eb7bad6105d461ac79864c1d6b20287a9"
+          }
+        },
+        {
+          "client_id": "784137659054-0gfcgn9oaojvme7u6jt3q7f02g78q9pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfgbR57nAx5c5LTnsFvJMb90kqpwY3clw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784137659054-0gfcgn9oaojvme7u6jt3q7f02g78q9pi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

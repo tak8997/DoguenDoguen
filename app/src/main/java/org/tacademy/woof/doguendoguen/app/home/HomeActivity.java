@@ -1,6 +1,7 @@
 package org.tacademy.woof.doguendoguen.app.home;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
@@ -20,7 +25,7 @@ import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     private static final String TAG = "HomeActivity";
 
     @BindView(R.id.tablayout) TabLayout tabLayout;
@@ -91,5 +96,29 @@ public class HomeActivity extends AppCompatActivity {
 
         Log.d(TAG, userId+" /kakao");
     }
+    long pressedTime;
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
 
+            if (pressedTime == 0) {
+                Toast.makeText(HomeActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+                pressedTime = System.currentTimeMillis();
+            } else {
+                int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+                if (seconds > 2000) {
+                    Toast.makeText(HomeActivity.this, " 한 번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+                    pressedTime = 0;
+                } else {
+
+                    super.onBackPressed();
+//                finish(); // app 종료 시키기
+                }
+            }
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+        //            super.onBackPressed();
+    }
 }

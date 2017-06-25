@@ -40,7 +40,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
     private ArrayList<PostList> postLists = new ArrayList<>();
     private Context context;
     private String userId;
-    private PostList postList;
+
 
     public DogListsAdapter(Context context, String userId) {
         this.context = context;
@@ -56,7 +56,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        postList = postLists.get(position);
+        final PostList postList = postLists.get(position);
 
         if(postList != null) {
             Log.d("dogList", ""+postList.favorite + ", " + postList.title);
@@ -71,7 +71,6 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
                 Log.d("dogList", "wishSelected");
                 holder.wish.setImageResource(R.drawable.heart_wish_bigger);
             }
-
 
             holder.postImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -188,6 +187,10 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
     }
 
     public void addPost(PostList postList) {
-        this.postLists.add(0, postList);
+        this.postLists.add(postList);
+    }
+
+    public void removeAll() {
+        postLists.clear();
     }
 }

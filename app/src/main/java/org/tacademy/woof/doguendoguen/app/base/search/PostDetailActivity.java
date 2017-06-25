@@ -1,5 +1,6 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -33,6 +34,7 @@ import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
 import org.tacademy.woof.doguendoguen.app.base.profile.PostEdit_25_Dialog;
 import org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment;
+import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.DogImage;
 import org.tacademy.woof.doguendoguen.model.ParentDogImage;
@@ -64,7 +66,7 @@ import static org.tacademy.woof.doguendoguen.R.id.submenuarrow;
  * Created by Tak on 2017. 6. 2..
  */
 
-public class PostDetailActivity extends AppCompatActivity implements NestedScrollView.OnScrollChangeListener {
+public class PostDetailActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener {
     private static final String TAG = "PostDetailActivity";
 
     @BindView(R.id.post_title) TextView postTitle;
@@ -82,8 +84,6 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
     @BindView(R.id.vacinn_dhppl) Button vaccinDhppl;
     @BindView(R.id.vacinn_corona) Button vaccinCorona;
     @BindView(R.id.vacinn_kennel) Button vaccinKennel;
-    @BindView(R.id.dog_parent_image) ImageView parentDogImage;
-    @BindView(R.id.blood_image) ImageView bloodImage;
     @BindView(R.id.regions) TextView regions;
     @BindView(R.id.post_condition) TextView postCondition;
     @BindView(R.id.message_btn) Button messageBtn;
@@ -93,6 +93,7 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
     @BindView(R.id.message_layout) RelativeLayout messageLayout;
     @BindView(R.id.report) ImageView report;
     @BindView(R.id.heart) ImageView heart;
+    @BindView(R.id.color_icon) ImageView colorIcon;
 
     private PostDetailModel postDetail;
     private DogImageFragmentAdapter dogImageAdapter;
@@ -109,14 +110,15 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
         setContentView(R.layout.activity_post_detail);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
+        Intent intent = getIntent();    //UserPostAdapter, UserPostListFragment
         if(intent != null) {
             postId = intent.getIntExtra("postId", 0);   //int로 넘어옴
             userId = intent.getStringExtra("userId");   //string으로 넘어옴
             position = intent.getIntExtra("position", 0);
             isWish = intent.getIntExtra("isWish", 0);
-            myList = intent.getIntExtra("myList", 0);   //int로 넘어옴. UserPostListFragment에서
-            Log.d(TAG, postId + ", " + userId + ", " + myList);
+            myList = intent.getIntExtra("myList", 0);   //int로 넘어옴. UserPostListFragment에서 myList->1 내글
+            Log.d("emergencyPostList", "ASDf");
+            Log.d(TAG, isWish + ", " + position + " , " + postId + ", " + userId + ", " + myList);
 
             //게시판 상세페이지 가져오기
             getPostService(postId);
@@ -130,13 +132,16 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
 
     @OnClick({R.id.message_btn})
     public void onStartMessageClicked(View view) {
-        switch (view.getId()){
-            //대화시작
-            case R.id.message_btn:
-                Intent intent = new Intent(PostDetailActivity.this, MessageDetailActivity.class);
-                startActivity(intent);
-                break;
-        }
+        Toast.makeText(this, "추후구현 예정입니다.", Toast.LENGTH_SHORT).show();
+//        switch (view.getId()){
+//            //대화시작
+//            case R.id.message_btn:
+//                Intent intent = new Intent(PostDetailActivity.this, MessageDetailActivity.class);
+//                intent.putExtra("root", "PostDetailActivity");
+//                intent.putExtra("userId", postDetail.userId);       //상대방 유저아이디, Int
+//                startActivity(intent);
+//                break;
+//        }
     }
 
     boolean reportFlag = false;
@@ -170,9 +175,9 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
                                 String message ;
                                 try {
                                     jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("message");
+                                    message = jsonObject.getString("Message");
 
-                                    Log.d("PostDetail", "message : " + message );
+                                    Log.d("PostDetail", "Message : " + message );
                                     if(message.equals("add")) {
                                         Log.d("DogLists", "add");
                                         Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
@@ -203,9 +208,9 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
                                 String message;
                                 try {
                                     jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("message");
+                                    message = jsonObject.getString("Message");
 
-                                    Log.d("PostDetail", "message : " + message);
+                                    Log.d("PostDetail", "Message : " + message);
                                     if (message.equals("remove")) {
                                         Log.d("DogLists", "remove");
                                         Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
@@ -270,6 +275,7 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
                     postDetail = response.body();
 
                     Log.d(TAG, "onResponse" +postDetail.dogSize + ", " + postDetail.toString());
+                    Log.d("emergencyPostList", "onResponse" +postDetail.postId);
 
                     //서버로 부터 가져온 값에 따라 게시판 구성
                     if(postDetail != null)
@@ -284,7 +290,43 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
         });
     }
 
+    @BindView(R.id.dog_parent_image) RelativeLayout parentDogImage;
+    @BindView(R.id.blood_image) RelativeLayout bloodImage;
+
+    @BindView(R.id.parent_dog_image) ImageView parentImage;
+    @BindView(R.id.blood_doc_image) ImageView bloodDocImage;
+
+    boolean isParentImageShow = false;
+    boolean isBloodDocImageShow = false;
+
+    @OnClick({R.id.dog_parent_image, R.id.blood_image})
+    public void onImageLayoutClicked(View view) {
+        switch (view.getId()) {
+            case R.id.dog_parent_image:
+                if(isParentImageShow == false) {
+                    parentImage.setVisibility(View.VISIBLE);
+                    isParentImageShow = true;
+                } else {
+                    parentImage.setVisibility(View.GONE);
+                    isParentImageShow = false;
+                }
+                break;
+            case R.id.blood_doc_image:
+                if(isBloodDocImageShow == false) {
+                    bloodDocImage.setVisibility(View.VISIBLE);
+                    isBloodDocImageShow = true;
+                } else {
+                    bloodDocImage.setVisibility(View.GONE);
+                    isBloodDocImageShow = false;
+                }
+                break;
+        }
+    }
+
     private void setPost() {
+        if(isWish == 1)
+            heart.setImageResource(R.drawable.heart_wish_bigger);
+
         //펫 사진을 받아옴
 //        String dogImageUrl = null;
         if(postDetail.dogImage.size() != 0) {
@@ -315,13 +357,43 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
 
         postTitle.setText(postDetail.postTitle);
         userName.setText(postDetail.username);
-        dogTypeDetail.setText(postDetail.region1);
+        dogTypeDetail.setText(postDetail.dogType);
         dogGenderDetail.setText(postDetail.dogGender);
         dogAgeDetail.setText(postDetail.dogAge);
         dogRegionDetail.setText(region);
         dogPrice.setText(postDetail.dogPrice);
         postIntro.setText(postDetail.postIntro);
         dogColor.setText(postDetail.dogColor);  //??????
+
+        if(postDetail.dogColor != null) {
+            switch (postDetail.dogColor) {
+                case "흰색":
+                    colorIcon.setImageResource(R.drawable.white);
+                    break;
+                case "아이보리":
+                    colorIcon.setImageResource(R.drawable.ivory);
+                    break;
+                case "밝은 갈색":
+                    colorIcon.setImageResource(R.drawable.bright_brown);
+                    break;
+                case "어두운 갈색":
+                    colorIcon.setImageResource(R.drawable.dark_brown);
+                    break;
+                case "회색":
+                    colorIcon.setImageResource(R.drawable.grey);
+                    break;
+                case "검정색":
+                    colorIcon.setImageResource(R.drawable.black);
+                    break;
+                case "얼룩무늬":
+                    colorIcon.setImageResource(R.drawable.spot);
+                    break;
+                case "기타":
+                    colorIcon.setImageResource(R.drawable.etc);
+                    break;
+            }
+        }
+
 
         switch (dogSize) {
             case "소":
@@ -351,17 +423,18 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
             vaccinDhppl.setTextColor(Color.WHITE);
         }
 
+        Activity activity = PostDetailActivity.this;
+        if (activity.isFinishing())
+            return;
         Glide.with(this)
                 .load(parentDogImageUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.dog_sample)
-                .into(parentDogImage);
+                .into(parentImage);
 
         Glide.with(this)
                 .load(postDetail.bloodImageUrl)
-                .placeholder(R.drawable.dog_sample)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(bloodImage);
+                .into(bloodDocImage);
 
         regions.setText(region);
         postCondition.setText(postDetail.postCondition);
@@ -370,7 +443,7 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
         //본인의 글을 확인하는 것인지 구별.
         String uId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId +", " + SharedPreferencesUtil.getInstance().getUserId());
-        if(myList == 1) {
+        if(myList == 1) {   //내글
             report.setVisibility(View.GONE);
             heart.setVisibility(View.GONE);
             overflowMenu.setVisibility(View.VISIBLE);
@@ -442,6 +515,12 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
                             @Override
                             public void onClick(View v) {
                                 PostEdit_25_Dialog postEditFragmentDialog = PostEdit_25_Dialog.newInstance(postDetail);
+                                postEditFragmentDialog.setOnAdapterItemClickListener(new PostEdit_25_Dialog.OnAdapterItemClickLIstener() {
+                                    @Override
+                                    public void onAdapterItemClick(String answer) {
+                                        finish();
+                                    }
+                                });
                                 postEditFragmentDialog.show(getSupportFragmentManager(), "post25Edit");
                             }
                         });
@@ -461,10 +540,13 @@ public class PostDetailActivity extends AppCompatActivity implements NestedScrol
     @BindView(R.id.overflow_dots) ImageView overflowMenu;
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         if(editPost != null)
             editPost.dismiss();
+
+        Glide.clear(parentImage);
+        Glide.clear(bloodDocImage);
     }
 
     @Override

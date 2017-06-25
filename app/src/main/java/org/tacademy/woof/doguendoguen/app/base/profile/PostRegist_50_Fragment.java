@@ -491,4 +491,9 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
             return view;
         }
     }
+
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        getFragmentManager().popBackStack();
+    }
 }

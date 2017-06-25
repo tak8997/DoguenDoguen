@@ -9,9 +9,9 @@
     <application
         android:name=".DoguenDoguenApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/doguendoguen_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/doguendoguen"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <meta-data android:name="org.tacademy.woof.doguendoguen.DoguenDoguenGlideModule"
@@ -43,8 +43,27 @@
         <activity android:name=".app.sign.SignUpEndActivity">
         </activity>
 
-        <activity android:name=".app.base.message.MessageDetailActivity">
+        <activity android:name=".app.base.message.MessageDetailActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
+
+        <service
+            android:name=".fcm.DoguenDoguenFCMPushMessageService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".fcm.DoguenDoguenFirebaseInstanceIDService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
 
         <provider
             android:authorities="org.tacademy.woof.doguendoguen.provider"

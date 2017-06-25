@@ -1,0 +1,236 @@
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent" android:layout_width="match_parent">
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="org.tacademy.woof.doguendoguen.app.base.profile.QuestionFragment"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginLeft="11dp"
+            android:layout_marginRight="22dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp">
+            <ImageView
+                android:id="@id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="50dp"
+                android:src="@drawable/left_arrow_message"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true" />
+            <TextView
+                android:text="자주 묻는 질문"
+                android:textSize="15sp"
+                android:textColor="#5b4319"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:id="@+id/first_question"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp">
+            <TextView
+                android:text="강아지 분양을 하고 싶은데 분양 등록은 어디서 하나요?"
+                android:textColor="#3E3A39"
+                android:textSize="13sp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/first_answer"
+            android:text="@string/first_question"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:id="@+id/second_question"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp">
+            <TextView
+                android:text="어떤 방식으로 입양을 하는지 알고 싶어"
+                android:textColor="#3E3A39"
+                android:textSize="13sp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/second_answer"
+            android:text="@string/second_question"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:id="@+id/third_question"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp">
+            <TextView
+                android:text="강아지 입양시 도근도근에서 보증해주는 것은 무엇이 있나요?"
+                android:textColor="#3E3A39"
+                android:textSize="13sp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/third_answer"
+            android:text="@string/third_question"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:id="@+id/fourth_question"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp">
+            <TextView
+                android:text="분양 글 등록 시 부모견 사진을 꼭 등록해야 하나요?"
+                android:textColor="#3E3A39"
+                android:textSize="13sp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/fourth_answer"
+            android:text="@string/fourth_question"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"/>
+
+        <RelativeLayout
+            android:id="@+id/fifth_question"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp">
+            <TextView
+                android:text="강아지 의료사항 중에 접종부분이 이해가 가지 않아요."
+                android:textColor="#3E3A39"
+                android:textSize="13sp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/fifth_answer"
+            android:text="@string/fifth_question"
+            android:textSize="13sp"
+            android:textColor="#888888"
+            android:layout_marginLeft="22dp"
+            android:layout_marginRight="22dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/divider"
+            android:paddingBottom="50dp"/>
+    </LinearLayout>    
+</android.support.v4.widget.NestedScrollView>
+

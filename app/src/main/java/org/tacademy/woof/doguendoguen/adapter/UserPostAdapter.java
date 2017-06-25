@@ -55,13 +55,15 @@ public class UserPostAdapter extends RecyclerView.Adapter<UserPostAdapter.ViewHo
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.userPostImage);
 
+            final String uId = String.valueOf(userModel.userId);
             holder.userPostImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
-                    intent.putExtra("userId", userModel.userId);
+                    intent.putExtra("userId", uId);
                     intent.putExtra("postId", userModel.userPostList.get(position).postId);
                     intent.putExtra("position", position);
+                    intent.putExtra("myList", 1);   //내글 myList->1
                     context.startActivityForResult(intent, READ_USER_POST);
                 }
             });

@@ -2,6 +2,7 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -34,7 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PostEdit_100_Dialog extends DialogFragment {
-    private static final String TAG = "PostRegist_100_Fragment";
+    private static final String TAG = "PostEdit_100_";
 
     public static final MediaType IMAGE_MIME_TYPE = MediaType.parse("image/*");
 
@@ -57,10 +60,12 @@ public class PostEdit_100_Dialog extends DialogFragment {
     public PostEdit_100_Dialog() {
     }
 
-    public static PostEdit_100_Dialog newInstance(PostDetailModel postDetail, String postTitle, ArrayList<String> dogImagesFileLocation, String dogType, String dogGender, String dogAge, String dogCity, String dogDistrict, String dogPrice,
+    public static PostEdit_100_Dialog newInstance(int imageId, int parentId, PostDetailModel postDetail, String postTitle, ArrayList<String> dogImagesFileLocation, String dogType, String dogGender, String dogAge, String dogCity, String dogDistrict, String dogPrice,
                                                   String color, String size, int dhppl, int corrona, int kennel, ArrayList<String> parentImagesFileLocation, String bloodHierarchyFileLocation) {
         PostEdit_100_Dialog fragment = new PostEdit_100_Dialog();
         Bundle args = new Bundle();
+        args.putInt("imageId", imageId);
+        args.putInt("parentId", parentId);
         args.putParcelable("PostDetailModel", postDetail);
         args.putString(POST_TITLE, postTitle);
         args.putStringArrayList(DOG_IMAGES_FILE_LOCATION, dogImagesFileLocation);
@@ -86,8 +91,10 @@ public class PostEdit_100_Dialog extends DialogFragment {
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialogTheme);
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            imageId = getArguments().getInt("imageId");
+            parentId = getArguments().getInt("parentId");
             postDetail = getArguments().getParcelable("PostDetailModel");
-            postTitle = getArguments().getParcelable(POST_TITLE);
+            postTitle = getArguments().getString(POST_TITLE);
             dogImagesFileLocation = getArguments().getStringArrayList(DOG_IMAGES_FILE_LOCATION);
             dogType = getArguments().getString(DOG_TYPE);
             dogGender = getArguments().getString(DOG_GENDER);
@@ -102,12 +109,15 @@ public class PostEdit_100_Dialog extends DialogFragment {
             kennel = getArguments().getInt(VACCIN_KENNEL);
             parentImagesFileLocation = getArguments().getStringArrayList(PARENT_IMAGES_FILE_LOCATION);
             bloodHierarchyFileLocation = getArguments().getString(BLOOD_HIERARCHY_FILE_LOCATION);
+//            Log.d("asdf", dogColor);
         }
     }
     PostDetailModel postDetail = null;
 
     //이전 등록페이지에서 넘어온 데이터
-    int userId = 21;
+    int imageId;
+    int parentId;
+    int userId;
     String postTitle;
     ArrayList<String> dogImagesFileLocation;
     String dogType;
@@ -115,14 +125,14 @@ public class PostEdit_100_Dialog extends DialogFragment {
     String dogAge;
     String dogCity;
     String dogDistrict;
-    String dogPrice;    
-    String dogColor;    //null가능
+    String dogPrice = " ";
+    String dogColor = " ";    //null가능
     String dogSize;     
     int dhppl = 0;      //null가능
     int corrona = 0;    //null가능
     int kennel = 0;     //null가능
     ArrayList<String> parentImagesFileLocation = null;  //null가능
-    String bloodHierarchyFileLocation = null;           //null가능
+    String bloodHierarchyFileLocation = " ";           //null가능
 
     @BindView(R.id.regist_btn) Button registBtn;
     @BindView(R.id.post_intro) EditText postIntro;
@@ -131,13 +141,14 @@ public class PostEdit_100_Dialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_100_, container, false);
-
+        ButterKnife.bind(this, view);
         editPost();
 
         return view;
     }
 
-    @BindView(R.id.postEditTitle) TextView postEditTitle;
+    @BindView(R.id.edit_title) TextView postEditTitle;
+
     private void editPost() {
         postEditTitle.setText("분양글 수정하기");
         postIntro.setText(postDetail.postIntro);
@@ -150,8 +161,14 @@ public class PostEdit_100_Dialog extends DialogFragment {
     String postContent = null;
     String postSubContent = null;
 
+    private Handler progressBarbHandler = new Handler();
+    int progressBarStatus = 0;
+    @BindView(R.id.circularProgressbar)
+    ProgressBar progressBar;
+
     @OnClick({R.id.regist_btn})
     public void onRegistrationFinishClicked(View view) {
+        Log.d("edit", "clicked");
         if(view.getId() == R.id.regist_btn) {
             postContent = postIntro.getText().toString();   //소개글
             postSubContent = postSubIntro.getText().toString();//조건글
@@ -159,12 +176,43 @@ public class PostEdit_100_Dialog extends DialogFragment {
             if(postContent == null || postSubContent == null) {
                 Toast.makeText(DoguenDoguenApplication.getContext(), "분양글을 모두 작성해주세요.", Toast.LENGTH_SHORT).show();
             } else {
+
+                registBtn.setEnabled(false);
+                progressBar.setVisibility(View.VISIBLE);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while(true) {
+
+                            progressBarbHandler.post(new Runnable() {
+                                public void run() {
+                                    progressBar.setProgress(progressBarStatus);
+                                }
+                            });
+
+                            try {
+                                Thread.sleep(50);
+                            } catch (Exception ex) {
+
+                            }
+                            progressBarStatus++;
+                        }
+                    }
+                }).start();
+
+
                 //파일 업로드(3개)
                 //펫 이미지
-                String dogImageFileLocation = dogImagesFileLocation.get(0);
-                File uploadDogImages = new File(dogImageFileLocation);
-                RequestBody dogImageRequestFile = RequestBody.create(IMAGE_MIME_TYPE, uploadDogImages);
-                MultipartBody.Part dogImage = MultipartBody.Part.createFormData("pet", uploadDogImages.getName(), dogImageRequestFile);
+                String dogImageFileLocation = null;
+                File uploadDogImages = null;
+                MultipartBody.Part dogImage = null;
+                if(dogImagesFileLocation.size() != 0 ) {
+                    Log.d("asdfasdf", dogImagesFileLocation.get(0));
+                    dogImageFileLocation = dogImagesFileLocation.get(0);
+                    uploadDogImages = new File(dogImageFileLocation);
+                    RequestBody dogImageRequestFile = RequestBody.create(IMAGE_MIME_TYPE, uploadDogImages);
+                    dogImage = MultipartBody.Part.createFormData("pet", uploadDogImages.getName(), dogImageRequestFile);
+                }
 
                 //부모견 이미지
                 File uploadParentDogImages = null;
@@ -187,6 +235,8 @@ public class PostEdit_100_Dialog extends DialogFragment {
                 }
 
                 //그 이외 Post내용들(15개)
+                RequestBody petImageId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(imageId));
+                RequestBody parentImageId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(parentId));
                 RequestBody id = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(userId));
                 RequestBody title = RequestBody.create(MediaType.parse("text/plain"), postTitle);
                 RequestBody type = RequestBody.create(MediaType.parse("text/plain"), dogType);
@@ -195,7 +245,7 @@ public class PostEdit_100_Dialog extends DialogFragment {
                 RequestBody city = RequestBody.create(MediaType.parse("text/plain"), dogCity);
                 RequestBody district = RequestBody.create(MediaType.parse("text/plain"), dogDistrict);
                 RequestBody price = RequestBody.create(MediaType.parse("text/plain"), dogPrice);
-                RequestBody color = RequestBody.create(MediaType.parse("text/plain"), dogColor);
+                RequestBody color = RequestBody.create(MediaType.parse("text/plain"), "");
                 RequestBody size = RequestBody.create(MediaType.parse("text/plain"), dogSize);
                 RequestBody vDhppl = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(dhppl));
                 RequestBody vCorrona = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(corrona));
@@ -204,29 +254,46 @@ public class PostEdit_100_Dialog extends DialogFragment {
                 RequestBody condition = RequestBody.create(MediaType.parse("text/plain"), postSubContent);
 
                 PostService postService = RestService.createService(PostService.class);
-                Call<ResponseBody> registerPostCall = postService.updatePost(postDetail.postId, dogImage, parentDogImage, hierarchyImage,
+                Call<ResponseBody> registerPostCall = postService.updatePost(petImageId, parentImageId, postDetail.postId, dogImage, parentDogImage, hierarchyImage,
                         id, title, type, gender, age, city, district, price, color, size, vDhppl, vCorrona, vKennel, introduction, condition);
                 registerPostCall.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "success" + response.code() + response.raw().toString());
+                            Toast.makeText(DoguenDoguenApplication.getContext(), "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                            Log.d("success", "s");
 
-                            FragmentManager fm = getActivity().getSupportFragmentManager();
-                            for(int i=0; i < fm.getBackStackEntryCount(); ++i) {
-                                fm.popBackStack();
+                            Thread.interrupted();
+                            if(listener != null) {
+                                listener.onAdapterItemClick("");
+                                dismiss();
                             }
+                        } else {
+                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다", Toast.LENGTH_SHORT).show();
+                            registBtn.setEnabled(true);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                         Log.e(TAG, t.getMessage());
+                        registBtn.setEnabled(true);
                     }
                 });   
             }
         } //End of onRegistrationFinishClicked
+    }
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        this.dismiss();
+    }
+    public interface OnAdapterItemClickLIstener {
+        public void onAdapterItemClick(String answer);
+    }
+
+    OnAdapterItemClickLIstener listener;
+    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
+        this.listener = listener;
     }
 }
 

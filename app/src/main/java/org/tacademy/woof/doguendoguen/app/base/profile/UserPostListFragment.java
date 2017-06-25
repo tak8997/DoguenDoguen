@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
 import static org.tacademy.woof.doguendoguen.adapter.UserPostAdapter.READ_USER_POST;
 
 public class UserPostListFragment extends Fragment {
@@ -105,42 +107,21 @@ public class UserPostListFragment extends Fragment {
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(holder.userPostImage);
 
-                holder.userPostImage.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        String userId = String.valueOf(userModel.userId);
                         Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
-                        intent.putExtra("userId", userModel.userId);
+                        intent.putExtra("userId", userId);        //string으로 변환해서 보내줘야함.
                         intent.putExtra("postId", userModel.userPostList.get(position).postId);
                         intent.putExtra("position", position);
-                        intent.putExtra("myList", 1);
-                        startActivityForResult(intent, READ_USER_POST);
+                        intent.putExtra("myList", 1);   //내가 쓴 글 myList ->1
+                        startActivityForResult(intent, 105);
                     }
                 });
             }
-        }
-//            if(userModel.userPostList.size() != 0) {
-//
-//                String postTitle = userModel.userPostList.get(position).postTitle;
-//                String postImageUrl = userModel.userPostList.get(position).postImageUrl;
-//
-//                holder.userPostTitle.setText(postTitle);
-//                Glide.with(DoguenDoguenApplication.getContext())
-//                        .load(postImageUrl)
-//                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                        .into(holder.userPostImage);
-//
-//                holder.userPostImage.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
-//                        intent.putExtra("userId", userModel.userId);
-//                        intent.putExtra("postId", userModel.userPostList.get(position).postId);
-//                        intent.putExtra("position", position);
-//                        context.startActivityForResult(intent, READ_USER_POST);
-//                    }
-//                });
-//            }
 
+        }
 
         @Override
         public int getItemCount() {
@@ -166,5 +147,26 @@ public class UserPostListFragment extends Fragment {
         public void addUserPost(UserModel userModel) {
             this.userModel = userModel;
         }
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == 105) {
+            if(data != null ) {
+                int position = data.getIntExtra("position", 0);
+                Log.d("position", "position: " + position );
+                userPostAdapter.removeUserPost(position);
+                userPostAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        getFragmentManager().popBackStack();
     }
 }

@@ -42,7 +42,7 @@ public class RestService {
                         Request original = chain.request();
 
                         Request.Builder reqBuilder = original.newBuilder()
-                                .addHeader("user_token", "20")
+                                .addHeader("user_token", "21")
                                 .addHeader("Accept", "application/json");
 
                         Request request = reqBuilder.build();

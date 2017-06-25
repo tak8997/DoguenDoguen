@@ -10,7 +10,7 @@ public class UserIdModel {
     @SerializedName("user_id")
     public int userId;
 
-    @SerializedName("message")
+    @SerializedName("Message")
     public String message;
 
     public UserIdModel(int userId, String message) {

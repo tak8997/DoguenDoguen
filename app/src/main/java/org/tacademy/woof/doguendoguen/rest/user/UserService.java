@@ -53,4 +53,8 @@ public interface UserService {
     @PUT("/favorites/{user_id}")
     @FormUrlEncoded
     Call<ResponseBody> registerWishList(@Field("parcel_id") int postId, @Path("user_id") int userId);
+
+    //회원탈퇴 하기
+    @POST("/signout/{user_id}")
+    Call<ResponseBody> userDrop(@Path("user_id") int userId);
 }

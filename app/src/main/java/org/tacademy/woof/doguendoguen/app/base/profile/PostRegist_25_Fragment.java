@@ -45,7 +45,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.id;
 import static android.media.CamcorderProfile.get;
+import static android.view.View.GONE;
 
 public class PostRegist_25_Fragment extends Fragment {
     private static final String TAG = "PostRegist";
@@ -109,7 +111,6 @@ public class PostRegist_25_Fragment extends Fragment {
     @BindView(R.id.add_pet_image) RelativeLayout addPetImage;
     @BindView(R.id.add_pet_image_container) RelativeLayout addPetImageContainer;
     @BindView(R.id.pager) ViewPager pager;
-//    @BindView(R.id.add_image) ImageView addImage;
     @BindView(R.id.title) EditText postTitle;
 
     ArrayList<String> dogImagesFileLocation ;
@@ -122,29 +123,13 @@ public class PostRegist_25_Fragment extends Fragment {
         ButterKnife.bind(this, view);
 
         dogImagesFileLocation = new ArrayList<>();
-        adapter = new DogImageFragmentAdapter(getActivity().getSupportFragmentManager(), 1);
-        pager.setAdapter(adapter);
+//        adapter = new DogImageFragmentAdapter(getActivity().getSupportFragmentManager(), 1);
+//        pager.setAdapter(adapter);
 
-        //게시글 수정
-        if(postDetail != null)
-            editPost();
+//        addPetImage.setVisibility(View.GONE);    //pager layout
+//        addPetImageContainer.setVisibility(View.VISIBLE);  //원래 layout
 
         return view;
-    }
-
-    @BindView(R.id.edit_post) TextView updatePostTitle;
-    @BindView(R.id.udpate_dog_image) ImageView updateDog;
-    private void editPost() {
-        String updateDogImageUrl = postDetail.dogImage.get(0).dogImageUrl;
-        String title = postDetail.postTitle;
-
-        updatePostTitle.setText("분양글 수정하기");
-        Glide.with(DoguenDoguenApplication.getContext())
-                .load(updateDogImageUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(updateDog);
-
-        postTitle.setText(title);
     }
 
     @OnClick({R.id.next_btn, R.id.add_pet_image_container})
@@ -157,19 +142,15 @@ public class PostRegist_25_Fragment extends Fragment {
                 break;
             case R.id.add_pet_image_container:
                 addPetImagesFromGallery();
-//                addImage.setVisibility(View.VISIBLE);
                 break;
-//            case R.id.add_image:
-//                addPetImagesFromGallery();
-//                break;
         }
     }
-
+    String title = null;
     private void registNextPost() {
-        String title = postTitle.getText().toString();
+        title = postTitle.getText().toString();
         Log.d(TAG, title + "," + dogImagesFileLocation);
 
-        if(title.equals(""))
+        if(title.isEmpty())
             Toast.makeText(DoguenDoguenApplication.getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
         else if(dogImagesFileLocation.size() == 0)
             Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
@@ -177,7 +158,7 @@ public class PostRegist_25_Fragment extends Fragment {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.container, PostRegist_50_Fragment.newInstance(postDetail,  postTitle.getText().toString(), dogImagesFileLocation));
+            fragmentTransaction.replace(R.id.container, PostRegist_50_Fragment.newInstance(postDetail,  title, dogImagesFileLocation));
             fragmentTransaction.commit();
         }
     }
@@ -196,6 +177,12 @@ public class PostRegist_25_Fragment extends Fragment {
         }
     }
 
+    @BindView(R.id.udpate_dog_image) ImageView showImage;
+    @BindView(R.id.dog_image) ImageView dogImage;
+    @BindView(R.id.dog_image_title) TextView titles;
+    @BindView(R.id.dog_image_sub1_title) TextView subTitle;
+    @BindView(R.id.dog_image_sub2_title) TextView secSubTitle;
+//    @BindView(R.id.)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -206,15 +193,20 @@ public class PostRegist_25_Fragment extends Fragment {
 
                 Uri imageUri = data.getData();
                 if(imageUri != null) {
-                    adapter.addDogImage(imageUri);
-                    adapter.notifyDataSetChanged();
+                    dogImage.setVisibility(GONE);
+                    subTitle.setVisibility(GONE);
+                    secSubTitle.setVisibility(GONE);
+                    titles.setVisibility(GONE);
+//                    adapter.addDogImage(imageUri);
+//                    adapter.notifyDataSetChanged();
 
-                    addPetImage.setVisibility(View.VISIBLE);
-                    addPetImageContainer.setVisibility(View.GONE);
+//                    addPetImage.setVisibility(View.VISIBLE);    //pager layout
+//                    addPetImageContainer.setVisibility(View.GONE);  //원래 layout
+                    showImage.setVisibility(View.VISIBLE);
+                    showImage.setImageURI(imageUri);
 
                     //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
                     String fileLocation = findImageFileNameFromUri(imageUri);
-
                     if (fileLocation!=null) {
                         Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
 
@@ -295,6 +287,10 @@ public class PostRegist_25_Fragment extends Fragment {
         return fileLocation;
     }
 
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        getFragmentManager().popBackStack();
+    }
 }
 
 

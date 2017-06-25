@@ -46,6 +46,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.R.attr.fragment;
+
 public class PostEdit_25_Dialog extends DialogFragment {
     private static final String TAG = "PostEdit";
 
@@ -113,8 +115,10 @@ public class PostEdit_25_Dialog extends DialogFragment {
     @BindView(R.id.title) EditText postTitle;
 
     ArrayList<String> dogImagesFileLocation = null;
+    String pTitle;
     DogImageFragmentAdapter adapter;
     int cnt = 0;
+    int imageId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,9 +141,11 @@ public class PostEdit_25_Dialog extends DialogFragment {
     @BindView(R.id.edit_post) TextView updatePostTitle;
     @BindView(R.id.udpate_dog_image) ImageView updateDog;
     private void editPost() {
+        Log.d("edit", "edittt");
         String updateDogImageUrl = postDetail.dogImage.get(0).dogImageUrl;
         String title = postDetail.postTitle;
-        dogImagesFileLocation.add("null");
+
+//        dogImagesFileLocation.add(null);
 
         updateDog.setVisibility(View.VISIBLE);
         firstSubTitle.setVisibility(View.INVISIBLE);
@@ -151,6 +157,8 @@ public class PostEdit_25_Dialog extends DialogFragment {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(updateDog);
         postTitle.setText(title);
+
+        pTitle = title;
     }
 
     @OnClick({R.id.next_btn, R.id.add_pet_image_container})
@@ -174,13 +182,30 @@ public class PostEdit_25_Dialog extends DialogFragment {
 
         if(title.equals(""))
             Toast.makeText(DoguenDoguenApplication.getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
-        else if(dogImagesFileLocation.size() == 0)
-            Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
+//        else if(dogImagesFileLocation.size() == 0)
+//            Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
         else {
-            PostEdit_50_Dialog postEditDialog = PostEdit_50_Dialog.newInstance(postDetail, postTitle.getText().toString(), dogImagesFileLocation);
+            PostEdit_50_Dialog postEditDialog = PostEdit_50_Dialog.newInstance(imageId, postDetail, title, dogImagesFileLocation);
+            postEditDialog.setOnAdapterItemClickListener(new PostEdit_50_Dialog.OnAdapterItemClickLIstener() {
+                @Override
+                public void onAdapterItemClick(String answer) {
+                    if(listener != null) {
+                        listener.onAdapterItemClick("");
+                        dismiss();
+                    }
+                }
+            });
             postEditDialog.show(getActivity().getSupportFragmentManager(), "post50Edit");
         }
     }
+    public interface OnAdapterItemClickLIstener {
+        public void onAdapterItemClick(String answer);
+    }
+    OnAdapterItemClickLIstener listener;
+    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
+        this.listener = listener;
+    }
+
 
     private void addPetImagesFromGallery() {
         if(cnt < 5) {
@@ -206,12 +231,13 @@ public class PostEdit_25_Dialog extends DialogFragment {
 
                 Uri imageUri = data.getData();
                 if(imageUri != null) {
-                    adapter.addDogImage(imageUri);
-                    adapter.notifyDataSetChanged();
+//                    adapter.addDogImage(imageUri);
+//                    adapter.notifyDataSetChanged();
+//
+//                    addPetImage.setVisibility(View.VISIBLE);
+//                    addPetImageContainer.setVisibility(View.GONE);
 
-                    addPetImage.setVisibility(View.VISIBLE);
-                    addPetImageContainer.setVisibility(View.GONE);
-
+                    updateDog.setImageURI(imageUri);
                     //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
                     String fileLocation = findImageFileNameFromUri(imageUri);
 
@@ -219,6 +245,7 @@ public class PostEdit_25_Dialog extends DialogFragment {
                         Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
 
                         dogImagesFileLocation.add(fileLocation);
+                        imageId = postDetail.dogImage.get(0).imageId;
                     }else {
                         Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
                     }
@@ -231,6 +258,7 @@ public class PostEdit_25_Dialog extends DialogFragment {
                         Log.e(TAG, "갤러리에서 Uri값이 없어 실제 파일로 저장 성공");
 
                         dogImagesFileLocation.add(fileLoaction);
+                        imageId = postDetail.dogImage.get(0).imageId;
                     } else {
                         Log.e(TAG,"갤러리에서 Uri값이 없어 실제 파일로 저장 실패");
                     }
@@ -295,6 +323,12 @@ public class PostEdit_25_Dialog extends DialogFragment {
         return fileLocation;
     }
 
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+//        getFragmentManager().popBackStack();
+        this.dismiss();
+        Toast.makeText(DoguenDoguenApplication.getContext(), "back", Toast.LENGTH_SHORT).show();
+    }
 }
 
 

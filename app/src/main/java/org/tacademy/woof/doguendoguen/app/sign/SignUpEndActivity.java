@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.UserIdModel;
 import org.tacademy.woof.doguendoguen.rest.RestService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
@@ -42,7 +43,7 @@ import static org.tacademy.woof.doguendoguen.R.id.region_type;
  * Created by Tak on 2017. 6. 5..
  */
 
-public class SignUpEndActivity extends AppCompatActivity {
+public class SignUpEndActivity extends BaseActivity {
     private static final String TAG = "SignUpEndActivity";
     public static final MediaType IMAGE_MIME_TYPE = MediaType.parse("image/*");
 

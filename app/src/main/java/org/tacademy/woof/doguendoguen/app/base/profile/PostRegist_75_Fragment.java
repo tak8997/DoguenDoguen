@@ -94,6 +94,7 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
             dogCity = getArguments().getString(DOG_CITY);
             dogDistrict = getArguments().getString(DOG_DISTRICT);
             dogPrice = getArguments().getString(DOG_PRICE);
+            Log.d("postTitle" , postTitle);
         }
     }
     PostDetailModel postDetail = null;
@@ -756,4 +757,8 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         }
     }
 
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        getFragmentManager().popBackStack();
+    }
 }

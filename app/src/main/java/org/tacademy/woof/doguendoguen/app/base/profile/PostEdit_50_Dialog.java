@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 import static org.tacademy.woof.doguendoguen.R.id.age;
 import static org.tacademy.woof.doguendoguen.R.id.city;
 
-public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollView.OnScrollChangeListener  {
+public class PostEdit_50_Dialog extends DialogFragment  {
     private final String TAG = "PostEdit";
 
     private static final String TITLE = "title";
@@ -57,9 +57,10 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
     public PostEdit_50_Dialog() {
     }
 
-    public static PostEdit_50_Dialog newInstance(PostDetailModel postDetail, String title, ArrayList<String> dogImagesFileLocation) {
+    public static PostEdit_50_Dialog newInstance(int imageId, PostDetailModel postDetail, String title, ArrayList<String> dogImagesFileLocation) {
         PostEdit_50_Dialog fragment = new PostEdit_50_Dialog();
         Bundle args = new Bundle();
+        args.putInt("imageId", imageId);
         args.putParcelable("PostDetailModel", postDetail);
         args.putString(TITLE, title);
         args.putStringArrayList(DOGIMAGE, dogImagesFileLocation);
@@ -72,6 +73,7 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialogTheme);
         if (getArguments() != null) {
+            imageId = getArguments().getInt("imageId");
             postDetail = getArguments().getParcelable("PostDetailModel");
             postTitle = getArguments().getString(TITLE);
             dogImagesFileLocation = getArguments().getStringArrayList(DOGIMAGE);
@@ -79,6 +81,7 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
         Log.d(TAG, postTitle + " , " + dogImagesFileLocation);
     }
     //이전 분양글 등록하기에서 가져온 데이터.
+    int imageId;
     PostDetailModel postDetail = null;
     String postTitle;
     ArrayList<String> dogImagesFileLocation;
@@ -108,7 +111,7 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
 
     @BindView(R.id.dog_price_money) EditText dogPriceEdit;
 
-    @BindView(R.id.scroll_view) NestedScrollView scrollView;
+//    @BindView(R.id.scroll_view) NestedScrollView scrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -123,7 +126,7 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
         if(postDetail != null)
             editPost();
 
-        scrollView.setOnScrollChangeListener(this);
+//        scrollView.setOnScrollChangeListener(this);
 
         return view;
     }
@@ -145,6 +148,7 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
         String city = postDetail.region1;
         String district = postDetail.region2;
         String price = postDetail.dogPrice;
+        Log.d("price", postDetail.dogPrice);
 
         dogTypeTv.setText(type);
         dogGenderTv.setText(gender);
@@ -372,8 +376,9 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
     }
 
     private void previousRegistPage() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        fragmentManager.popBackStack();
+        dismiss();
     }
 
     private void nextRegistPage() {
@@ -381,19 +386,37 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
             Toast.makeText(DoguenDoguenApplication.getContext(), "항목을 전부 입력해주세요", Toast.LENGTH_SHORT).show();
         }
         else {
-            PostEdit_75_Dialog postEditDialog = PostEdit_75_Dialog.newInstance(postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity, dogDistrict, dogPrice);
+            PostEdit_75_Dialog postEditDialog = PostEdit_75_Dialog.newInstance(imageId, postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity, dogDistrict, dogPrice);
+            postEditDialog.setOnAdapterItemClickListener(new PostEdit_75_Dialog.OnAdapterItemClickLIstener() {
+                @Override
+                public void onAdapterItemClick(String answer) {
+                    if(listener != null) {
+                        listener.onAdapterItemClick("");
+                        dismiss();
+                    }
+                }
+            });
             postEditDialog.show(getActivity().getSupportFragmentManager(), "post75Edit");
         }
     }
 
+
+
+    public interface OnAdapterItemClickLIstener {
+        public void onAdapterItemClick(String answer);
+    }
+    OnAdapterItemClickLIstener listener;
+    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
+        this.listener = listener;
+    }
+
+
     private void setDogAgeSpinner() {
         ArrayList<String> dogGenders = new ArrayList<>();
-        dogGenders.add("1개월");dogGenders.add("2개월");dogGenders.add("3개월");
-        dogGenders.add("4개월");dogGenders.add("5개월");dogGenders.add("6개월");
-        dogGenders.add("7개월");dogGenders.add("8개월");dogGenders.add("9개월");
-        dogGenders.add("10개월");dogGenders.add("11개월");dogGenders.add("12개월");
-        dogGenders.add("13개월");dogGenders.add("14개월");dogGenders.add("15개월");
-        dogGenders.add("16개월");dogGenders.add("17개월");dogGenders.add("18개월");
+        dogGenders.add("1개월");dogGenders.add("2개월");
+        dogGenders.add("3개월");dogGenders.add("4개월");dogGenders.add("5개월");dogGenders.add("6개월");
+        dogGenders.add("7개월");dogGenders.add("8개월");dogGenders.add("9개월");dogGenders.add("10개월");
+        dogGenders.add("11개월");dogGenders.add("12개월");
 
         DogAgeSpinnerAdapter adapter = new DogAgeSpinnerAdapter(dogGenders);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DoguenDoguenApplication.getContext(),
@@ -443,29 +466,29 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
         }
     }
 
-    @Override
-    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-        AppBarLayout appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
-
-        if (scrollY > oldScrollY) {
-            Log.i(TAG, "Scroll DOWN");
-
-            appBarLayout.setVisibility(View.INVISIBLE);
-        }
-        if (scrollY < oldScrollY) {
-            Log.i(TAG, "Scroll UP");
-
-            appBarLayout.setVisibility(View.VISIBLE);
-        }
-
-        if (scrollY == 0) {
-            Log.i(TAG, "TOP SCROLL");
-        }
-
-        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-            Log.i(TAG, "BOTTOM SCROLL");
-        }
-    }
+//    @Override
+//    public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//        AppBarLayout appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
+//
+//        if (scrollY > oldScrollY) {
+//            Log.i(TAG, "Scroll DOWN");
+//
+//            appBarLayout.setVisibility(View.INVISIBLE);
+//        }
+//        if (scrollY < oldScrollY) {
+//            Log.i(TAG, "Scroll UP");
+//
+//            appBarLayout.setVisibility(View.VISIBLE);
+//        }
+//
+//        if (scrollY == 0) {
+//            Log.i(TAG, "TOP SCROLL");
+//        }
+//
+//        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+//            Log.i(TAG, "BOTTOM SCROLL");
+//        }
+//    }
 
     //Dog age Select Adapter
     private class DogAgeSpinnerAdapter extends BaseAdapter {
@@ -502,5 +525,11 @@ public class PostEdit_50_Dialog extends DialogFragment implements NestedScrollVi
 
             return view;
         }
+    }
+
+    @OnClick(R.id.back)
+    public void onBackClicked() {
+        this.dismiss();
+        getFragmentManager().popBackStack();
     }
 }
