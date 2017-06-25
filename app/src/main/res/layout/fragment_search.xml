@@ -14,11 +14,12 @@
         android:background="#EDBC64"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_layout"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            <!--app:contentScrim="?attr/colorPrimary"-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,50 +100,48 @@
                     android:layout_marginLeft="11dp"
                     android:layout_marginRight="11dp"
                     />
-                <android.support.v7.widget.Toolbar
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="scroll|enterAlways"
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="#EDBC64"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             </LinearLayout>
-        </android.support.design.widget.CollapsingToolbarLayout>
-        <!--<RelativeLayout-->
-            <!--android:visibility="gone"-->
-            <!--android:id="@+id/toolar_layout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp"-->
-            <!--app:layout_collapseMode="pin"-->
-            <!--app:layout_scrollFlags="scroll|enterAlways"-->
-            <!--android:fitsSystemWindows="true">-->
             <!--<android.support.v7.widget.Toolbar-->
                 <!--app:layout_collapseMode="pin"-->
-                <!--app:layout_scrollFlags="scroll|enterAlways"-->
+                <!--android:layout_gravity="bottom"-->
                 <!--android:id="@+id/toolbar"-->
                 <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="70dp"-->
-                <!--android:minHeight="70dp"-->
-                <!--android:background="#EDBC64"-->
-                <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-                <!--/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/nav_result"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="35dp"-->
-                <!--android:layout_marginLeft="11dp"-->
-                <!--android:layout_marginRight="11dp"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:paddingLeft="11dp"-->
-                <!--android:drawableLeft="@drawable/search_result"-->
-                <!--android:drawablePadding="11dp"-->
-                <!--android:background="#FFFFFF"-->
-                <!--android:textColor="#7C4A0F"-->
-                <!--android:gravity="center|left"-->
-                <!--android:textSize="14sp"-->
-                <!--android:text="조건을 선택해주세요." />-->
-        <!--</RelativeLayout>-->
+                <!--android:layout_height="60dp"-->
+                <!--android:background="#EDBC64" />-->
+
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+        <RelativeLayout
+            android:id="@+id/toolar_layout"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            app:layout_collapseMode="pin"
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:minHeight="70dp"
+                android:background="#EDBC64"
+                />
+            <TextView
+                android:id="@+id/nav_result"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="11dp"
+                android:layout_marginRight="11dp"
+                android:layout_centerInParent="true"
+                android:paddingLeft="11dp"
+                android:drawableLeft="@drawable/search_result"
+                android:drawablePadding="11dp"
+                android:background="#FFFFFF"
+                android:textColor="#7C4A0F"
+                android:gravity="center|left"
+                android:textSize="14sp"
+                android:text="조건을 선택해주세요." />
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -209,6 +208,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
+                    android:layout_marginBottom="40dp"
                     android:layout_gravity="bottom"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

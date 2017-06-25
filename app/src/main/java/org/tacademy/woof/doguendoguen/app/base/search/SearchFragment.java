@@ -1,36 +1,27 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayout;
-import com.orangegangsters.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +50,7 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchFragment extends Fragment implements NestedScrollView.OnScrollChangeListener{
+public class SearchFragment extends Fragment implements NestedScrollView.OnScrollChangeListener, AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "SearchFragment";
     private static final int SEARCH_DOG_TYPE = 100;
     private static final String USER_ID = "userId";
@@ -94,12 +85,11 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     @BindView(R.id.dog_lists) RecyclerView dogListsView;
     @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
     @BindView(R.id.emergency_list) LinearLayout emergencyList;
-    //    @BindView(R.id.toolbar) Toolbar navToolbar;
-//    @BindView(R.id.swipyrefreshlayout) SwipyRefreshLayout swipyRefreshLayout;
-//    @BindView(R.id.refresh_layout) SwipeRefreshLayout refreshLayout;
+
     @BindView(R.id.appbar) AppBarLayout appbar;
-    @BindView(R.id.nav_result) TextView navResult;
+//    @BindView(R.id.nav_result) TextView navResult;
     @BindView(R.id.toolar_layout) RelativeLayout toolbarLayout;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
     @BindView(R.id.scroll_view) NestedScrollView nestedScrollView;
 
@@ -113,24 +103,12 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
 
         strBuffer = new StringBuffer();
 
-
-
-
         userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId);
 
-        appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (Math.abs(verticalOffset)-appBarLayout.getTotalScrollRange() == 0) {
-                    toolbarLayout.setVisibility(View.VISIBLE);
-                }
-                else {
-                    toolbarLayout.setVisibility(View.GONE);
-                }
-            }
-        });
+//        setUpToolbar();
 
+        appbar.addOnOffsetChangedListener(this);
         nestedScrollView.setOnScrollChangeListener(this);
 
         //분양이 시급한 강아지들에 대한 글을 가로로 보여줌.
@@ -172,7 +150,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                         dogGender.setText(gender);
                         conDogGender = gender;
                         strBuffer.append(gender + " / ");
-                        navResult.setText(strBuffer.toString());
+//                        navResult.setText(strBuffer.toString());
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -187,7 +165,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                         dogAge.setText(age);
                         conDogAge = age;
                         strBuffer.append(age + " / ");
-                        navResult.setText(strBuffer.toString());
+//                        navResult.setText(strBuffer.toString());
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -203,7 +181,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                         conDogRegion1 = city;
                         conDogRegion2 = district;
                         strBuffer.append(city + " / " + district +" / ");
-                        navResult.setText(strBuffer.toString());
+//                        navResult.setText(strBuffer.toString());
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -304,7 +282,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
             String type = data.getStringExtra(SearchDogTypeActivity.DOGTYPE);
             conDogType = type;
             strBuffer.append(type + " / ");
-            navResult.setText(strBuffer.toString());
+//            navResult.setText(strBuffer.toString());
             isCondtion = true;
 
             Log.d("dogType", conDogType  + ", " + isCondtion);
@@ -328,7 +306,15 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         }
     }
 
-
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
+                toolbarLayout.setVisibility(View.VISIBLE);
+        }
+        else {
+            toolbarLayout.setVisibility(View.GONE);
+        }
+    }
 
 
     // 분양이 시급한 분양견들을 받아옴.
