@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,7 +60,6 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     private static final String USER_ID = "userId";
 
     public SearchFragment() {
-        this.setHasOptionsMenu(true);
     }
 
     public static SearchFragment newInstance() {
@@ -86,10 +89,12 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
     @BindView(R.id.emergency_list) LinearLayout emergencyList;
 
+//    @BindView(R.id.condition_hide) ImageView upArrow;
     @BindView(R.id.appbar) AppBarLayout appbar;
-//    @BindView(R.id.nav_result) TextView navResult;
+    @BindView(R.id.nav_result) TextView navResult;
     @BindView(R.id.toolar_layout) RelativeLayout toolbarLayout;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.collapsing_layout) CollapsingToolbarLayout collapsingToolbarLayout;
 
     @BindView(R.id.scroll_view) NestedScrollView nestedScrollView;
 
@@ -129,9 +134,10 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         return view;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    @OnClick(R.id.condition_hide)
+    public void onUpArrowClicked() {
+        appbar.setExpanded(false);
+        toolbarLayout.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.dog_type, R.id.dog_gender, R.id.dog_age, R.id.dog_regions})
@@ -308,8 +314,11 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
         if (Math.abs(verticalOffset) - appBarLayout.getTotalScrollRange() == 0) {
-                toolbarLayout.setVisibility(View.VISIBLE);
+            toolbarLayout.setVisibility(View.VISIBLE);
+            float percentage = ((float)Math.abs(verticalOffset)/appBarLayout.getTotalScrollRange());
+            toolbarLayout.setAlpha(percentage);
         }
         else {
             toolbarLayout.setVisibility(View.GONE);
