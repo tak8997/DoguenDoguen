@@ -42,9 +42,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class WishFragment extends Fragment {
     private static final String USER_ID = "userId";
     private static final String TAG = "WishFragment";
+    private final int REQUEST_POST_DETAIL = 1000;
 
     public WishFragment() {
     }
@@ -52,7 +55,7 @@ public class WishFragment extends Fragment {
     public static WishFragment newInstance() {
         WishFragment fragment = new WishFragment();
         Bundle args = new Bundle();
-//        args.getString(USER_ID, userId);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,6 +78,7 @@ public class WishFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wish, container, false);
         ButterKnife.bind(this, view);
+        Log.d(this.getClass().getSimpleName(), "onCreateView");
 
         //userId를 기준으로유저 프로필을 가져온다
         userId = SharedPreferencesUtil.getInstance().getUserId();
@@ -95,6 +99,7 @@ public class WishFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated");
 
         if(userId != null) {
             UserService userService = RestService.createService(UserService.class);
@@ -124,12 +129,26 @@ public class WishFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK && requestCode == REQUEST_POST_DETAIL) {
+            Log.d("WishFragment", "isDeleted");
+
+            int isDeleted = data.getIntExtra("isDeleted", 0);
+            int deletePos = data.getIntExtra("position", -1);
+
+            if(isDeleted == 1 && deletePos != -1) {
+                wishAdapter.removeWishPost(deletePos);
+            }
+        }
+    }
 
     private class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.ListViewHolder> {
         private Context context;
         private String userId;
         private ArrayList<PostList> wishLists = new ArrayList<>();
-        private PostList post;
 
         public WishListAdapter(Context context, String userId) {
             this.context = context;
@@ -145,13 +164,12 @@ public class WishFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ListViewHolder holder, final int position) {
-            post = wishLists.get(position);
+            final PostList post = wishLists.get(position);
 
             if(post != null ){
                 Glide.with(DoguenDoguenApplication.getContext())
                         .load(post.petImageUrl)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .placeholder(R.drawable.dog_sample)
                         .into(holder.postImage);
                 holder.postTitle.setText(post.title);
                 holder.postUserName.setText(post.username);
@@ -166,10 +184,12 @@ public class WishFragment extends Fragment {
                     public void onClick(View v) {
                         Log.d("DogListsAdapter", post.postId + ", " + userId);
                         Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
+                        intent.putExtra("position", position);
                         intent.putExtra("isWish", post.favorite);
+                        intent.putExtra("myList", 0);   //WishFragment->0
                         intent.putExtra("postId", post.postId);
                         intent.putExtra("userId", userId);
-                        context.startActivity(intent);
+                        startActivityForResult(intent, REQUEST_POST_DETAIL);
                     }
                 });
                 holder.wish.setOnClickListener(new View.OnClickListener() {
@@ -246,6 +266,10 @@ public class WishFragment extends Fragment {
 
         public void addWishPost(PostList postList) {
             wishLists.add(0, postList);
+        }
+        public void removeWishPost(int position) {
+            wishLists.remove(position);
+            updateDataList();
         }
     }
 }

@@ -42,7 +42,6 @@ public class UserModel implements Parcelable {
     public String userImageThumbUrl;
 
     @SerializedName("mylist")
-    @Expose
     public List<MyPostModel> userPostList;
 
     public UserModel(int userId, String userName, String userGender, String userApartType, String userRegion, int userPetOwn, String userFamilySize, String userImageUrl, String userImageThumbUrl, List<MyPostModel> userPostList) {

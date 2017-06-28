@@ -114,6 +114,7 @@ public class UserPostListFragment extends Fragment {
                         Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
                         intent.putExtra("userId", userId);        //string으로 변환해서 보내줘야함.
                         intent.putExtra("postId", userModel.userPostList.get(position).postId);
+//                        intent.putExtra("isWish", userModel.userPostList.get(pos);
                         intent.putExtra("position", position);
                         intent.putExtra("myList", 1);   //내가 쓴 글 myList ->1
                         startActivityForResult(intent, 105);

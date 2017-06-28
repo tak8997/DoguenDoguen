@@ -116,8 +116,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
             userId = intent.getStringExtra("userId");   //string으로 넘어옴
             position = intent.getIntExtra("position", 0);
             isWish = intent.getIntExtra("isWish", 0);
-            myList = intent.getIntExtra("myList", 0);   //int로 넘어옴. UserPostListFragment에서 myList->1 내글
-            Log.d("emergencyPostList", "ASDf");
+            myList = intent.getIntExtra("myList", -1);   //int로 넘어옴. UserPostListFragment->1, WishFragment->0
             Log.d(TAG, isWish + ", " + position + " , " + postId + ", " + userId + ", " + myList);
 
             //게시판 상세페이지 가져오기
@@ -175,20 +174,27 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                                 String message ;
                                 try {
                                     jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("Message");
+                                    message = jsonObject.getString("message");
 
                                     Log.d("PostDetail", "Message : " + message );
                                     if(message.equals("add")) {
                                         Log.d("DogLists", "add");
                                         Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
+
+                                        isWish = 1;
+
+                                        if(myList == 0) {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("isDeleted", 0);
+                                            setResult(RESULT_OK, intent);
+                                        }
+
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-                                Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -208,20 +214,27 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                                 String message;
                                 try {
                                     jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("Message");
+                                    message = jsonObject.getString("message");
 
                                     Log.d("PostDetail", "Message : " + message);
-                                    if (message.equals("remove")) {
-                                        Log.d("DogLists", "remove");
-                                        Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
+                                    if (message.equals("delete")) {
+                                        Log.d("DogLists", "delete");
+                                        Toast.makeText(PostDetailActivity.this, "위시리스트에 제거하셨습니다.", Toast.LENGTH_SHORT).show();
+
+                                        isWish = 0;
+
+                                        if(myList == 0) {
+                                            Intent intent = new Intent();
+                                            intent.putExtra("isDeleted", 1);
+                                            intent.putExtra("position", position);
+                                            setResult(RESULT_OK, intent);
+                                        }
                                     }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-
-                                Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -230,7 +243,6 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                             }
                         });
                     }
-
                 }
                 break;
         }
@@ -275,7 +287,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                     postDetail = response.body();
 
                     Log.d(TAG, "onResponse" +postDetail.dogSize + ", " + postDetail.toString());
-                    Log.d("emergencyPostList", "onResponse" +postDetail.postId);
+                    Log.d("PostDetail", "onResponse" +postDetail.postId);
 
                     //서버로 부터 가져온 값에 따라 게시판 구성
                     if(postDetail != null)
@@ -552,22 +564,20 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         if (scrollY > oldScrollY) {
-            Log.i(TAG, "Scroll DOWN");
-
+//            Log.i(TAG, "Scroll DOWN");
             messageLayout.setVisibility(GONE);
         }
         if (scrollY < oldScrollY) {
-            Log.i(TAG, "Scroll UP");
-
+//            Log.i(TAG, "Scroll UP");
             messageLayout.setVisibility(View.VISIBLE);
         }
 
         if (scrollY == 0) {
-            Log.i(TAG, "TOP SCROLL");
+//            Log.i(TAG, "TOP SCROLL");
         }
 
         if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-            Log.i(TAG, "BOTTOM SCROLL");
+//            Log.i(TAG, "BOTTOM SCROLL");
         }
     }
 }
