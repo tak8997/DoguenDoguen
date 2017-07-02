@@ -57,9 +57,9 @@ public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapte
                 public void onClick(View v) {
                     Intent intent = new Intent(DoguenDoguenApplication.getContext(), MessageDetailActivity.class);
                     intent.putExtra("root", "MessageListsAdapter");
-                    intent.putExtra("roomId", chattingRooms.get(position).roomId);
+                    intent.putExtra("participantId", chattingRooms.get(position).participantId);
                     context.startActivity(intent);
-                    Log.d("adapter roomId : ", chattingRooms.get(position).roomId);
+                    Log.d("adapter roomId : ", chattingRooms.get(position).participantId + " ");
 
                     }
             });
@@ -89,6 +89,5 @@ public class MessageListsAdapter extends RecyclerView.Adapter<MessageListsAdapte
 
     public void addMessageList(List<ChattingRoom> chattingRooms) {
         this.chattingRooms = (ArrayList<ChattingRoom>) chattingRooms;
-        this.notifyDataSetChanged();
     }
 }
