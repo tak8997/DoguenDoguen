@@ -5,4 +5,51 @@
         <item>2</item>
         <item>3</item>
     </string-array>
+    <string-array name="dog_types">
+        <item>골드리트리버</item>
+        <item>그레이 하운드</item>
+        <item>그레이트 덴</item>
+        <item>꼬통 드 뚤레</item>
+        <item>닥스훈트</item>
+        <item>달마시안</item>
+        <item>도고 까나리오</item>
+        <item>도베르만</item>
+        <item>도사</item>
+        <item>동경견</item>
+        <item>레트라도리트</item>
+        <item>라이카</item>
+        <item>롯트와일러</item>
+        <item>마스티프</item>
+        <item>말라뮤트</item>
+        <item>말티즈</item>
+        <item>푸들</item>
+        <item>슈나우저</item>
+        <item>믹스견</item>
+        <item>셰퍼드</item>
+        <item>보더 콜리</item>
+        <item>복서</item>
+        <item>비글</item>
+        <item>비숑프리제</item>
+        <item>사모예드</item>
+        <item>삽살개</item>
+        <item>샤폐이</item>
+        <item>세인트버나드</item>
+        <item>스피츠</item>
+        <item>시바</item>
+        <item>시베리안 허스키</item>
+        <item>시츄</item>
+        <item>아메리칸 불독</item>
+        <item>아키다</item>
+        <item>핏불테리어</item>
+        <item>요크셔테리어</item>
+        <item>코카스파니엘</item>
+        <item>진도</item>
+        <item>치와와</item>
+        <item>차우차우</item>
+        <item>케인코르소</item>
+        <item>푸들</item>
+        <item>퍼그</item>
+        <item>페키니즈</item>
+        <item>포메라니안</item>
+    </string-array>
 </resources>
