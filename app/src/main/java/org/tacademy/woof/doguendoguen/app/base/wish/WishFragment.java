@@ -27,7 +27,7 @@ import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.search.PostDetailActivity;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.PostList;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
@@ -102,7 +102,7 @@ public class WishFragment extends Fragment {
         Log.d(TAG, "onViewCreated");
 
         if(userId != null) {
-            UserService userService = RestService.createService(UserService.class);
+            UserService userService = RestClient.createService(UserService.class);
             Call<List<PostList>> postListService = userService.getWishList(Integer.parseInt(userId));
             postListService.enqueue(new Callback<List<PostList>>() {
                 @Override
@@ -206,7 +206,7 @@ public class WishFragment extends Fragment {
         }
 
         private void removeWish(final int position) {
-            UserService userService = RestService.createService(UserService.class);
+            UserService userService = RestClient.createService(UserService.class);
             Call<ResponseBody> registerWishService = userService.registerWishList(wishLists.get(position).postId, Integer.parseInt(userId));
             registerWishService.enqueue(new Callback<ResponseBody>() {
                 @Override

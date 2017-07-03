@@ -2,7 +2,6 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,13 +22,9 @@ import com.rey.material.widget.Switch;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.model.UserModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,7 +105,7 @@ public class UserProfileFragment extends Fragment {
     @BindView(R.id.post_img) ImageView registPost;
     @BindView(R.id.my_post_list) ImageView myPostList;
     private void getUserService() {
-        UserService userService = RestService.createService(UserService.class);
+        UserService userService = RestClient.createService(UserService.class);
         Call<UserModel> getUser = userService.getUser(Integer.parseInt(userId));
         getUser.enqueue(new Callback<UserModel>() {
             @Override

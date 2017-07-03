@@ -15,9 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -35,18 +32,23 @@ import org.tacademy.woof.doguendoguen.adapter.DogListsAdapter;
 import org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity;
 import org.tacademy.woof.doguendoguen.model.PostList;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,7 +101,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     @BindView(R.id.scroll_view) NestedScrollView nestedScrollView;
 
     StringBuffer strBuffer;
-
+    HashMap<String, String> hashMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,11 +109,10 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         ButterKnife.bind(this, view);
 
         strBuffer = new StringBuffer();
+        hashMap = new HashMap();
 
         userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId);
-
-//        setUpToolbar();
 
         appbar.addOnOffsetChangedListener(this);
         nestedScrollView.setOnScrollChangeListener(this);
@@ -155,8 +156,13 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                     public void onAdapterItemClick(String gender) {
                         dogGender.setText(gender);
                         conDogGender = gender;
-                        strBuffer.append(gender + " / ");
-//                        navResult.setText(strBuffer.toString());
+
+                        if(!hashMap.containsKey("gender")) {
+                            hashMap.put("gender", gender);
+                            strBuffer.append(hashMap.get("gender") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -170,8 +176,13 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                     public void onAdapterItemClick(String age) {
                         dogAge.setText(age);
                         conDogAge = age;
-                        strBuffer.append(age + " / ");
-//                        navResult.setText(strBuffer.toString());
+
+                        if(!hashMap.containsKey("age")) {
+                            hashMap.put("age", age);
+                            strBuffer.append(hashMap.get("age") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -186,8 +197,14 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                         dogRegion.setText(city + " " + district);
                         conDogRegion1 = city;
                         conDogRegion2 = district;
-                        strBuffer.append(city + " / " + district +" / ");
-//                        navResult.setText(strBuffer.toString());
+
+                        if(!hashMap.containsKey("city") && !hashMap.containsKey("district")) {
+                            hashMap.put("city", city);
+                            hashMap.put("district", district);
+                            strBuffer.append(hashMap.get("city") + " " + hashMap.get("district") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
                         isCondtion = true;
                         getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
                     }
@@ -215,46 +232,27 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     }
 
     private void getUrgentPostService() {
-        PostService postService = RestService.createService(PostService.class);
-        Call<List<PostList>> getPostListCall = postService.getUrgentPosts();
+        PostService postService = RestClient.createService(PostService.class);
+        Observable<List<PostList>> getPostListCall = postService.getUrgentPosts();
 
-        getPostListCall.enqueue(new Callback<List<PostList>>() {
-            @Override
-            public void onResponse(Call<List<PostList>> call, Response<List<PostList>> response) {
-                if(response.isSuccessful()) {
-                    List<PostList> urgentPostLists = response.body();
+        getPostListCall.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(postLists -> {
+                    List<PostList> urgentPostLists = postLists;
                     Log.d(TAG, urgentPostLists.toString());
 
-                    for(int i=0; i<urgentPostLists.size(); i++) {
-                        Log.d("emergencyPostList" , "favorite: " + urgentPostLists.get(i).favorite );
-                        Log.d("emergencyPostList" , "i: " + i + urgentPostLists.get(i).postId );
-                    }
-
-                    Log.d("aaassd", dogEmergencyAdapter.getItemCount() + "");
                     dogEmergencyAdapter.addPost(urgentPostLists);
                     dogEmergencyAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PostList>> call, Throwable t) {
-
-            }
-        });
+                }, Throwable::printStackTrace);
     }
 
     private void getPostService(final boolean isCondition, int page, String dogType, String dogGender, String region1, String region2, String age) {
-        PostService postService = RestService.createService(PostService.class);
-        Call<PostListModel> getPostListCall = postService.getPosts(page, dogType, dogGender, region1, region2, age);
+        PostService postService = RestClient.createService(PostService.class);
+        Observable<PostListModel> getPostListCall = postService.getPosts(page, dogType, dogGender, region1, region2, age);
 
-        Log.d("emergencylist", isCondition + "");
-        getPostListCall.enqueue(new Callback<PostListModel>() {
-            @Override
-            public void onResponse(Call<PostListModel> call, Response<PostListModel> response) {
-                if(response.isSuccessful()) {
-                    PostListModel postListModel = response.body();
-
-                    Log.d("adpater", dogAdapter.getItemCount() + "");
+        getPostListCall.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(postListModel -> {
                     dogAdapter.removeAll();
                     if(postListModel.postLists.size() != 0) {
                         for (int i = 0; i < postListModel.postLists.size(); i++) {
@@ -270,14 +268,8 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                         Log.d("emergencylist", "gone");
                         emergencyList.setVisibility(View.GONE);
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostListModel> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
+                }, Throwable::printStackTrace);
+//                .subscribe(this::handleResponse, this::errorResponse);
     }
 
     @Override
@@ -287,8 +279,14 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         if(resultCode == RESULT_OK && requestCode == SEARCH_DOG_TYPE) {
             String type = data.getStringExtra(SearchDogTypeActivity.DOGTYPE);
             conDogType = type;
-            strBuffer.append(type + " / ");
-//            navResult.setText(strBuffer.toString());
+
+            if(!hashMap.containsKey("type")) {
+                hashMap.put("type", type);
+                strBuffer.append(hashMap.get("type") + " / ");
+            }
+
+            navResult.setText(strBuffer.toString());
+
             isCondtion = true;
 
             Log.d("dogType", conDogType  + ", " + isCondtion);
@@ -328,10 +326,8 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
 
     // 분양이 시급한 분양견들을 받아옴.
     private class DogEmergencyAdapter extends RecyclerView.Adapter<DogEmergencyAdapter.ViewHolder> {
-        boolean isWishSelected = false;
         private Context context;
         private ArrayList<PostList> urgentPostLists;
-//        private PostList postList;
         private String userId;
 
         public DogEmergencyAdapter(Context context, String userId) {
@@ -366,8 +362,6 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
                 @Override
                 public void onClick(View v) {
                     Log.d("DogEmergencyPostLists", postList.postId + ", " + userId + " position : " + position);
-//                    PostList selected = urgentPostLists.get(position);
-//                    Log.d("selected", selected.postId + "");
                     Intent intent = new Intent(DoguenDoguenApplication.getContext(), PostDetailActivity.class);
                     Log.d("emergencyPostList", postList.postId+"");
                     intent.putExtra("isWish", postList.favorite);
@@ -396,7 +390,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         }
 
         private void addWish(int position) {
-            UserService userService = RestService.createService(UserService.class);
+            UserService userService = RestClient.createService(UserService.class);
             Call<ResponseBody> addWishService = userService.registerWishList(urgentPostLists.get(position).postId, Integer.parseInt(userId));
             addWishService.enqueue(new Callback<ResponseBody>() {
                 @Override
@@ -427,7 +421,7 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         }
 
         private void removeWish(int position) {
-            UserService userService = RestService.createService(UserService.class);
+            UserService userService = RestClient.createService(UserService.class);
             Call<ResponseBody> removeWishService = userService.registerWishList(urgentPostLists.get(position).postId, Integer.parseInt(userId));
             removeWishService.enqueue(new Callback<ResponseBody>() {
                 @Override

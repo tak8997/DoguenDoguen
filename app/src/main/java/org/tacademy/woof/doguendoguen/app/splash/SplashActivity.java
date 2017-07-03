@@ -11,7 +11,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import org.tacademy.woof.doguendoguen.AnimatedGifImageView;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.home.HomeActivity;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.token.FcmService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
@@ -56,7 +56,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
 
-        FcmService fcmService = RestService.createService(FcmService.class);
+        FcmService fcmService = RestClient.createService(FcmService.class);
 //        Call<ResponseBody> getUserInfo = fcmService.putUserInfo(fcmToken, uuidValue);
 //        getUserInfo.enqueue(new Callback<ResponseBody>() {
 //            @Override

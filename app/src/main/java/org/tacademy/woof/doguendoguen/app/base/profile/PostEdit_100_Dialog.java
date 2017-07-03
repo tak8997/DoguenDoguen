@@ -4,8 +4,6 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,7 @@ import android.widget.Toast;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
 
 import java.io.File;
@@ -253,7 +251,7 @@ public class PostEdit_100_Dialog extends DialogFragment {
                 RequestBody introduction = RequestBody.create(MediaType.parse("text/plain"), postContent);
                 RequestBody condition = RequestBody.create(MediaType.parse("text/plain"), postSubContent);
 
-                PostService postService = RestService.createService(PostService.class);
+                PostService postService = RestClient.createService(PostService.class);
                 Call<ResponseBody> registerPostCall = postService.updatePost(petImageId, parentImageId, postDetail.postId, dogImage, parentDogImage, hierarchyImage,
                         id, title, type, gender, age, city, district, price, color, size, vDhppl, vCorrona, vKennel, introduction, condition);
                 registerPostCall.enqueue(new Callback<ResponseBody>() {

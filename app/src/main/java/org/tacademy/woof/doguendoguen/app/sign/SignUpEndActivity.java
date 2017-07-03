@@ -3,7 +3,6 @@ package org.tacademy.woof.doguendoguen.app.sign;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,14 +10,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.UserIdModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
@@ -33,11 +31,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static org.tacademy.woof.doguendoguen.R.id.etc;
-import static org.tacademy.woof.doguendoguen.R.id.female;
-import static org.tacademy.woof.doguendoguen.R.id.male;
-import static org.tacademy.woof.doguendoguen.R.id.region_type;
 
 /**
  * Created by Tak on 2017. 6. 5..
@@ -279,7 +272,7 @@ public class SignUpEndActivity extends BaseActivity {
         RequestBody region = RequestBody.create(MediaType.parse("text/plain"), userRegion);
         RequestBody petOwn = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(isUserPetOwn));
 
-        UserService userService = RestService.createService(UserService.class);
+        UserService userService = RestClient.createService(UserService.class);
         Call<UserIdModel> registerUserService = userService.registerUser(userImage, name, gender,
                 familyType, apartType, region, petOwn);
         registerUserService.enqueue(new Callback<UserIdModel>() {

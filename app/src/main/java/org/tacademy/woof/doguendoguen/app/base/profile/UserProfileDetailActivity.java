@@ -15,9 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.Key;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONException;
@@ -42,7 +38,7 @@ import org.tacademy.woof.doguendoguen.adapter.UserPostAdapter;
 import org.tacademy.woof.doguendoguen.app.base.search.UserDropDialogFragment;
 import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.UserModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
@@ -60,12 +56,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static org.tacademy.woof.doguendoguen.DoguenDoguenApplication.getContext;
-import static org.tacademy.woof.doguendoguen.R.id.etc;
-import static org.tacademy.woof.doguendoguen.R.id.house;
-import static org.tacademy.woof.doguendoguen.R.id.keep;
-import static org.tacademy.woof.doguendoguen.R.id.user;
 
 /**
  * Created by Tak on 2017. 5. 31..
@@ -677,7 +667,7 @@ public class UserProfileDetailActivity extends BaseActivity {
         RequestBody petOwn = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(updatedPetOwn));
         RequestBody familySize = RequestBody.create(MediaType.parse("text/plain"), updatedFamilySize);
 
-        UserService userService = RestService.createService(UserService.class);
+        UserService userService = RestClient.createService(UserService.class);
         Call<ResponseBody> userProfileService
                 = userService.updateUser(userId, userImage, username, gender, lifestyle, region, petOwn, familySize);
         userProfileService.enqueue(new Callback<ResponseBody>() {
@@ -777,7 +767,7 @@ public class UserProfileDetailActivity extends BaseActivity {
             public void onAdapterItemClick(String answer) {
                 if (answer.equals("yes")) {
                     Toast.makeText(UserProfileDetailActivity.this, "정상적으로 탈퇴되었습니다.", Toast.LENGTH_SHORT).show();
-                    UserService userService = RestService.createService(UserService.class);
+                    UserService userService = RestClient.createService(UserService.class);
                     Call<ResponseBody> dropUserService = userService.userDrop(userId);
                     dropUserService.enqueue(new Callback<ResponseBody>() {
                         @Override

@@ -1,5 +1,7 @@
 package org.tacademy.woof.doguendoguen.rest;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -15,8 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Tak on 2017. 6. 12..
  */
 
-public class RestService {
-    private static RestService instance;
+public class RestClient {
+    private static RestClient instance;
 
     private static final String BAER_URL = "http://13.124.26.143:3000";
 
@@ -25,13 +27,13 @@ public class RestService {
 
     public static <S> S createService(Class<S> service) {
         if(instance == null) {
-            instance = new RestService();
+            instance = new RestClient();
         }
 
         return instance.getService(service);
     }
 
-    private RestService() {
+    private RestClient() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -58,6 +60,7 @@ public class RestService {
                 .baseUrl(BAER_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 

@@ -20,7 +20,7 @@ import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.search.PostDetailActivity;
 import org.tacademy.woof.doguendoguen.model.PostList;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 
 import java.io.IOException;
@@ -102,7 +102,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
     }
 
     private void removeWish(int position) {
-        UserService userService = RestService.createService(UserService.class);
+        UserService userService = RestClient.createService(UserService.class);
         Call<ResponseBody> removeWishService = userService.registerWishList(postLists.get(position).postId, Integer.parseInt(userId));
         removeWishService.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -134,7 +134,7 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
     }
 
     public void addWish(final int position) {
-        UserService userService = RestService.createService(UserService.class);
+        UserService userService = RestClient.createService(UserService.class);
         Call<ResponseBody> addWishService = userService.registerWishList(postLists.get(position).postId, Integer.parseInt(userId));
         addWishService.enqueue(new Callback<ResponseBody>() {
             @Override

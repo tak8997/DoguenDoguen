@@ -1,17 +1,11 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -28,18 +22,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
-import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
 import org.tacademy.woof.doguendoguen.app.base.profile.PostEdit_25_Dialog;
-import org.tacademy.woof.doguendoguen.app.base.profile.PostRegist_25_Fragment;
 import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.DogImage;
 import org.tacademy.woof.doguendoguen.model.ParentDogImage;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
@@ -56,11 +47,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.R.attr.port;
 import static android.view.View.GONE;
-import static org.tacademy.woof.doguendoguen.R.id.edit_photo;
-import static org.tacademy.woof.doguendoguen.R.id.pager;
-import static org.tacademy.woof.doguendoguen.R.id.submenuarrow;
 
 /**
  * Created by Tak on 2017. 6. 2..
@@ -165,7 +152,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                     if (isWish == 0) {  //위시에 추가가 안되어있는 상태
                         heart.setImageResource(R.drawable.toolbar_heart_selected);  //위시추가
 
-                        UserService userService = RestService.createService(UserService.class);
+                        UserService userService = RestClient.createService(UserService.class);
                         Call<ResponseBody> addWishService = userService.registerWishList(postId, Integer.parseInt(userId));
                         addWishService.enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -205,7 +192,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                     } else if(isWish == 1) {    //이미 위시에 추가되있는 상태
                         heart.setImageResource(R.drawable.toolbar_heart);   //위세 제거
 
-                        UserService userService = RestService.createService(UserService.class);
+                        UserService userService = RestClient.createService(UserService.class);
                         Call<ResponseBody> removeWishService = userService.registerWishList(postId, Integer.parseInt(userId));
                         removeWishService.enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -277,7 +264,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
     }
 
     private void getPostService(int postId) {
-        PostService service = RestService.createService(PostService.class);
+        PostService service = RestClient.createService(PostService.class);
         Call<PostDetailModel> getPostCall = service.getPost(postId);
 
         getPostCall.enqueue(new Callback<PostDetailModel>() {
@@ -481,7 +468,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                                     @Override
                                     public void onAdapterItemClick(String answer) {
                                         if(answer.equals("yes")) {
-                                            PostService postService = RestService.createService(PostService.class);
+                                            PostService postService = RestClient.createService(PostService.class);
                                             Call<ResponseBody> deletePostService = postService.deletePost(postDetail.postId);
                                             deletePostService.enqueue(new Callback<ResponseBody>() {
                                                 @Override

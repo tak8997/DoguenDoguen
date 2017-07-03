@@ -1,6 +1,5 @@
 package org.tacademy.woof.doguendoguen.app.base.profile;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -14,13 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
-import org.tacademy.woof.doguendoguen.rest.RestService;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.post.PostService;
 
 import java.io.File;
@@ -229,7 +227,7 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
                 RequestBody introduction = RequestBody.create(MediaType.parse("text/plain"), postContent);
                 RequestBody condition = RequestBody.create(MediaType.parse("text/plain"), postSubContent);
 
-                PostService postService = RestService.createService(PostService.class);
+                PostService postService = RestClient.createService(PostService.class);
                 Call<ResponseBody> registerPostCall = postService.registerPost(dogImage, parentDogImage, hierarchyImage,
                         id, title, type, gender, age, city, district, price, color, size, vDhppl, vCorrona, vKennel, introduction, condition);
                 registerPostCall.enqueue(new Callback<ResponseBody>() {
