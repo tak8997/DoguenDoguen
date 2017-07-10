@@ -25,19 +25,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="241dp">
-                <ImageView
-                    android:src="@drawable/toolbar_left_arrow"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_alignTop="@+id/pager"
-                    android:layout_alignLeft="@+id/pager"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/back"
+                    android:src="@drawable/toolbar_left_arrow"
+                    android:scaleType="fitXY"
+                    android:paddingLeft="22dp"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_alignTop="@+id/pager"
+                    android:layout_alignLeft="@+id/pager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/dog_image"
                     android:visibility="gone"
@@ -82,7 +85,6 @@
             </RelativeLayout>
             <TextView
                 android:id="@+id/post_title"
-                android:text="건강하게 태어난 말티즈 삼남매 분양해요!"
                 android:textSize="18sp"
                 android:textColor="#5B4319"
                 android:layout_marginTop="32dp"
@@ -92,7 +94,6 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/user_name"
-                android:text="연뚜"
                 android:textSize="13sp"
                 android:textColor="#3E3A39"
                 android:layout_marginTop="8dp"
@@ -327,7 +328,6 @@
                     android:layout_alignParentLeft="true"/>
                 <TextView
                     android:id="@+id/dog_color"
-                    android:text="흰색"
                     android:textColor="#595757"
                     android:textSize="14sp"
                     android:layout_centerInParent="true"
@@ -580,6 +580,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginLeft="22dp"
                 android:layout_marginRight="22dp"
+                android:layout_marginBottom="60dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

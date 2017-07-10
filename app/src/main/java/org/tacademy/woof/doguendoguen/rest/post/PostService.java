@@ -1,11 +1,12 @@
 package org.tacademy.woof.doguendoguen.rest.post;
 
+import com.google.gson.JsonObject;
+
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
 import org.tacademy.woof.doguendoguen.model.PostList;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
 
 import java.util.List;
-
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
@@ -37,7 +38,7 @@ public interface PostService {
 
     //게시글 삭제
     @DELETE("/doglists/{parcel_id}")
-    Call<ResponseBody> deletePost(@Path("parcel_id") int postId);
+    Observable<JsonObject> deletePost(@Path("parcel_id") int postId);
 
     //게시글 수정 21개
     @Multipart
@@ -62,5 +63,5 @@ public interface PostService {
 
     //분양글 1개 상세보기
     @GET("/doglists/{parcel_id}")
-    Call<PostDetailModel> getPost(@Path("parcel_id") int parcel_id);
+    Observable<PostDetailModel> getPost(@Path("parcel_id") int parcel_id);
 }

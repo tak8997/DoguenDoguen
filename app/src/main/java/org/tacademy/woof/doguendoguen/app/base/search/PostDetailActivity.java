@@ -19,11 +19,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tacademy.woof.doguendoguen.DogColorList;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
+import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
 import org.tacademy.woof.doguendoguen.app.base.profile.PostEdit_25_Dialog;
 import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
@@ -42,6 +45,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,7 +59,7 @@ import static android.view.View.GONE;
  * Created by Tak on 2017. 6. 2..
  */
 
-public class PostDetailActivity extends BaseActivity implements NestedScrollView.OnScrollChangeListener {
+public class PostDetailActivity extends BaseActivity {
     private static final String TAG = "PostDetailActivity";
 
     @BindView(R.id.post_title) TextView postTitle;
@@ -64,7 +70,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
     @BindView(R.id.dog_region_detail) TextView dogRegionDetail;
     @BindView(R.id.dog_price) TextView dogPrice;
     @BindView(R.id.post_intro) TextView postIntro;
-    @BindView(R.id.dog_color) TextView dogColor;
+    @BindView(R.id.dog_color) TextView colorText;
     @BindView(R.id.dog_small) Button dogSmall;
     @BindView(R.id.dog_middle) Button dogMiddle;
     @BindView(R.id.dog_big) Button dogBig;
@@ -89,7 +95,6 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
     private int position;
     private int myList;
     private int isWish;
-    private String context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,26 +121,23 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
         scollView.setOnScrollChangeListener(this);
     }
 
-    @OnClick({R.id.message_btn})
-    public void onStartMessageClicked(View view) {
-        Toast.makeText(this, "추후구현 예정입니다.", Toast.LENGTH_SHORT).show();
-//        switch (view.getId()){
-//            //대화시작
-//            case R.id.message_btn:
-//                Intent intent = new Intent(PostDetailActivity.this, MessageDetailActivity.class);
-//                intent.putExtra("root", "PostDetailActivity");
-//                intent.putExtra("userId", postDetail.userId);       //상대방 유저아이디, Int
-//                startActivity(intent);
-//                break;
-//        }
+    @OnClick(R.id.message_btn)
+    public void onStartMessageClicked() {
+        //대화시작
+        Intent intent = new Intent(PostDetailActivity.this, MessageDetailActivity.class);
+        intent.putExtra("root", "PostDetailActivity");
+        intent.putExtra("userId", postDetail.userId);       //상대방 유저아이디, Int
+        startActivity(intent);
     }
 
     boolean reportFlag = false;
-    boolean heartFlag = false;
 
-    @OnClick({R.id.report, R.id.heart})
+    @OnClick({R.id.back, R.id.report, R.id.heart})
     public void onToolbarClicked(View view){
         switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
             case R.id.report:
                 if(reportFlag == false)
                     floatDialog();
@@ -263,32 +265,6 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
         reportFlag = true;
     }
 
-    private void getPostService(int postId) {
-        PostService service = RestClient.createService(PostService.class);
-        Call<PostDetailModel> getPostCall = service.getPost(postId);
-
-        getPostCall.enqueue(new Callback<PostDetailModel>() {
-            @Override
-            public void onResponse(Call<PostDetailModel> call, Response<PostDetailModel> response) {
-                if (response.isSuccessful()) {
-                    postDetail = response.body();
-
-                    Log.d(TAG, "onResponse" +postDetail.dogSize + ", " + postDetail.toString());
-                    Log.d("PostDetail", "onResponse" +postDetail.postId);
-
-                    //서버로 부터 가져온 값에 따라 게시판 구성
-                    if(postDetail != null)
-                        setPost();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<PostDetailModel> call, Throwable t) {
-                Log.e(TAG, "onFailure" + t.getMessage());
-            }
-        });
-    }
-
     @BindView(R.id.dog_parent_image) RelativeLayout parentDogImage;
     @BindView(R.id.blood_image) RelativeLayout bloodImage;
 
@@ -310,7 +286,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                     isParentImageShow = false;
                 }
                 break;
-            case R.id.blood_doc_image:
+            case R.id.blood_image:
                 if(isBloodDocImageShow == false) {
                     bloodDocImage.setVisibility(View.VISIBLE);
                     isBloodDocImageShow = true;
@@ -320,6 +296,43 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                 }
                 break;
         }
+    }
+
+    private void getPostService(int postId) {
+        PostService postService = RestClient.createService(PostService.class);
+        Observable<PostDetailModel> getPostCall = postService.getPost(postId);
+
+        getPostCall.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(postDetailModel -> convertDogAge(postDetailModel))
+                .subscribe(postDetailModel -> {
+                    postDetail = postDetailModel;
+
+                    //서버로 부터 가져온 값에 따라 게시판 구성
+                    if(postDetail != null)
+                        setPost();
+                }, Throwable::printStackTrace);
+    }
+
+    private PostDetailModel convertDogAge(PostDetailModel postDetailModel) {
+        String dogAge = postDetailModel.dogAge;
+
+        switch (dogAge) {
+            case "2개월 이상 - 4개월 미만":
+                postDetailModel.dogAge = "2~3개월";
+                return postDetailModel;
+            case "4개월 이상 - 12개월 미만":
+                postDetailModel.dogAge = "4~11개월";
+                return postDetailModel;
+            case "12개월 이상":
+                postDetailModel.dogAge = "12개월 이상";
+                return postDetailModel;
+            case "상관없음":
+                postDetailModel.dogAge = "상관없음";
+                return postDetailModel;
+        }
+
+        return postDetailModel;
     }
 
     private void setPost() {
@@ -344,9 +357,6 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
         String region2 = postDetail.region2;
         String region = region1 + " " + region2;
 
-        //펫 크기 정보
-        String dogSize = postDetail.dogSize;
-
         //부모견 사진을 받아옴
         String parentDogImageUrl = null;
         if(postDetail.parentDogImage.size() != 0) {
@@ -362,39 +372,17 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
         dogRegionDetail.setText(region);
         dogPrice.setText(postDetail.dogPrice);
         postIntro.setText(postDetail.postIntro);
-        dogColor.setText(postDetail.dogColor);  //??????
 
-        if(postDetail.dogColor != null) {
-            switch (postDetail.dogColor) {
-                case "흰색":
-                    colorIcon.setImageResource(R.drawable.white);
-                    break;
-                case "아이보리":
-                    colorIcon.setImageResource(R.drawable.ivory);
-                    break;
-                case "밝은 갈색":
-                    colorIcon.setImageResource(R.drawable.bright_brown);
-                    break;
-                case "어두운 갈색":
-                    colorIcon.setImageResource(R.drawable.dark_brown);
-                    break;
-                case "회색":
-                    colorIcon.setImageResource(R.drawable.grey);
-                    break;
-                case "검정색":
-                    colorIcon.setImageResource(R.drawable.black);
-                    break;
-                case "얼룩무늬":
-                    colorIcon.setImageResource(R.drawable.spot);
-                    break;
-                case "기타":
-                    colorIcon.setImageResource(R.drawable.etc);
-                    break;
-            }
+        if(postDetail.dogColor != null) {   //null가능
+            String color = postDetail.dogColor.trim();
+            Integer colorItem = DogColorList.getColorItem(color);
+
+            colorText.setText(color);
+            colorIcon.setImageResource(colorItem.intValue());
         }
 
-
-        switch (dogSize) {
+        Log.d("sizes", postDetail.dogSize);
+        switch (postDetail.dogSize) {
             case "소":
                 dogSmall.setBackgroundResource(R.drawable.btn_selected);
                 dogSmall.setTextColor(Color.WHITE);
@@ -452,7 +440,6 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                     if(isSelected == false) {
                         View view = getLayoutInflater().inflate(R.layout.edit_post_layout, null);
                         view.setBackgroundColor(Color.WHITE);
-//                    view.setPadding();
 
                         editPost = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                         editPost.showAtLocation(view, Gravity.TOP, 450, (int) ConvertPxToDpUtil.convertDpToPixel(75, PostDetailActivity.this));
@@ -469,39 +456,56 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
                                     public void onAdapterItemClick(String answer) {
                                         if(answer.equals("yes")) {
                                             PostService postService = RestClient.createService(PostService.class);
-                                            Call<ResponseBody> deletePostService = postService.deletePost(postDetail.postId);
-                                            deletePostService.enqueue(new Callback<ResponseBody>() {
-                                                @Override
-                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                                    JSONObject jsonObject = null;
-                                                    String message ;
+                                            Observable<JsonObject> deletePostService = postService.deletePost(postDetail.postId);
 
-                                                    if(response.isSuccessful()) {
-                                                        try {
-                                                            jsonObject = new JSONObject(response.body().string());
-                                                            message = jsonObject.getString("message");
+                                            deletePostService.subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(jsonObject-> {
+//                                                        JSONObject json = new JSONObject(String.valueOf(jsonObject));
+                                                        String isRemoved = jsonObject.get("message").getAsString();
+                                                        Log.d("isRemoved", isRemoved);
+                                                        if(isRemoved.equals("save")) {
+                                                            Log.d("isRemoved", isRemoved);
+                                                            Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
-                                                            if (message.equals("save")) {
-                                                                Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-
-                                                                Intent intent = new Intent();
-                                                                intent.putExtra("position", position);
-                                                                setResult(RESULT_OK, intent);
-                                                                finish();
-                                                            }
-                                                        } catch (JSONException e) {
-                                                            e.printStackTrace();
-                                                        } catch (IOException e) {
-                                                            e.printStackTrace();
+                                                            Intent intent = new Intent();
+                                                            intent.putExtra("position", position);
+                                                            setResult(RESULT_OK, intent);
+                                                            finish();
                                                         }
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                                                }
-                                            });
+                                                    }, Throwable::printStackTrace);
+//                                            deletePostService.enqueue(new Callback<ResponseBody>() {
+//                                                @Override
+//                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                                                    JSONObject jsonObject = null;
+//                                                    String message ;
+//
+//                                                    if(response.isSuccessful()) {
+//                                                        try {
+//                                                            jsonObject = new JSONObject(response.body().string());
+//                                                            message = jsonObject.getString("message");
+//
+//                                                            if (message.equals("save")) {
+//                                                                Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
+//
+//                                                                Intent intent = new Intent();
+//                                                                intent.putExtra("position", position);
+//                                                                setResult(RESULT_OK, intent);
+//                                                                finish();
+//                                                            }
+//                                                        } catch (JSONException e) {
+//                                                            e.printStackTrace();
+//                                                        } catch (IOException e) {
+//                                                            e.printStackTrace();
+//                                                        }
+//                                                    }
+//                                                }
+//
+//                                                @Override
+//                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//                                                }
+//                                            });
                                         } else {    //no
                                             getSupportFragmentManager().beginTransaction().remove(postDeleteDialog).commit();
                                         }
@@ -534,6 +538,7 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
 
         }
     }
+
     boolean isSelected = false;
     PopupWindow editPost;
     @BindView(R.id.overflow_dots) ImageView overflowMenu;
@@ -551,20 +556,16 @@ public class PostDetailActivity extends BaseActivity implements NestedScrollView
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         if (scrollY > oldScrollY) {
-//            Log.i(TAG, "Scroll DOWN");
-            messageLayout.setVisibility(GONE);
+            messageLayout.setVisibility(GONE);  //scroll down
         }
         if (scrollY < oldScrollY) {
-//            Log.i(TAG, "Scroll UP");
-            messageLayout.setVisibility(View.VISIBLE);
+            messageLayout.setVisibility(View.VISIBLE);  //scroll up
         }
 
-        if (scrollY == 0) {
-//            Log.i(TAG, "TOP SCROLL");
-        }
+        if (scrollY == 0) {}    //top scroll
 
         if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-//            Log.i(TAG, "BOTTOM SCROLL");
+            messageLayout.setVisibility(View.VISIBLE);  //bottom scroll
         }
     }
 }
