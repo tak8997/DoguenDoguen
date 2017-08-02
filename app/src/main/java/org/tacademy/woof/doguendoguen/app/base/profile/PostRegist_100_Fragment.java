@@ -1,7 +1,6 @@
 package org.tacademy.woof.doguendoguen.app.base.profile;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
@@ -27,13 +28,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PostRegist_100_Fragment extends Fragment implements NestedScrollView.OnScrollChangeListener {
     private static final String TAG = "PostRegist_100_Fragment";
@@ -103,7 +103,6 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
             kennel = getArguments().getInt(VACCIN_KENNEL);
             parentImagesFileLocation = getArguments().getStringArrayList(PARENT_IMAGES_FILE_LOCATION);
             bloodHierarchyFileLocation = getArguments().getString(BLOOD_HIERARCHY_FILE_LOCATION);
-            Log.d("postTitle" , postTitle);
         }
     }
     PostDetailModel postDetail = null;
@@ -144,8 +143,6 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
     //이번 페이지에서 등록할 조건
     String postContent = "";
     String postSubContent = "";
-    private Handler progressBarbHandler = new Handler();
-    int progressBarStatus = 0;
     @BindView(R.id.circularProgressbar) ProgressBar progressBar;
 
     @OnClick({R.id.regist_btn})
@@ -162,28 +159,7 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
                 //파일 업로드(3개)
                 //펫 이미지
                 registBtn.setEnabled(false);
-
                 progressBar.setVisibility(View.VISIBLE);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while(true) {
-
-                            progressBarbHandler.post(new Runnable() {
-                                public void run() {
-                                    progressBar.setProgress(progressBarStatus);
-                                }
-                            });
-
-                            try {
-                                Thread.sleep(50);
-                            } catch (Exception ex) {
-
-                            }
-                            progressBarStatus++;
-                        }
-                    }
-                }).start();
 
                 String dogImageFileLocation = dogImagesFileLocation.get(0);
                 File uploadDogImages = new File(dogImageFileLocation);
@@ -228,32 +204,31 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
                 RequestBody condition = RequestBody.create(MediaType.parse("text/plain"), postSubContent);
 
                 PostService postService = RestClient.createService(PostService.class);
-                Call<ResponseBody> registerPostCall = postService.registerPost(dogImage, parentDogImage, hierarchyImage,
+                Observable<JsonObject> registerPostCall = postService.registerPost(dogImage, parentDogImage, hierarchyImage,
                         id, title, type, gender, age, city, district, price, color, size, vDhppl, vCorrona, vKennel, introduction, condition);
-                registerPostCall.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                            Log.d(TAG, "success" + response.code() + response.raw().toString());
 
-                            Thread.interrupted();
-                            FragmentManager fm = getActivity().getSupportFragmentManager();
-                            for(int i=0; i < fm.getBackStackEntryCount(); i++) {
-                                fm.popBackStack();
+                registerPostCall.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(jsonObject -> {
+                            JsonObject json = jsonObject.get("results").getAsJsonObject();
+
+                            if(json != null) {
+                                Log.d(TAG, json.get("user_id").getAsString() + ", " + json.get("spiece").getAsString());
+
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(DoguenDoguenApplication.getContext(), "등록이 완료되었습니다", Toast.LENGTH_SHORT).show();
+
+                                FragmentManager fm = getActivity().getSupportFragmentManager();
+                                for(int i=0; i < fm.getBackStackEntryCount(); i++)
+                                    fm.popBackStack();
+                            } else {
+                                registBtn.setEnabled(true);
+                                Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다. 다시 한번 시도해주세요.", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다. 다시 한번 시도해주세요", Toast.LENGTH_SHORT).show();
+                        }, throwable -> {
                             registBtn.setEnabled(true);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e(TAG, t.getMessage());
-                        registBtn.setEnabled(true);
-                    }
-                });   
+                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다. 다시 한번 시도해주세요.", Toast.LENGTH_SHORT).show();
+                        });
             }
         } //End of onRegistrationFinishClicked
     }

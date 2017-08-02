@@ -16,11 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
@@ -44,6 +40,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -165,8 +163,17 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
             editPost();
 
         scrollView.setOnScrollChangeListener(this);
+        initColorFlagMap();
 
         return view;
+    }
+    HashMap<String, Boolean> colorFlagMap;
+    private void initColorFlagMap() {
+        colorFlagMap = new HashMap<>();
+        colorFlagMap.put(whiteFlag, false);            colorFlagMap.put(ivoryFlag, false);
+        colorFlagMap.put(brightBrownFlag, false);  colorFlagMap.put(darkBrownFlag, false);
+        colorFlagMap.put(greyFlag, false);             colorFlagMap.put(blackFlag, false);
+        colorFlagMap.put(spotFlag, false);          colorFlagMap.put(etcFlag, false);
     }
 
     @BindView(R.id.dog_image_title) TextView addDogImageTitle;
@@ -255,127 +262,177 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         }
     }
 
-    boolean whiteFlag = false;
-    boolean ivoryFlag = false;
-    boolean brightBrownFlag = false;
-    boolean darkBrownFlag = false;
-    boolean greyFlag = false;
-    boolean blackFlag = false;
-    boolean spotFlag = false;
-    boolean etcFlag = false;
+    private String whiteFlag = "흰색";
+    private String ivoryFlag = "아이보리";
+    private String brightBrownFlag = "밝은 갈색";
+    private String darkBrownFlag = "어두운 갈색";
+    private String greyFlag = "회색";
+    private String blackFlag = "검정색";
+    private String spotFlag = "얼룩무늬";
+    private String etcFlag = "기타";
 
     @OnClick({R.id.color_white, R.id.color_ivory, R.id.color_bright_brown, R.id.color_dark_brown,
             R.id.color_grey, R.id.color_black, R.id.color_spot, R.id.color_etc})
     public void onColorClicked(View view) {
         switch (view.getId()) {
             case R.id.color_white:
-                if(whiteFlag == false) {
+                if(!colorFlagMap.get(whiteFlag)) {
+                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorWhite.getText().toString();
+                    oldColor = colorWhite.getText().toString();
+                    oldView = view;
                     view.setSelected(true);
-
-                    whiteFlag = true;
+                    colorFlagMap.put(whiteFlag, true);
+                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
                 } else {
+                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(whiteFlag, false);
+                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
                     view.setSelected(false);
-
-                    whiteFlag = false;
                 }
                 break;
             case R.id.color_ivory:
-                if(ivoryFlag == false) {
+                if(!colorFlagMap.get(ivoryFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorIvory.getText().toString();
+                    oldColor = colorIvory.getText().toString();
+                    oldView = view;
                     view.setSelected(true);
-
-                    ivoryFlag = true;
+                    colorFlagMap.put(ivoryFlag, true);
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(ivoryFlag, false);
                     view.setSelected(false);
-
-                    ivoryFlag = false;
                 }
                 break;
             case R.id.color_bright_brown:
-                if(brightBrownFlag == false) {
+                if(!colorFlagMap.get(brightBrownFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorBrightBrown.getText().toString();
+                    oldColor = colorBrightBrown.getText().toString();
+                    oldView = view;
                     view.setSelected(true);
-
-                    brightBrownFlag = true;
+                    colorFlagMap.put(brightBrownFlag, true);
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(brightBrownFlag, false);
                     view.setSelected(false);
-
-                    brightBrownFlag = false;
                 }
                 break;
             case R.id.color_dark_brown:
-                if(darkBrownFlag == false) {
+                if(!colorFlagMap.get(darkBrownFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorDarkBrown.getText().toString();
+                    oldColor = colorDarkBrown.getText().toString();
+                    oldView = view;
                     view.setSelected(true);
-
-                    darkBrownFlag = true;
+                    colorFlagMap.put(darkBrownFlag, true);
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(darkBrownFlag, false);
                     view.setSelected(false);
-
-                    darkBrownFlag = false;
                 }
                 break;
             case R.id.color_grey:
-                if (greyFlag == false) {
+                if (!colorFlagMap.get(greyFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorGrey.getText().toString();
+                    oldColor = colorGrey.getText().toString();
+                    oldView = view;
+                    colorFlagMap.put(greyFlag, true);
                     view.setSelected(true);
-
-                    greyFlag = true;
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(greyFlag, false);
                     view.setSelected(false);
-
-                    greyFlag = false;
                 }
                 break;
             case R.id.color_black:
-                if(blackFlag == false) {
+                if(!colorFlagMap.get(blackFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorBlack.getText().toString();
+                    oldColor = colorBlack.getText().toString();
+                    oldView = view;
+                    colorFlagMap.put(blackFlag, true);
                     view.setSelected(true);
-
-                    blackFlag = true;
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(blackFlag, false);
                     view.setSelected(false);
-
-                    blackFlag = false;
                 }
                 break;
             case R.id.color_spot:
-                if(spotFlag == false) {
+                if(!colorFlagMap.get(spotFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorSpot.getText().toString();
+                    oldColor = colorSpot.getText().toString();
+                    oldView = view;
+                    colorFlagMap.put(spotFlag, true);
                     view.setSelected(true);
-
-                    spotFlag = true;
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(spotFlag, false);
                     view.setSelected(false);
-
-                    spotFlag = false;
                 }
                 break;
             case R.id.color_etc:
-                if(etcFlag == false) {
+                if(!colorFlagMap.get(etcFlag)) {
+                    if(oldColor != null && oldView != null)
+                        setColorDeselection(oldView);
                     color = colorEtc.getText().toString();
+                    oldColor = colorEtc.getText().toString();
+                    oldView = view;
                     view.setSelected(true);
-
-                    etcFlag = false;
+                    colorFlagMap.put(etcFlag, true);
                 } else {
                     color = null;
+                    oldColor = null;
+                    oldView = null;
+                    colorFlagMap.put(etcFlag, false);
                     view.setSelected(false);
-
-                    etcFlag = true;
                 }
                 break;
-
         }
-        Log.d("colorr", color );
     }
+    private View oldView = null;
+    private String oldColor = null;
+    private void setColorDeselection(View oldView) {
+        if(oldColor != null) {
+            Log.d(TAG, "setColorDeselection : " + oldColor);
+
+            for (Map.Entry<String, Boolean> entry : colorFlagMap.entrySet()) {
+                if(entry.getKey().equals(oldColor)) {
+                    Log.d(TAG, "oldColor : " + entry.getKey());
+                    oldView.setSelected(false);
+                    colorFlagMap.put(oldColor, false);
+                }
+            }
+        }
+    }
+
 
     boolean smallFlag = false;
     boolean middleFlag = false;

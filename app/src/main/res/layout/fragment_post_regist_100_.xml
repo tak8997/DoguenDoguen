@@ -149,15 +149,10 @@
     </android.support.v4.widget.NestedScrollView>
     <ProgressBar
         android:id="@+id/circularProgressbar"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
-        android:indeterminate="false"
         android:layout_centerInParent="true"
-        android:progressDrawable="@drawable/circular"
         android:visibility="gone"
-        android:max="100"
-        android:progress="25"
         />
 </RelativeLayout>

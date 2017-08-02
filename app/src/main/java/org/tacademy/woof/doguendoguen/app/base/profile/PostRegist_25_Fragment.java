@@ -28,9 +28,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
@@ -45,8 +42,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.R.attr.id;
-import static android.media.CamcorderProfile.get;
 import static android.view.View.GONE;
 
 public class PostRegist_25_Fragment extends Fragment {
@@ -75,15 +70,7 @@ public class PostRegist_25_Fragment extends Fragment {
             postDetail = getArguments().getParcelable("PostDetailModel");
         }
 
-        String currentAppPackage = getActivity().getPackageName();
-        myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
-        checkPermission();
-
-        if (!myImageDir.exists()) {
-            if (myImageDir.mkdirs()) {
-                Toast.makeText(DoguenDoguenApplication.getContext(), " 저장할 디렉토리가 생성 됨", Toast.LENGTH_SHORT).show();
-            }
-        }
+        setRetainInstance(true);
     }
     PostDetailModel postDetail = null;
 
@@ -129,14 +116,24 @@ public class PostRegist_25_Fragment extends Fragment {
 //        addPetImage.setVisibility(View.GONE);    //pager layout
 //        addPetImageContainer.setVisibility(View.VISIBLE);  //원래 layout
 
+        String currentAppPackage = getActivity().getPackageName();
+        myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
+        checkPermission();
+
+        if (!myImageDir.exists()) {
+            if (myImageDir.mkdirs()) {
+                Toast.makeText(DoguenDoguenApplication.getContext(), " 저장할 디렉토리가 생성 됨", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (title != null)
+            postTitle.setText(title);
+
         return view;
     }
 
     @OnClick({R.id.next_btn, R.id.add_pet_image_container})
     public void onButtonClicked(View view) {
-        int id = view.getId();
-
-        switch (id) {
+        switch (view.getId()) {
             case R.id.next_btn:
                 registNextPost();
                 break;
@@ -182,7 +179,7 @@ public class PostRegist_25_Fragment extends Fragment {
     @BindView(R.id.dog_image_title) TextView titles;
     @BindView(R.id.dog_image_sub1_title) TextView subTitle;
     @BindView(R.id.dog_image_sub2_title) TextView secSubTitle;
-//    @BindView(R.id.)
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

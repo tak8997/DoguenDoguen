@@ -11,8 +11,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -30,7 +28,7 @@ public interface PostService {
     //게시글 등록 18개
     @Multipart
     @POST("/doglists")
-    Call<ResponseBody> registerPost(@Part MultipartBody.Part dogImage, @Part MultipartBody.Part parentDogImage, @Part MultipartBody.Part hierarchyImage,
+    Observable<JsonObject> registerPost(@Part MultipartBody.Part dogImage, @Part MultipartBody.Part parentDogImage, @Part MultipartBody.Part hierarchyImage,
                                     @Part("user_id") RequestBody id, @Part("title") RequestBody title, @Part("spiece") RequestBody type, @Part("gender") RequestBody gender,
                                     @Part("age") RequestBody age, @Part("region1") RequestBody city, @Part("region2") RequestBody district, @Part("price") RequestBody price,
                                     @Part("fur") RequestBody color, @Part("size") RequestBody size, @Part("DHPPL") RequestBody dhppl, @Part("corona") RequestBody corrona, @Part("kennel") RequestBody kennel,
@@ -43,7 +41,7 @@ public interface PostService {
     //게시글 수정 21개
     @Multipart
     @PUT("/doglists/{parcel_id}")
-    Call<ResponseBody> updatePost(@Part("pet_image_id") RequestBody imageId, @Part("parent_image_id") RequestBody parentId,
+    Observable<JsonObject> updatePost(@Part("pet_image_id") RequestBody imageId, @Part("parent_image_id") RequestBody parentId,
             @Path("parcel_id") int postId, @Part MultipartBody.Part dogImage, @Part MultipartBody.Part parentDogImage, @Part MultipartBody.Part hierarchyImage,
                             @Part("user_id") RequestBody id, @Part("title") RequestBody title, @Part("spiece") RequestBody type, @Part("gender") RequestBody gender,
                             @Part("age") RequestBody age, @Part("region1") RequestBody city, @Part("region2") RequestBody district, @Part("price") RequestBody price,

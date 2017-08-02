@@ -117,9 +117,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
         setCitiyRegion();
         //희망 분양지역 중 시군구 선택
         setDistrictRegion();
-        
-        if(postDetail != null)
-            editPost();
 
         scrollView.setOnScrollChangeListener(this);
 
@@ -132,18 +129,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
     @BindView(R.id.dog_city_selected) TextView dogCityTv;
     @BindView(R.id.dog_district_selected) TextView dogDistrictTv;
     @BindView(R.id.dog_price_selected) TextView dogPriceTv;
-
-    @BindView(R.id.edit_post_title) TextView editPostTitle;
-    private void editPost() {
-        editPostTitle.setText("분양글 수정하기");
-        dogTypeTv.setText(postDetail.dogType);
-        dogGenderTv.setText(postDetail.dogGender);
-        dogAgeTv.setText(postDetail.dogAge);
-        dogCityTv.setText(postDetail.region1);
-        dogDistrictTv.setText(postDetail.region2);
-        dogPriceTv.setText(postDetail.dogPrice);
-    }
-
     private void setCitiyRegion() {
         final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
         cityRegionAdapter.setCityRegions();
@@ -274,6 +259,9 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 male.setTextColor(Color.parseColor("#EDBC64"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
+
+                dogGenderBox.setVisibility(View.GONE);
+                genderFlag = false;
                 break;
             case R.id.female:
                 dogGenderTv.setVisibility(View.VISIBLE);
@@ -284,6 +272,9 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 female.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
+
+                dogGenderBox.setVisibility(View.GONE);
+                genderFlag = false;
                 break;
             case R.id.any_gender:
                 dogGenderTv.setVisibility(View.VISIBLE);
@@ -294,6 +285,9 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 anyGender.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
+
+                dogGenderBox.setVisibility(View.GONE);
+                genderFlag = false;
                 break;
 
             //dog region 선택
@@ -332,6 +326,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 dogPriceTv.setText(price + "만원");
                 dogAgeSpinner.setVisibility(View.VISIBLE);
                 dogPrice = price;
+                dogPriceBox.setVisibility(View.GONE);
                 break;
             case R.id.prev_btn:
                 previousRegistPage();
@@ -381,16 +376,13 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
         dogGenders.add("7개월");dogGenders.add("8개월");dogGenders.add("9개월");
         dogGenders.add("10개월");dogGenders.add("11개월");dogGenders.add("12개월");
         dogGenders.add("13개월");dogGenders.add("14개월");dogGenders.add("15개월");
-        dogGenders.add("16개월");dogGenders.add("17개월");dogGenders.add("18개월");
+        dogGenders.add("16개월");dogGenders.add("17개월");dogGenders.add("18개월 이상");
 
         DogAgeSpinnerAdapter adapter = new DogAgeSpinnerAdapter(dogGenders);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(DoguenDoguenApplication.getContext(),
-//                R.array.age_spinner, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
-        Field popup = null;
+        Field popup;
         try {
-            popup =Spinner.class.getDeclaredField("mPopup");
+            popup = Spinner.class.getDeclaredField("mPopup");
             popup.setAccessible(true);
 
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(dogAgeSpinner);
@@ -414,7 +406,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                dogAgeTv.setText("");
             }
         });
     }
@@ -436,23 +427,15 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
         AppBarLayout appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appbar);
 
         if (scrollY > oldScrollY) {
-            Log.i(TAG, "Scroll DOWN");
-
-            appBarLayout.setVisibility(View.INVISIBLE);
+            appBarLayout.setVisibility(View.INVISIBLE);//Scroll Down
         }
         if (scrollY < oldScrollY) {
-            Log.i(TAG, "Scroll UP");
-
-            appBarLayout.setVisibility(View.VISIBLE);
+            appBarLayout.setVisibility(View.VISIBLE);//Scroll Up
         }
 
-        if (scrollY == 0) {
-            Log.i(TAG, "TOP SCROLL");
-        }
+        if (scrollY == 0) {}    //Top Scroll
 
-        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-            Log.i(TAG, "BOTTOM SCROLL");
-        }
+        if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {}    //Bottom Scroll
     }
 
     //Dog age Select Adapter

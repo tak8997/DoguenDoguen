@@ -2,7 +2,6 @@ package org.tacademy.woof.doguendoguen.app.base.profile;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.JsonObject;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
@@ -26,13 +27,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class PostEdit_100_Dialog extends DialogFragment {
     private static final String TAG = "PostEdit_100_";
@@ -159,8 +159,6 @@ public class PostEdit_100_Dialog extends DialogFragment {
     String postContent = null;
     String postSubContent = null;
 
-    private Handler progressBarbHandler = new Handler();
-    int progressBarStatus = 0;
     @BindView(R.id.circularProgressbar)
     ProgressBar progressBar;
 
@@ -177,27 +175,6 @@ public class PostEdit_100_Dialog extends DialogFragment {
 
                 registBtn.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while(true) {
-
-                            progressBarbHandler.post(new Runnable() {
-                                public void run() {
-                                    progressBar.setProgress(progressBarStatus);
-                                }
-                            });
-
-                            try {
-                                Thread.sleep(50);
-                            } catch (Exception ex) {
-
-                            }
-                            progressBarStatus++;
-                        }
-                    }
-                }).start();
-
 
                 //파일 업로드(3개)
                 //펫 이미지
@@ -252,32 +229,25 @@ public class PostEdit_100_Dialog extends DialogFragment {
                 RequestBody condition = RequestBody.create(MediaType.parse("text/plain"), postSubContent);
 
                 PostService postService = RestClient.createService(PostService.class);
-                Call<ResponseBody> registerPostCall = postService.updatePost(petImageId, parentImageId, postDetail.postId, dogImage, parentDogImage, hierarchyImage,
+                Observable<JsonObject> registerPostCall = postService.updatePost(petImageId, parentImageId, postDetail.postId, dogImage, parentDogImage, hierarchyImage,
                         id, title, type, gender, age, city, district, price, color, size, vDhppl, vCorrona, vKennel, introduction, condition);
-                registerPostCall.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            Toast.makeText(DoguenDoguenApplication.getContext(), "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                            Log.d("success", "s");
 
-                            Thread.interrupted();
-                            if(listener != null) {
-                                listener.onAdapterItemClick("");
-                                dismiss();
+                registerPostCall.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(jsonObject -> {
+                            if(jsonObject!= null) {
+                                progressBar.setVisibility(View.GONE);
+                                Toast.makeText(DoguenDoguenApplication.getContext(), "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                                if(listener != null) {
+                                    listener.onAdapterItemClick("");
+                                    dismiss();
+                                }
+                            } else {
+                                Toast.makeText(DoguenDoguenApplication.getContext(), "수정에 실패하였습니다. 다시 한번 시도해주세요.", Toast.LENGTH_SHORT).show();
+                                registBtn.setEnabled(true);
                             }
-                        } else {
-                            Toast.makeText(DoguenDoguenApplication.getContext(), "등록에 실패하였습니다", Toast.LENGTH_SHORT).show();
-                            registBtn.setEnabled(true);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e(TAG, t.getMessage());
-                        registBtn.setEnabled(true);
-                    }
-                });   
+                        }, Throwable::printStackTrace);
             }
         } //End of onRegistrationFinishClicked
     }
