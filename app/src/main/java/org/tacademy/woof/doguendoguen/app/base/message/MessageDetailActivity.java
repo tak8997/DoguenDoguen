@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -20,15 +21,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.Socket;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.base.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.base.search.PostReportDialogFragment;
 import org.tacademy.woof.doguendoguen.app.base.search.ReportReasonDialogFragment;
-import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.Message;
 import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
@@ -38,8 +41,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 import static org.tacademy.woof.doguendoguen.R.id.report;
 
@@ -56,16 +57,14 @@ public class MessageDetailActivity extends BaseActivity {
 
     MessageDetailAdapter messageDetailAdapter;
     int participantId;
-    int otherUserId;
-    int userId;
+    String userId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_detail);
         ButterKnife.bind(this);
 
-        userId = Integer.parseInt(SharedPreferencesUtil.getInstance().getUserId());
-        Log.d("msg", userId + " msg");
+        userId = SharedPreferencesUtil.getInstance().getUserId();
 
         messageDetailAdapter = new MessageDetailAdapter(this);
 
@@ -74,8 +73,11 @@ public class MessageDetailActivity extends BaseActivity {
         mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("enterRoomResults", chattingList);   //기존 채팅 목록 가져오기
-        mSocket.on("sendMessageResults", newMessage);   //새로운 채팅 가져오기, 현재 채팅
+
+        new Handler().post(() -> {
+            mSocket.on("enterRoomResults", chattingList);   //기존 채팅 목록 가져오기
+            mSocket.on("sendMessageResults", newMessage);   //새로운 채팅 가져오기, 현재 채팅
+        });
         mSocket.connect();
     }
 
@@ -84,8 +86,8 @@ public class MessageDetailActivity extends BaseActivity {
         super.onStart();
 
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        messageRecyclerView.scrollToPosition(messageDetailAdapter.getItemCount() - 1);
         messageRecyclerView.setAdapter(messageDetailAdapter);
+        scrollToBottom();
         messageDetailAdapter.notifyDataSetChanged();
     }
 
@@ -97,14 +99,14 @@ public class MessageDetailActivity extends BaseActivity {
         if(intent != null) {
             if(intent.getExtras().getString("root").equals("MessageListsAdapter")) {
                 participantId = intent.getExtras().getInt("participantId");    //MessageListsAdapter로 부터 받아옴.
-                Log.d("participantId", participantId + "");
+                Log.d("from MessageListsAdpater, participantId", participantId + "");
 
                 mSocket.emit("enterRoom", participantId);
             } else {                                                ////PostDetailActivity로 부터도 받아옴
-                otherUserId = intent.getExtras().getInt("userId");   //Int
+                participantId = intent.getExtras().getInt("userId");   //Int
+                Log.d("from PostDetailActivity participantId", participantId + "");
 
-//                mSocket.on("sendMessageResults", newMessage);
-                mSocket.emit("enterRoom", otherUserId);
+                mSocket.emit("enterRoom", participantId);
             }
         }
     }
@@ -129,9 +131,15 @@ public class MessageDetailActivity extends BaseActivity {
         }
 
         editMessage.setText("");
+//        Message message = new Message();
+//        messageDetailAdapter.addMessage(message);
+        scrollToBottom();
+
         mSocket.emit("sendMessage", sendJson);
     }
-
+    private void scrollToBottom() {
+        messageRecyclerView.scrollToPosition(messageDetailAdapter.getItemCount() - 1);
+    }
 
     //PostDetailActivity, MessegeListsAdapter 로 부터. 새로운 메시지를 받아옴.
     private Emitter.Listener newMessage = new Emitter.Listener() {
@@ -160,10 +168,10 @@ public class MessageDetailActivity extends BaseActivity {
                         side = msg.getString("side");
 
                         message = new Message(senderId, senderThumbnail, senderName, content, side);
-                        Log.d("MessageDetail", "senderId, thumbmail, name, content : " + senderId + senderName);
+                        Log.d("MessageDetail", "senderId, thumbmail, name, content : " + content);
 
                         messageDetailAdapter.addMessage(message);
-                        messageDetailAdapter.notifyDataSetChanged();
+                        scrollToBottom();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -196,7 +204,7 @@ public class MessageDetailActivity extends BaseActivity {
                         int userId = roomInfo.getInt("user_id");
                         JSONArray messages = roomInfo.getJSONArray("messages");
 
-                        Log.d("MessageDetailActivity", "participant id, user id : " + participandId + ", " + userId);
+                        Log.d("chattingList", "participant id, user id : " + participandId + ", " + userId);
                          for(int i=0; i<messages.length(); i++) {
                             senderId = messages.getJSONObject(i).getInt("sender_id");
                             senderThumbnail = messages.getJSONObject(i).getString("sender_thumbnail");
@@ -205,12 +213,11 @@ public class MessageDetailActivity extends BaseActivity {
                             side = messages.getJSONObject(i).getString("side");
 
                             message = new Message(senderId, senderThumbnail, senderName, content, side);
-                            Log.d("MessageDetail", "senderId, thumbmail, name, content : " + senderId + senderName);
+                            Log.d("MessageDetail", "senderId, thumbmail, name, content : " + content + ", " + senderName);
 
                             messageDetailAdapter.addMessage(message);
-                            messageDetailAdapter.notifyDataSetChanged();
                         }
-
+                        scrollToBottom();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -322,7 +329,6 @@ public class MessageDetailActivity extends BaseActivity {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Message msg = messages.get(position);
 
-
             switch (getItemViewType(position)) {
                 case VIEW_TYPE_OTHER_USER://상대방 왼쪽
                     OtherUserViewHolder otherUserHolder = (OtherUserViewHolder) holder;
@@ -351,6 +357,7 @@ public class MessageDetailActivity extends BaseActivity {
 
         public void addMessage(Message message) {
             messages.add(message);
+            this.notifyDataSetChanged();
         }
     }
 

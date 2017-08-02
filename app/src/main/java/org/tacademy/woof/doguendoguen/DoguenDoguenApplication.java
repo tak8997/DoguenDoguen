@@ -2,14 +2,13 @@ package org.tacademy.woof.doguendoguen;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Typeface;
 
-import com.tsengvn.typekit.Typekit;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 import java.net.URISyntaxException;
 
-import io.socket.client.IO;
-import io.socket.client.Socket;
+
 
 /**
  * Created by Tak on 2017. 5. 25..

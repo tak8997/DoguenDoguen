@@ -1,36 +1,35 @@
 package org.tacademy.woof.doguendoguen.app.base.message;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.MessageListsAdapter;
+import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.ChattingRoom;
+import org.tacademy.woof.doguendoguen.model.UserModel;
+import org.tacademy.woof.doguendoguen.rest.RestClient;
+import org.tacademy.woof.doguendoguen.rest.user.ChatService;
+import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
-
-import static android.content.ContentValues.TAG;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MessageFragment extends Fragment {
     private static final String USER_ID = "userId";
@@ -45,9 +44,6 @@ public class MessageFragment extends Fragment {
         return fragment;
     }
 
-    private Socket mSocket;
-    private Boolean isConnected = true;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,16 +51,11 @@ public class MessageFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        mSocket = DoguenDoguenApplication.getSocket();
-        mSocket.on(Socket.EVENT_CONNECT,onConnect);
-        mSocket.on(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.on("showListResults", chattingRoomList);
-        mSocket.connect();
+        userId = SharedPreferencesUtil.getInstance().getUserId();
+        Log.d(this.getClass().getSimpleName(), "onCreateView" + ", userId: " + userId);
     }
     MessageListsAdapter messageListsAdapter;
-    int userId;
+    String userId;
 
     @BindView(R.id.message_recyclerview) RecyclerView messageRecyclerView;
 
@@ -73,12 +64,14 @@ public class MessageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, view);
 
-        messageListsAdapter= new MessageListsAdapter(getContext());
-
-        userId = Integer.parseInt(SharedPreferencesUtil.getInstance().getUserId());
-        Log.d("MessageFragment", userId + " ");
-        Log.d("MessageFragment", "onCreateView");
-
+        //로그인 되어있지 않으면
+        if(userId == null) {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.container, LoginFragment.newInstance());
+            ft.commit();
+        }
         return view;
     }
 
@@ -86,6 +79,7 @@ public class MessageFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        messageListsAdapter= new MessageListsAdapter(getContext());
         messageRecyclerView.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
         messageRecyclerView.setAdapter(messageListsAdapter);
     }
@@ -94,112 +88,25 @@ public class MessageFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (userId != 0)
-            mSocket.emit("showList");
-    }
+        if(userId != null) {
+            UserService userService = RestClient.createService(UserService.class);
+            Observable<UserModel> getUser = userService.getUser(0);
 
+            getUser.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(userModel -> {
 
-    ChattingRoom chattingRoom;
-    private Emitter.Listener chattingRoomList = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            Log.d("Message" , "onMessage" + args + "," + args[0]);
+                    }, Throwable::printStackTrace);
 
-            final List<ChattingRoom> chattingRooms = new ArrayList<>();
+            ChatService chatService = RestClient.createService(ChatService.class);
+            Observable<List<ChattingRoom>> getChatRooms = chatService.getChatRoom();
 
-             getActivity().runOnUiThread(new Runnable() {
-                 @Override
-                 public void run() {
-                     int participantId;
-                     String sendTime;
-                     String senderName;
-                     String senderThumbnail;
-                     String content;
-                     int unreadCount;
-
-                     try {
-                         JSONObject room = (JSONObject) args[0];
-                         JSONArray roomList = room.getJSONArray("roomList");
-
-                         Log.d("aasdf" , roomList.toString() );
-                         for (int i=0; i<roomList.length(); i++) {
-                             participantId = roomList.getJSONObject(i).getInt("participant_id");
-                             sendTime = roomList.getJSONObject(i).getString("sent_time");
-                             senderName = roomList.getJSONObject(i).getString("sender_name");
-                             senderThumbnail = roomList.getJSONObject(i).getString("sender_thumbnail");
-                             content = roomList.getJSONObject(i).getString("content");
-                             unreadCount = roomList.getJSONObject(i).getInt("unread_count");
-
-                             chattingRoom = new ChattingRoom(participantId, sendTime, senderName, senderThumbnail, content, unreadCount);
-                             chattingRooms.add(chattingRoom);
-
-                             messageListsAdapter.addMessageList(chattingRooms);
-                             messageListsAdapter.notifyDataSetChanged();
-
-                             Log.d("aasdf" , participantId + " asdf" );
-                         }
-
-//                         addChattinRommList(chattingRooms);
-                     } catch (JSONException e) {
-                         e.printStackTrace();
-                     }
-                 }
-             });//쓰레드 end
+            getChatRooms.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(chattingRooms -> {
+                        messageListsAdapter.addMessageList(chattingRooms);
+                        messageListsAdapter.notifyDataSetChanged();
+                    }, Throwable::printStackTrace);
         }
-    };
-
-    private void addChattinRommList(List<ChattingRoom> chattingRooms) {
-
-    }
-
-    private Emitter.Listener onConnectError = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getActivity().getApplicationContext(),
-                            "서버와 연결 실패", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    };
-    private Emitter.Listener onConnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.d("MessageFragment", "connected");
-                        Toast.makeText(getActivity().getApplicationContext(), "연결되었습니다", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    };
-    private Emitter.Listener onDisconnect = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "diconnected");
-                    isConnected = false;
-                    Toast.makeText(DoguenDoguenApplication.getContext(),
-                            "인터넷 연결상태를 확인해주세요", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    };
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        mSocket.disconnect();
-        mSocket.off(Socket.EVENT_CONNECT, onConnect);
-        mSocket.off(Socket.EVENT_DISCONNECT, onDisconnect);
-        mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
-        mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
-        mSocket.off("showListResults", chattingRoomList);
     }
 }
