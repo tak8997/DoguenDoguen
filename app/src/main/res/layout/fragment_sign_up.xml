@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="22dp"
+    android:paddingRight="22dp"
+    android:gravity="center"
+    tools:context="org.tacademy.woof.doguendoguen.app.sign.SignUpFragment">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:inputType="textEmailAddress"
+        android:nextFocusDown="@+id/pwd"
+        android:id="@+id/e_mail"
+        android:hint="이메일"
+        android:maxLines="1"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:inputType="textPassword"
+        android:nextFocusDown="@+id/pwd_check"
+        android:layout_marginTop="10dp"
+        android:id="@+id/pwd"
+        android:maxLines="1"
+        android:hint="비밀번호(6~16, 숫자, 영문, 특수문자 포함)"
+        android:textSize="20sp"
+        android:layout_below="@+id/e_mail" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:imeOptions="actionSend"
+        android:id="@+id/pwd_check"
+        android:hint="비밀번호 확인"
+        android:layout_below="@+id/pwd" />
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:gravity="right"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/pwd_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/regist_finish"
+            android:background="@drawable/btn_selected"
+            android:text="가입완료"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/regist_finish"
+            android:background="@drawable/btn_selected"
+            android:text="취소"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp" />
+    </RelativeLayout>
+</RelativeLayout>

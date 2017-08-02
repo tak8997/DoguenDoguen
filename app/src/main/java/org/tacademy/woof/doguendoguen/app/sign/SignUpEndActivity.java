@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
-import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
+import org.tacademy.woof.doguendoguen.app.base.BaseActivity;
 import org.tacademy.woof.doguendoguen.model.UserIdModel;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;

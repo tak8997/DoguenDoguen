@@ -2,6 +2,8 @@ package org.tacademy.woof.doguendoguen.rest;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -41,13 +43,19 @@ public class RestClient {
                 .addInterceptor(new Interceptor() {
                     @Override
                     public Response intercept(Chain chain) throws IOException {
+                        String userToken = SharedPreferencesUtil.getInstance().getUserId();
+
                         Request original = chain.request();
 
                         Request.Builder reqBuilder = original.newBuilder()
-                                .addHeader("user_token", "21")
-                                .addHeader("Accept", "application/json");
+                                .header("Accept", "application/json");
+
+                        if(userToken != null)
+                            reqBuilder.header("user_token", userToken);
+
 
                         Request request = reqBuilder.build();
+
                         return chain.proceed(request);
                     }
                 })
