@@ -1,6 +1,5 @@
 package org.tacademy.woof.doguendoguen.app.base.search;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,9 +22,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogListsAdapter;
@@ -37,7 +35,6 @@ import org.tacademy.woof.doguendoguen.rest.post.PostService;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,14 +42,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -76,7 +68,6 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-
     }
     String userId;
 
@@ -91,7 +82,6 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     @BindView(R.id.dog_emergency) RecyclerView dogEmergencyView;
     @BindView(R.id.emergency_list) LinearLayout emergencyList;
 
-//    @BindView(R.id.condition_hide) ImageView upArrow;
     @BindView(R.id.appbar) AppBarLayout appbar;
     @BindView(R.id.nav_result) TextView navResult;
     @BindView(R.id.toolar_layout) RelativeLayout toolbarLayout;
@@ -391,69 +381,31 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
 
         private void addWish(int position) {
             UserService userService = RestClient.createService(UserService.class);
-            Call<ResponseBody> addWishService = userService.registerWishList(urgentPostLists.get(position).postId, Integer.parseInt(userId));
-            addWishService.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    JSONObject jsonObject ;
-                    String message ;
-                    try {
-                        jsonObject = new JSONObject(response.body().string());
-                        message = jsonObject.getString("message");
+            Observable<JsonObject> addWishService = userService.registerWishList(urgentPostLists.get(position).postId);
 
-                        Log.d("DogLists", response.body().string() +", " + message );
-                        if(message.equals("add")) {
-                            Log.d("DogLists", "add");
+            addWishService.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(jsonObject -> {
+                        String message = jsonObject.get("message").getAsString();
+
+                        Log.d("DogLists", message);
+                        if(message.equals("add"))
                             Toast.makeText(context, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
+                    });
         }
 
         private void removeWish(int position) {
             UserService userService = RestClient.createService(UserService.class);
-            Call<ResponseBody> removeWishService = userService.registerWishList(urgentPostLists.get(position).postId, Integer.parseInt(userId));
-            removeWishService.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    JSONObject jsonObject ;
-                    String message ;
-                    try {
-                        jsonObject = new JSONObject(response.body().string());
-                        message = jsonObject.getString("message");
+            Observable<JsonObject> removeWishService = userService.registerWishList(urgentPostLists.get(position).postId);
 
-                        Log.d("WishLists", response.body().string() +", " + message );
-                        if(message.equals("delete")) {
-                            Log.d("DogLists", "remove");
+            removeWishService.observeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(jsonObject -> {
+                        String message = jsonObject.get("message").getAsString();
 
+                        if(message.equals("delete"))
                             Toast.makeText(context, "위시리스트 에서 삭제하였습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
-        }
-
-        private void updateDataList() {
-            this.notifyDataSetChanged();
+                    });
         }
 
         @Override

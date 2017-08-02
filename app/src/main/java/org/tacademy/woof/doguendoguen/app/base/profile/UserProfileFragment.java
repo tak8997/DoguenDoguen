@@ -29,9 +29,9 @@ import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -95,61 +95,47 @@ public class UserProfileFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //일단은 21으로, userId값 넣어줘야함
-//        userId = "21";
-        if(userId != null) {
+        if(userId != null)
             getUserService();
-        }
     }
 
     @BindView(R.id.post_img) ImageView registPost;
     @BindView(R.id.my_post_list) ImageView myPostList;
     private void getUserService() {
         UserService userService = RestClient.createService(UserService.class);
-        Call<UserModel> getUser = userService.getUser(Integer.parseInt(userId));
-        getUser.enqueue(new Callback<UserModel>() {
-            @Override
-            public void onResponse(Call<UserModel> call, Response<UserModel> response) {
-                if(response.isSuccessful()) {
-                    user = response.body();
+        Observable<UserModel> getUser = userService.getUser(0); //내 아이디 조회는 0
 
-                    if(user != null) {
-                        Log.d(TAG, "onSuccess, userId: " + user.userId);
+        getUser.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(userModel -> {
+                    user = userModel;
+                    Log.d(TAG, "onSuccess, userId: " + user.userId);
 
-                        String name = user.userName;
-                        String userImageThumbUrl = user.userImageThumbUrl;
+                    String name = user.userName;
+                    String userImageThumbUrl = user.userImageThumbUrl;
 
-                        userName.setText(name);
-                        userProfileChange.setText("프로필 확인 및 수정");
+                    userName.setText(name);
+                    userProfileChange.setText("프로필 확인 및 수정");
 
-                        Glide.with(DoguenDoguenApplication.getContext())
-                                .load(userImageThumbUrl)
-                                .dontTransform()
-                                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                                .into(userImage);
+                    Glide.with(DoguenDoguenApplication.getContext())
+                            .load(userImageThumbUrl)
+                            .dontTransform()
+                            .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                            .into(userImage);
 
-                        registPost.setImageResource(R.drawable.regist_on);
-                        myPostList.setImageResource(R.drawable.my_post_off);
+                    registPost.setImageResource(R.drawable.regist_on);
+                    myPostList.setImageResource(R.drawable.my_post_off);
 
-                        postRegist.setTextColor(Color.parseColor("#3E3A39"));
-                        userPostList.setTextColor(Color.parseColor("#3E3A39"));
-                        chattingAlarm.setTextColor(Color.parseColor("#3E3A39"));
+                    postRegist.setTextColor(Color.parseColor("#3E3A39"));
+                    userPostList.setTextColor(Color.parseColor("#3E3A39"));
+                    chattingAlarm.setTextColor(Color.parseColor("#3E3A39"));
 
-                        userImage.setEnabled(true);
-                        postRegist.setEnabled(true);
-                        userPostList.setEnabled(true);
-                        chattingAlarm.setEnabled(true);
-                        alarmSwitch.setEnabled(true);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserModel> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
-            }
-        });
-
+                    userImage.setEnabled(true);
+                    postRegist.setEnabled(true);
+                    userPostList.setEnabled(true);
+                    chattingAlarm.setEnabled(true);
+                    alarmSwitch.setEnabled(true);
+                }, Throwable::printStackTrace);
     }
 
     @OnClick({R.id.profile_user_image, R.id.post_regist, R.id.user_post_list, R.id.question, R.id.agreement, R.id.logout})
@@ -157,6 +143,8 @@ public class UserProfileFragment extends Fragment {
         switch (view.getId()) {
             //유저 프로필 확인
             case R.id.profile_user_image:
+            case R.id.profile_title:
+            case R.id.profile_sub_title:
                 Intent intent = new Intent(DoguenDoguenApplication.getContext(), UserProfileDetailActivity.class);
                 intent.putExtra("user", user);
                 startActivityForResult(intent, USER_PROFILE_LOGOUT);
@@ -195,18 +183,17 @@ public class UserProfileFragment extends Fragment {
                 break;
             //로그아웃
             case R.id.logout:
-                if (userId != null) {
-                    SharedPreferencesUtil.getInstance().clear();
-                    Toast.makeText(DoguenDoguenApplication.getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, "userId:" + SharedPreferencesUtil.getInstance().getUserId());
-
+                if (userId != null)
                     logout();
-                }
                 break;
         }
     }
 
     private void logout() {
+        SharedPreferencesUtil.getInstance().clear();
+        Toast.makeText(DoguenDoguenApplication.getContext(), "로그아웃 되었습니다", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "userId:" + SharedPreferencesUtil.getInstance().getUserId());
+
         userName.setText(R.string.profile_title);
         userProfileChange.setText(R.string.profile_sub_title);
         userImage.setImageResource(R.drawable.user_login_off);
@@ -219,9 +206,8 @@ public class UserProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK && requestCode == USER_PROFILE_LOGOUT) {
+        if(resultCode == RESULT_OK && requestCode == USER_PROFILE_LOGOUT)
             logout();
-        }
     }
 
 

@@ -5,7 +5,6 @@ import android.text.TextWatcher;
 import android.view.View;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -55,8 +54,7 @@ public class SearchDogTypeActivity extends BaseSearchDogTypeActivity {
         });
 
         return textChangeObservable
-                .filter(query -> query.length() >= 1)
-                .debounce(1000, TimeUnit.MILLISECONDS);
+                .filter(query -> query.length() >= 1);
     }
 
 

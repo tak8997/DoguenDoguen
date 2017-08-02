@@ -9,16 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static org.tacademy.woof.doguendoguen.R.id.male;
 import static org.tacademy.woof.doguendoguen.R.id.under_twelve;
 
 /**
@@ -47,6 +44,11 @@ public class AgeSearchDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @OnClick(R.id.dog_age)
+    public void onAgeTitleClicked() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     @OnClick({R.id.under_four, R.id.under_twelve, R.id.up_twelve, R.id.all_age})

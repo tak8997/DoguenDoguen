@@ -19,9 +19,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.search.PostDetailActivity;
@@ -31,21 +30,18 @@ import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 
 public class WishFragment extends Fragment {
-    private static final String USER_ID = "userId";
     private static final String TAG = "WishFragment";
     private final int REQUEST_POST_DETAIL = 1000;
 
@@ -64,8 +60,10 @@ public class WishFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            userId = getArguments().getString(USER_ID);
         }
+
+        userId = SharedPreferencesUtil.getInstance().getUserId();
+        Log.d(this.getClass().getSimpleName(), "onCreateView" + ", userId: " + userId);
     }
 
     private String userId;
@@ -78,21 +76,15 @@ public class WishFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wish, container, false);
         ButterKnife.bind(this, view);
-        Log.d(this.getClass().getSimpleName(), "onCreateView");
 
-        //userId를 기준으로유저 프로필을 가져온다
-        userId = SharedPreferencesUtil.getInstance().getUserId();
-        Log.d(TAG, "userId: " + userId);
-
+        //로그인 되어있지 않으면
         if(userId == null) {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, LoginFragment.newInstance());
-            fragmentTransaction.commit();
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.container, LoginFragment.newInstance());
+            ft.commit();
         }
-
-        wishLists.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
-
         return view;
     }
 
@@ -101,31 +93,29 @@ public class WishFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated");
 
+        wishLists.setLayoutManager(new LinearLayoutManager(DoguenDoguenApplication.getContext()));
+        wishAdapter = new WishListAdapter(getContext(), userId);
+        wishLists.setAdapter(wishAdapter);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         if(userId != null) {
             UserService userService = RestClient.createService(UserService.class);
-            Call<List<PostList>> postListService = userService.getWishList(Integer.parseInt(userId));
-            postListService.enqueue(new Callback<List<PostList>>() {
-                @Override
-                public void onResponse(Call<List<PostList>> call, Response<List<PostList>> response) {
-                    Log.d(TAG, "getWishList");
-                    postList = response.body();
+            Observable<List<PostList>> postListService = userService.getWishList();
 
+            postListService.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(postLists -> {
+                        postList = postLists;
 
-                    wishAdapter = new WishListAdapter(getContext(), userId);
-                    wishLists.setAdapter(wishAdapter);
+                        for(int i=0; i<postList.size(); i++)
+                            wishAdapter.addWishPost(postList.get(i));
 
-                    for(int i=0; i<postList.size(); i++) {
-                        wishAdapter.addWishPost(postList.get(i));
-                    }
-                    wishAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(Call<List<PostList>> call, Throwable t) {
-                    Log.d(TAG, t.getMessage());
-                }
-            });
-
+                        wishAdapter.notifyDataSetChanged();
+                    }, Throwable::printStackTrace);
         }
     }
 
@@ -207,17 +197,13 @@ public class WishFragment extends Fragment {
 
         private void removeWish(final int position) {
             UserService userService = RestClient.createService(UserService.class);
-            Call<ResponseBody> registerWishService = userService.registerWishList(wishLists.get(position).postId, Integer.parseInt(userId));
-            registerWishService.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    JSONObject jsonObject ;
-                    String message ;
-                    try {
-                        jsonObject = new JSONObject(response.body().string());
-                        message = jsonObject.getString("message");
+            Observable<JsonObject> registerWishService = userService.registerWishList(wishLists.get(position).postId);
 
-                        Log.d("WishLists", response.body().string() +", " + message );
+            registerWishService.subscribeOn(Schedulers.io())
+                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .subscribe(jsonObject->{
+                        String message = jsonObject.get("message").getAsString();
+
                         if(message.equals("delete")) {
                             Log.d("WishLists", "remove");
                             wishLists.remove(position);
@@ -225,18 +211,7 @@ public class WishFragment extends Fragment {
 
                             Toast.makeText(context, "위시리스트 에서 삭제하였습니다.", Toast.LENGTH_SHORT).show();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
+                    }, Throwable::printStackTrace);
         }
 
         private void updateDataList() {

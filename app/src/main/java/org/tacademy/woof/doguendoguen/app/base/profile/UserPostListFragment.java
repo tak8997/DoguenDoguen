@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -21,7 +20,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
-import org.tacademy.woof.doguendoguen.adapter.UserPostAdapter;
 import org.tacademy.woof.doguendoguen.app.base.search.PostDetailActivity;
 import org.tacademy.woof.doguendoguen.model.UserModel;
 
@@ -30,7 +28,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_OK;
-import static org.tacademy.woof.doguendoguen.adapter.UserPostAdapter.READ_USER_POST;
 
 public class UserPostListFragment extends Fragment {
     private static final String TAG = "UserPostListFragment";

@@ -54,6 +54,11 @@ public class RegionSearchDialogFragment extends DialogFragment {
         return view;
     }
 
+    @OnClick(R.id.dog_region)
+    public void onRegionTitleClicked() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+    }
+
     @OnClick({R.id.city, R.id.district})
     public void onRegionClicked(View view) {
         switch (view.getId()) {

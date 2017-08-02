@@ -21,14 +21,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DogColorList;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogImageFragmentAdapter;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageDetailActivity;
 import org.tacademy.woof.doguendoguen.app.base.profile.PostEdit_25_Dialog;
-import org.tacademy.woof.doguendoguen.app.home.BaseActivity;
+import org.tacademy.woof.doguendoguen.app.base.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.DogImage;
 import org.tacademy.woof.doguendoguen.model.ParentDogImage;
@@ -39,7 +37,6 @@ import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -48,10 +45,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static android.view.View.GONE;
 
@@ -155,17 +148,13 @@ public class PostDetailActivity extends BaseActivity {
                         heart.setImageResource(R.drawable.toolbar_heart_selected);  //위시추가
 
                         UserService userService = RestClient.createService(UserService.class);
-                        Call<ResponseBody> addWishService = userService.registerWishList(postId, Integer.parseInt(userId));
-                        addWishService.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                JSONObject jsonObject ;
-                                String message ;
-                                try {
-                                    jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("message");
+                        Observable<JsonObject> addWishService = userService.registerWishList(postId);
 
-                                    Log.d("PostDetail", "Message : " + message );
+                        addWishService.subscribeOn(Schedulers.io())
+                                .subscribeOn(AndroidSchedulers.mainThread())
+                                .subscribe(jsonObject -> {
+                                    String message = jsonObject.get("message").getAsString();
+
                                     if(message.equals("add")) {
                                         Log.d("DogLists", "add");
                                         Toast.makeText(PostDetailActivity.this, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
@@ -179,33 +168,18 @@ public class PostDetailActivity extends BaseActivity {
                                         }
 
                                     }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                            }
-                        });
+                                }, Throwable::printStackTrace);
                     } else if(isWish == 1) {    //이미 위시에 추가되있는 상태
                         heart.setImageResource(R.drawable.toolbar_heart);   //위세 제거
 
                         UserService userService = RestClient.createService(UserService.class);
-                        Call<ResponseBody> removeWishService = userService.registerWishList(postId, Integer.parseInt(userId));
-                        removeWishService.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                JSONObject jsonObject;
-                                String message;
-                                try {
-                                    jsonObject = new JSONObject(response.body().string());
-                                    message = jsonObject.getString("message");
+                        Observable<JsonObject> removeWishService = userService.registerWishList(postId);
 
-                                    Log.d("PostDetail", "Message : " + message);
+                        removeWishService.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(jsonObject -> {
+                                    String message = jsonObject.get("message").getAsString();
+
                                     if (message.equals("delete")) {
                                         Log.d("DogLists", "delete");
                                         Toast.makeText(PostDetailActivity.this, "위시리스트에 제거하셨습니다.", Toast.LENGTH_SHORT).show();
@@ -219,18 +193,7 @@ public class PostDetailActivity extends BaseActivity {
                                             setResult(RESULT_OK, intent);
                                         }
                                     }
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                            }
-                        });
+                                }, Throwable::printStackTrace);
                     }
                 }
                 break;
@@ -461,7 +424,6 @@ public class PostDetailActivity extends BaseActivity {
                                             deletePostService.subscribeOn(Schedulers.io())
                                                     .observeOn(AndroidSchedulers.mainThread())
                                                     .subscribe(jsonObject-> {
-//                                                        JSONObject json = new JSONObject(String.valueOf(jsonObject));
                                                         String isRemoved = jsonObject.get("message").getAsString();
                                                         Log.d("isRemoved", isRemoved);
                                                         if(isRemoved.equals("save")) {
@@ -474,38 +436,6 @@ public class PostDetailActivity extends BaseActivity {
                                                             finish();
                                                         }
                                                     }, Throwable::printStackTrace);
-//                                            deletePostService.enqueue(new Callback<ResponseBody>() {
-//                                                @Override
-//                                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                                                    JSONObject jsonObject = null;
-//                                                    String message ;
-//
-//                                                    if(response.isSuccessful()) {
-//                                                        try {
-//                                                            jsonObject = new JSONObject(response.body().string());
-//                                                            message = jsonObject.getString("message");
-//
-//                                                            if (message.equals("save")) {
-//                                                                Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
-//
-//                                                                Intent intent = new Intent();
-//                                                                intent.putExtra("position", position);
-//                                                                setResult(RESULT_OK, intent);
-//                                                                finish();
-//                                                            }
-//                                                        } catch (JSONException e) {
-//                                                            e.printStackTrace();
-//                                                        } catch (IOException e) {
-//                                                            e.printStackTrace();
-//                                                        }
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//                                                }
-//                                            });
                                         } else {    //no
                                             getSupportFragmentManager().beginTransaction().remove(postDeleteDialog).commit();
                                         }

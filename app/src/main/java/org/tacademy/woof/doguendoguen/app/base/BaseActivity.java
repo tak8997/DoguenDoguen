@@ -1,4 +1,4 @@
-package org.tacademy.woof.doguendoguen.app.home;
+package org.tacademy.woof.doguendoguen.app.base;
 
 import android.content.Context;
 import android.support.v4.widget.NestedScrollView;

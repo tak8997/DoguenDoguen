@@ -13,38 +13,54 @@ import java.util.List;
  */
 
 public class UserModel implements Parcelable {
-    //10개?
+    //11개
+    @SerializedName("message")
+    @Expose
+    public String userMessage;
+
     @SerializedName("user_id")
+    @Expose
     public int userId;
 
     @SerializedName("username")
+    @Expose
     public String userName;
 
     @SerializedName("gender")
+    @Expose
     public String userGender;
 
     @SerializedName("lifestyle")
+    @Expose
     public String userApartType;
 
     @SerializedName("region")
+    @Expose
     public String userRegion;
 
     @SerializedName("other_pets")
+    @Expose
     public int userPetOwn;
 
     @SerializedName("family_size")
+    @Expose
     public String userFamilySize;
 
     @SerializedName("profile_image")
+    @Expose
     public String userImageUrl;
 
     @SerializedName("profile_thumbnail")
+    @Expose
     public String userImageThumbUrl;
 
     @SerializedName("mylist")
+    @Expose
     public List<MyPostModel> userPostList;
 
-    public UserModel(int userId, String userName, String userGender, String userApartType, String userRegion, int userPetOwn, String userFamilySize, String userImageUrl, String userImageThumbUrl, List<MyPostModel> userPostList) {
+
+    public UserModel(String userMessage, int userId, String userName, String userGender, String userApartType, String userRegion, int userPetOwn, String userFamilySize, String userImageUrl, String userImageThumbUrl, List<MyPostModel> userPostList) {
+        this.userMessage = userMessage;
         this.userId = userId;
         this.userName = userName;
         this.userGender = userGender;
@@ -58,6 +74,7 @@ public class UserModel implements Parcelable {
     }
 
     protected UserModel(Parcel in) {
+        userMessage = in.readString();
         userId = in.readInt();
         userName = in.readString();
         userGender = in.readString();
@@ -89,6 +106,7 @@ public class UserModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(userMessage);
         dest.writeInt(userId);
         dest.writeString(userName);
         dest.writeString(userGender);

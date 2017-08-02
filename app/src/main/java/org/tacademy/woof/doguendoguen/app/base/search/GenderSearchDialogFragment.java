@@ -3,23 +3,16 @@ package org.tacademy.woof.doguendoguen.app.base.search;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.width;
 
 /**
  * Created by Tak on 2017. 6. 12..
@@ -44,6 +37,11 @@ public class GenderSearchDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @OnClick(R.id.dog_gender)
+    public void onGenderTitleClicked() {
+        getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
     @OnClick({R.id.female, R.id.male, R.id.any_gender})

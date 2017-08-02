@@ -1,17 +1,18 @@
 package org.tacademy.woof.doguendoguen.rest.user;
 
+import com.google.gson.JsonObject;
+
 import org.tacademy.woof.doguendoguen.model.PostList;
 import org.tacademy.woof.doguendoguen.model.UserIdModel;
 import org.tacademy.woof.doguendoguen.model.UserModel;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -35,7 +36,7 @@ public interface UserService {
 
     //프로필 조회
     @GET("/profiles/{user_id}")
-    Call<UserModel> getUser(@Path("user_id") int userId);
+    Observable<UserModel> getUser(@Path("user_id") int userId);
 
     //프로필 업데이트
     @Multipart
@@ -46,13 +47,12 @@ public interface UserService {
 
 
     //사용자 관심글 목록 가져오기
-    @GET("/favorites/{user_id}")
-    Call<List<PostList>> getWishList(@Path("user_id") int userId);
+    @GET("/favorites")
+    Observable<List<PostList>> getWishList();
 
-    //사용자 관심글 저장/해
-    @PUT("/favorites/{user_id}")
-    @FormUrlEncoded
-    Call<ResponseBody> registerWishList(@Field("parcel_id") int postId, @Path("user_id") int userId);
+    //사용자 관심글 저장/해제
+    @PUT("/favorites/{parcel_id}")
+    Observable<JsonObject> registerWishList(@Path("parcel_id") int postId);
 
     //회원탈퇴 하기
     @POST("/signout/{user_id}")

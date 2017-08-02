@@ -1,25 +1,20 @@
 package org.tacademy.woof.doguendoguen.app.home;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.base.BaseActivity;
 import org.tacademy.woof.doguendoguen.app.base.message.MessageFragment;
 import org.tacademy.woof.doguendoguen.app.base.profile.UserProfileFragment;
 import org.tacademy.woof.doguendoguen.app.base.search.SearchFragment;
 import org.tacademy.woof.doguendoguen.app.base.wish.WishFragment;
-import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import butterknife.BindView;

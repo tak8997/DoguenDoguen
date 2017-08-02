@@ -2,9 +2,6 @@ package org.tacademy.woof.doguendoguen.model.command;
 
 import com.google.gson.annotations.SerializedName;
 
-import static android.R.attr.data;
-import static android.R.attr.type;
-
 /**
  * Created by Tak on 2017. 5. 29..
  */

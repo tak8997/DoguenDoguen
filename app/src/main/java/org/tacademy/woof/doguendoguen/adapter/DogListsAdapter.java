@@ -13,9 +13,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.gson.JsonObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.search.PostDetailActivity;
@@ -23,20 +22,17 @@ import org.tacademy.woof.doguendoguen.model.PostList;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Tak on 2017. 5. 29..
  */
 
 public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHolder>{
-    boolean isWishSelected = false;
     private ArrayList<PostList> postLists = new ArrayList<>();
     private Context context;
     private String userId;
@@ -103,65 +99,30 @@ public class DogListsAdapter extends RecyclerView.Adapter<DogListsAdapter.ViewHo
 
     private void removeWish(int position) {
         UserService userService = RestClient.createService(UserService.class);
-        Call<ResponseBody> removeWishService = userService.registerWishList(postLists.get(position).postId, Integer.parseInt(userId));
-        removeWishService.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                JSONObject jsonObject ;
-                String message ;
-                try {
-                    jsonObject = new JSONObject(response.body().string());
-                    message = jsonObject.getString("message");
+        Observable<JsonObject> removeWishService = userService.registerWishList(postLists.get(position).postId);
 
-                    Log.d("WishLists", response.body().string() +", " + message );
-                    if(message.equals("delete")) {
-                        Log.d("DogLists", "remove");
+        removeWishService.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(jsonObject -> {
+                    String message = jsonObject.get("message").getAsString();
 
+                    if(message.equals("delete"))
                         Toast.makeText(context, "위시리스트 에서 삭제하였습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+                }, Throwable::printStackTrace);
     }
 
     public void addWish(final int position) {
         UserService userService = RestClient.createService(UserService.class);
-        Call<ResponseBody> addWishService = userService.registerWishList(postLists.get(position).postId, Integer.parseInt(userId));
-        addWishService.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                JSONObject jsonObject ;
-                String message ;
-                try {
-                    jsonObject = new JSONObject(response.body().string());
-                    message = jsonObject.getString("message");
+        Observable<JsonObject> addWishService = userService.registerWishList(postLists.get(position).postId);
 
-                    Log.d("DogLists", response.body().string() +", " + message );
-                    if(message.equals("add")) {
-                        Log.d("DogLists", "add");
+        addWishService.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(jsonObject -> {
+                    String message = jsonObject.get("message").getAsString();
+
+                    if(message.equals("add"))
                         Toast.makeText(context, "위시리스트에 추가하셨습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-            }
-        });
+                }, Throwable::printStackTrace);
     }
 
     @Override

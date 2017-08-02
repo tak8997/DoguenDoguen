@@ -21,12 +21,7 @@ public class AnimatedGifImageView extends ImageView {
         FIT_CENTER, STREACH_TO_FIT, AS_IS
     }
 
-    ;
-
-    public AnimatedGifImageView(Context context, AttributeSet attrs,
-                                int defStyle) {
-        super(context, attrs, defStyle);
-    }
+    public AnimatedGifImageView(Context context, AttributeSet attrs, int defStyle) { super(context, attrs, defStyle); }
 
     public AnimatedGifImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -134,6 +129,7 @@ public class AnimatedGifImageView extends ImageView {
         return os.toByteArray();
     }
 
+    //크기, 파라미터 - 여유공간의 폭과 높
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mMovie != null) {
@@ -186,7 +182,7 @@ public class AnimatedGifImageView extends ImageView {
             mMeasuredMovieWidth = (int) (movieWidth * mScaleW);
             mMeasuredMovieHeight = (int) (movieHeight * mScaleH);
 
-            setMeasuredDimension(mMeasuredMovieWidth, mMeasuredMovieHeight);
+            setMeasuredDimension(mMeasuredMovieWidth, mMeasuredMovieHeight);//부모 컨테이너로 크기값을 리턴, 뷰의 폭과 높이가 됨.
 
         } else {
             setMeasuredDimension(getSuggestedMinimumWidth(),
@@ -201,6 +197,7 @@ public class AnimatedGifImageView extends ImageView {
         mTop = (getHeight() - mMeasuredMovieHeight) / 2f;
     }
 
+    //레이아웃에 맞게 그릴때
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -221,7 +218,7 @@ public class AnimatedGifImageView extends ImageView {
                 canvas.scale(mScaleW, mScaleH);
                 mMovie.draw(canvas, mLeft / mScaleW, mTop / mScaleH);
                 canvas.restore();
-                invalidate();
+                invalidate();   //onDraw()가 다시 호출
             }
         }
 

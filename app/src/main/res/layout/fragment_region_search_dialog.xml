@@ -7,7 +7,7 @@
     >
 
     <TextView
-        android:id="@+id/dog_gender"
+        android:id="@+id/dog_region"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="180dp"
