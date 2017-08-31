@@ -7,15 +7,18 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.base.BaseActivity;
-import org.tacademy.woof.doguendoguen.model.UserIdModel;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
@@ -25,12 +28,12 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Tak on 2017. 6. 5..
@@ -49,10 +52,10 @@ public class SignUpEndActivity extends BaseActivity {
     private String userFamilyType = "4인 이상 가구";
     private String userApartType = "아파트";
     private String userRegion = "서울특별시 강동구";
+    private String userToken;
     private int isUserPetOwn = 0; //반려동물 유무: 0->없음, 1->있음
 
-    //서버로 부터 받아온 user_id 값
-    private UserIdModel user;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,8 +68,28 @@ public class SignUpEndActivity extends BaseActivity {
             userImageFileLocation = intent.getExtras().getString("userImage");
             userName = intent.getExtras().getString("userName");
             userGender = intent.getExtras().getString("userGender");
+            userToken = intent.getExtras().getString("userToken");
         }
     }
+
+    @BindView(R.id.region_type) TextView regionType;
+
+    @Override
+    public void onStart(){
+        super.onStart();;
+
+        familyRegion.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE) {
+                    regionType.setText(familyRegion.getText().toString());
+                    familyRegion.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
+    }
+
     @BindView(R.id.size_arrow) ImageView sizeArrow;
     @BindView(R.id.apart_arrow) ImageView apartArrow;
     @BindView(R.id.region_arrow) ImageView regionArrow;
@@ -148,6 +171,7 @@ public class SignUpEndActivity extends BaseActivity {
                 familyTwo.setTextColor(Color.parseColor("#3E3A39"));
                 familyThree.setTextColor(Color.parseColor("#3E3A39"));
                 familyFourOver.setTextColor(Color.parseColor("#3E3A39"));
+                familySize.setVisibility(View.GONE);
                 break;
             case R.id.family_two:
                 size.setText("2인 가구");
@@ -155,6 +179,7 @@ public class SignUpEndActivity extends BaseActivity {
                 familyOne.setTextColor(Color.parseColor("#3E3A39"));
                 familyThree.setTextColor(Color.parseColor("#3E3A39"));
                 familyFourOver.setTextColor(Color.parseColor("#3E3A39"));
+                familySize.setVisibility(View.GONE);
                 break;
             case R.id.family_three:
                 size.setText("3인 가구");
@@ -162,6 +187,7 @@ public class SignUpEndActivity extends BaseActivity {
                 familyTwo.setTextColor(Color.parseColor("#3E3A39"));
                 familyOne.setTextColor(Color.parseColor("#3E3A39"));
                 familyFourOver.setTextColor(Color.parseColor("#3E3A39"));
+                familySize.setVisibility(View.GONE);
                 break;
             case R.id.family_four_over:
                 size.setText("4인 이상 가구");
@@ -169,6 +195,7 @@ public class SignUpEndActivity extends BaseActivity {
                 familyTwo.setTextColor(Color.parseColor("#3E3A39"));
                 familyThree.setTextColor(Color.parseColor("#3E3A39"));
                 familyOne.setTextColor(Color.parseColor("#3E3A39"));
+                familySize.setVisibility(View.GONE);
                 break;
         }
     }
@@ -189,6 +216,7 @@ public class SignUpEndActivity extends BaseActivity {
                 apart.setTextColor(Color.parseColor("#3E3A39"));
                 house.setTextColor(Color.parseColor("#3E3A39"));
                 etc.setTextColor(Color.parseColor("#3E3A39"));
+                familyApart.setVisibility(View.GONE);
                 break;
             case R.id.apart:
                 apartType.setText("아파트");
@@ -196,6 +224,7 @@ public class SignUpEndActivity extends BaseActivity {
                 oneRoom.setTextColor(Color.parseColor("#3E3A39"));
                 house.setTextColor(Color.parseColor("#3E3A39"));
                 etc.setTextColor(Color.parseColor("#3E3A39"));
+                familyApart.setVisibility(View.GONE);
                 break;
             case R.id.house:
                 house.setText("주택");
@@ -203,6 +232,7 @@ public class SignUpEndActivity extends BaseActivity {
                 apart.setTextColor(Color.parseColor("#3E3A39"));
                 apartType.setTextColor(Color.parseColor("#3E3A39"));
                 etc.setTextColor(Color.parseColor("#3E3A39"));
+                familyApart.setVisibility(View.GONE);
                 break;
             case R.id.etc:
                 apartType.setText("기타");
@@ -210,28 +240,12 @@ public class SignUpEndActivity extends BaseActivity {
                 apart.setTextColor(Color.parseColor("#3E3A39"));
                 house.setTextColor(Color.parseColor("#3E3A39"));
                 oneRoom.setTextColor(Color.parseColor("#3E3A39"));
+                familyApart.setVisibility(View.GONE);
                 break;
         }
     }
 
-//    setImeActionLabel("Custom text",KeyEvent.KEYCODE_ENTER);
-    @BindView(R.id.region_type) TextView regionType;
 
-    @OnClick(R.id.user_region_edit)
-    public void onRegionEditClicked() {
-        familyRegion.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                switch (actionId) {
-                    case EditorInfo.IME_ACTION_DONE:
-                        regionType.setText(familyRegion.getText().toString());
-                        break;
-                }
-                regionType.setText(familyRegion.getText().toString());
-                return true;
-            }
-        });
-    }
 
     @BindView(R.id.pet_own) TextView petOwn;
     @BindView(R.id.keep) TextView keep;
@@ -244,11 +258,13 @@ public class SignUpEndActivity extends BaseActivity {
                 petOwn.setText("있음");
                 keep.setTextColor(Color.parseColor("#EDBC64"));
                 none.setTextColor(Color.parseColor("#3E3A39"));
+                familyPetOwn.setVisibility(View.GONE);
                 break;
             case R.id.none:
                 petOwn.setText("없음");
                 none.setTextColor(Color.parseColor("#EDBC64"));
                 keep.setTextColor(Color.parseColor("#3E3A39"));
+                familyPetOwn.setVisibility(View.GONE);
                 break;
         }
     }
@@ -258,47 +274,54 @@ public class SignUpEndActivity extends BaseActivity {
         registerUserProfile();
     }
 
+    @BindView(R.id.auth_agree_checkbox) CheckBox userAgreeCheck;
+    @BindView(R.id.user_info_agree_checkbox) CheckBox userInfoCheck;
     private void registerUserProfile() {
-        //파일 업로드(1개)
-        File uploadUserImage = new File(userImageFileLocation);
-        RequestBody userImageRequestFile = RequestBody.create(IMAGE_MIME_TYPE, uploadUserImage);
-        MultipartBody.Part userImage = MultipartBody.Part.createFormData("profile", uploadUserImage.getName(), userImageRequestFile);
+        boolean isAgreeChecked1 = userAgreeCheck.isChecked();
+        boolean isAgreeChecked2 = userInfoCheck.isChecked();
+        if(!isAgreeChecked1)
+            Toast.makeText(this, "회원 약관 및 이용 약관 동의를 체크해 주세요.", Toast.LENGTH_SHORT).show();
+        else if(!isAgreeChecked2)
+            Toast.makeText(this, "개인 정보 취급 방침 동의를 체크해 주세요.", Toast.LENGTH_SHORT).show();
+        else {
+            progressBar.setVisibility(View.VISIBLE);
+            //파일 업로드(1개)
+            File uploadUserImage = new File(userImageFileLocation);
+            RequestBody userImageRequestFile = RequestBody.create(IMAGE_MIME_TYPE, uploadUserImage);
+            MultipartBody.Part userImage = MultipartBody.Part.createFormData("profile", uploadUserImage.getName(), userImageRequestFile);
 
-        //그 이외 User등록 정보(6개)
-        RequestBody name = RequestBody.create(MediaType.parse("text/plain"), userName);
-        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), userGender);
-        RequestBody familyType = RequestBody.create(MediaType.parse("text/plain"), userFamilyType);
-        RequestBody apartType = RequestBody.create(MediaType.parse("text/plain"), userApartType);
-        RequestBody region = RequestBody.create(MediaType.parse("text/plain"), userRegion);
-        RequestBody petOwn = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(isUserPetOwn));
+            //그 이외 User등록 정보(6개)
+            RequestBody name = RequestBody.create(MediaType.parse("text/plain"), userName);
+            RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), userGender);
+            RequestBody familyType = RequestBody.create(MediaType.parse("text/plain"), userFamilyType);
+            RequestBody apartType = RequestBody.create(MediaType.parse("text/plain"), userApartType);
+            RequestBody region = RequestBody.create(MediaType.parse("text/plain"), userRegion);
+            RequestBody petOwn = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(isUserPetOwn));
 
-        UserService userService = RestClient.createService(UserService.class);
-        Call<UserIdModel> registerUserService = userService.registerUser(userImage, name, gender,
-                familyType, apartType, region, petOwn);
-        registerUserService.enqueue(new Callback<UserIdModel>() {
-            @Override
-            public void onResponse(Call<UserIdModel> call, Response<UserIdModel> response) {
-                if(response.isSuccessful()) {
-                    user = response.body();
-                    
-                    if(user != null) {
-                        Log.d(TAG, "userId: " + user.userId + " , onResponse");
-                        SharedPreferencesUtil.getInstance().setUserId(String.valueOf(user.userId));
+            UserService userService = RestClient.createService(UserService.class);
+            Observable<JsonObject> registerUserService = userService.registerUser(userToken, userImage, name, gender,
+                    familyType, apartType, region, petOwn);
 
-                        Toast.makeText(SignUpEndActivity.this, "회원 가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent();
-                        intent.putExtra("userId", user.userId);
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                }
-            }
+            registerUserService.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(jsonObject -> {
+                        String message = jsonObject.get("message").getAsString();
 
-            @Override
-            public void onFailure(Call<UserIdModel> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
+                        if(message.equals("success")) {
+                            //로그인해서 받아온 user token을 저장
+                            SharedPreferencesUtil.getInstance().setUserId(userToken);
+                            Log.d(TAG, SharedPreferencesUtil.getInstance().getUserId());
+
+                            Toast.makeText(SignUpEndActivity.this, "회원 가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }, throwable -> {
+                        progressBar.setVisibility(View.GONE);
+                    });
+        }
     }
 }
 

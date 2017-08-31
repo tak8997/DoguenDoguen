@@ -1,6 +1,9 @@
 package org.tacademy.woof.doguendoguen.app.sign;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,7 +26,6 @@ import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.AuthService;
-import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -37,6 +40,8 @@ import io.reactivex.schedulers.Schedulers;
 
 
 public class SignUpFragment extends DialogFragment {
+    protected static final int NEXT_SIGN_UP = 200;
+    private InputMethodManager imm;
     public SignUpFragment() {
         // Required empty public constructor
     }
@@ -55,6 +60,7 @@ public class SignUpFragment extends DialogFragment {
         if (getArguments() != null) {
         }
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE|WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        imm = (InputMethodManager) DoguenDoguenApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -64,14 +70,15 @@ public class SignUpFragment extends DialogFragment {
 
         return view;
     }
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         userPwdCheck.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEND)
+                if(actionId == EditorInfo.IME_ACTION_NEXT)
                     signUp();
 
                 return false;
@@ -104,20 +111,19 @@ public class SignUpFragment extends DialogFragment {
 
             signUpUser.debounce(2000, TimeUnit.MILLISECONDS)
                     .subscribeOn(Schedulers.io())
-                    .subscribeOn(AndroidSchedulers.mainThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(jsonObject -> {
                         String message = jsonObject.get("message").getAsString();
                         String userToken = jsonObject.get("user_token").getAsString();
 
                         Log.d("SignUpFragment", userToken);
                         if(message.equals("success")) {
-                            //로그인해서 받아온 user token을 저장
-                            SharedPreferencesUtil.getInstance().setUserId(userToken);
-                            if(listener != null) {
-                                getActivity().getSupportFragmentManager().popBackStack();
-                                listener.onAdapterItemClick(true);
-                            }
+                            Intent intent = new Intent(DoguenDoguenApplication.getContext(), SignUpActivity.class);
+                            intent.putExtra("userToken", userToken);
+                            startActivityForResult(intent, NEXT_SIGN_UP);
                         }
+                        imm.hideSoftInputFromWindow(userPwdCheck.getWindowToken(), 0);
+                        imm.hideSoftInputFromWindow(userPwd.getWindowToken(), 0);
                         progressBar.setVisibility(View.GONE);
                     }, throwable -> {
                         if(throwable instanceof HttpException) {
@@ -133,6 +139,9 @@ public class SignUpFragment extends DialogFragment {
                                     }
                                 });
                             }
+                            imm.hideSoftInputFromWindow(userPwdCheck.getWindowToken(), 0);
+                            imm.hideSoftInputFromWindow(userPwd.getWindowToken(), 0);
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
         }
@@ -189,6 +198,18 @@ public class SignUpFragment extends DialogFragment {
     OnAdapterItemClickListener listener;
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener listener) {
         this.listener = listener;
+    }
+
+    @Override
+    public void onActivityResult(int requstCode, int resultCode, Intent data) {
+        super.onActivityResult(requstCode, resultCode, data);
+
+        if(resultCode == Activity.RESULT_OK && requstCode == NEXT_SIGN_UP) {
+            if(listener != null) {
+                getActivity().getSupportFragmentManager().popBackStack();
+                listener.onAdapterItemClick(true);
+            }
+        }
     }
 }
 

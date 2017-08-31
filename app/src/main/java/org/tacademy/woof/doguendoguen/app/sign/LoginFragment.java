@@ -64,6 +64,7 @@ public class LoginFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated");
 
         userPwd.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

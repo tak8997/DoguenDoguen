@@ -225,6 +225,12 @@
             android:layout_marginRight="22dp"
             android:background="@drawable/divider"/>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <RelativeLayout
             android:id="@+id/family_region"
             android:layout_width="match_parent"

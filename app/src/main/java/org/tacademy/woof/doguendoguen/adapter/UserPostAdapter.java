@@ -1,6 +1,5 @@
 package org.tacademy.woof.doguendoguen.adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

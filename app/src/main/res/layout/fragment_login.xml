@@ -48,7 +48,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:layout_below="@+id/login_sub_title" />
-
+    <!--dnjsvltm0626@naver.com-->
+    <!--momo@2701-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -3,7 +3,6 @@ package org.tacademy.woof.doguendoguen.rest.user;
 import com.google.gson.JsonObject;
 
 import org.tacademy.woof.doguendoguen.model.PostList;
-import org.tacademy.woof.doguendoguen.model.UserIdModel;
 import org.tacademy.woof.doguendoguen.model.UserModel;
 
 import java.util.List;
@@ -14,6 +13,7 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -29,16 +29,16 @@ public interface UserService {
     //반려동물 유무: 0->없음, 1->있음
     @Multipart
     @POST("/profiles")
-    Call<UserIdModel> registerUser(@Part MultipartBody.Part userImage, @Part("username") RequestBody userName,
-                                   @Part("gender") RequestBody userGender, @Part("lifestyle") RequestBody userLifestyle,
-                                   @Part("region") RequestBody userRegion, @Part("other_pets") RequestBody userPetOwn,
-                                   @Part("family_size") RequestBody userFamilyType);
+    Observable<JsonObject> registerUser(@Header("user_token") String userToken, @Part MultipartBody.Part userImage, @Part("username") RequestBody userName,
+                                        @Part("gender") RequestBody userGender, @Part("lifestyle") RequestBody userLifestyle,
+                                        @Part("region") RequestBody userRegion, @Part("other_pets") RequestBody userPetOwn,
+                                        @Part("family_size") RequestBody userFamilyType);
 
-    //프로필 조회
+    //프로필 조회(내 user_id => 0)
     @GET("/profiles/{user_id}")
     Observable<UserModel> getUser(@Path("user_id") int userId);
 
-    //프로필 업데이트
+    //프로필 수정
     @Multipart
     @PUT("profiles/{user_id}")
     Call<ResponseBody> updateUser(@Path("user_id") int userId, @Part MultipartBody.Part userImage, @Part("username") RequestBody userName, @Part("gender") RequestBody userGender,

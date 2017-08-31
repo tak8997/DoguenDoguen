@@ -17,7 +17,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,11 +62,12 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
     @BindView(R.id.any_gender) TextView anyGender;
 
     private static final int PICK_FROM_GALLERY = 100;
-    private static final int NEXT_SIGN_UP = 200;
+    protected static final int NEXT_SIGN_UP = 200;
     private final int MY_PERMISSION_REQUEST_STORAGE = 100;
 
     private File myImageDir; //카메라로 찍은 사진을 저장할 디렉토리
     private String userImageFileLocation;
+    private String userToken;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,47 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        if(intent != null) {
+            userToken = intent.getExtras().getString("userToken");
+            Log.d(TAG, userToken);
+        }
+
+        initFileConfig();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();;
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        userName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_NEXT) {
+                    showGenderSelection();
+                    imm.hideSoftInputFromWindow(userName.getWindowToken(), 0);
+                }
+                return false;
+            }
+        });
+    }
+
+    private void showGenderSelection() {
+        if(!genderFlag) {
+            editGender.setImageResource(R.drawable.up_arrow);
+            genderSelectBox.setVisibility(View.VISIBLE);
+
+            genderFlag = true;
+        } else {
+            editGender.setImageResource(R.drawable.down_arrow2);
+            genderSelectBox.setVisibility(View.GONE);
+
+            genderFlag = false;
+        }
+    }
+
+    private void initFileConfig() {
         String currentAppPackage = this.getPackageName();
 
         myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
@@ -101,6 +145,7 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
             intent.putExtra("userImage", userImageFileLocation);
             intent.putExtra("userName", name);
             intent.putExtra("userGender", gender);
+            intent.putExtra("userToken", userToken);
             startActivityForResult(intent, NEXT_SIGN_UP);
         }
     }
@@ -116,25 +161,10 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
             case R.id.add_user_name:
                 InputMethodManager inputNameManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputNameManager.toggleSoftInputFromWindow(userName.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
-                userName.getText();
                 break;
             case R.id.add_user_gender:
-//                InputMethodManager inputGenderManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                inputGenderManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-//                userGender.setText("성별별");
-                if(genderFlag == false) {
-                    editGender.setImageResource(R.drawable.up_arrow);
-                    genderSelectBox.setVisibility(View.VISIBLE);
-
-                    genderFlag = true;
-                } else {
-                    editGender.setImageResource(R.drawable.down_arrow2);
-                    genderSelectBox.setVisibility(View.GONE);
-
-                    genderFlag = false;
-                }
-
-               break;
+                showGenderSelection();
+                break;
         }
     }
 
@@ -146,18 +176,21 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
                 female.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
+                genderSelectBox.setVisibility(View.GONE);
                 break;
             case R.id.male:
                 userGender.setText("남성");
                 male.setTextColor(Color.parseColor("#EDBC64"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
+                genderSelectBox.setVisibility(View.GONE);
                 break;
             case R.id.any_gender:
                 userGender.setText("상관없음");
                 anyGender.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
+                genderSelectBox.setVisibility(View.GONE);
                 break;
         }
     }
@@ -204,12 +237,12 @@ public class SignUpActivity extends BaseActivity implements NestedScrollView.OnS
                     }
                 }
             } else if(requestCode == NEXT_SIGN_UP) {
-                //SignUpEndActivity로 부터 userId를 받아옴.
-                String userId = data.getExtras().getString("userId");
+//                //SignUpEndActivity로 부터 userId를 받아옴.
+//                String userId = data.getExtras().getString("userId");
 
                 //받아온 userId를 다시 LoginFragment로 돌려줌.
                 Intent intent = new Intent();
-                intent.putExtra("userId", userId);
+//                intent.putExtra("userId", userId);
                 setResult(RESULT_OK, intent);
                 finish();
             }
