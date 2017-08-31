@@ -17,10 +17,8 @@ import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.MessageListsAdapter;
 import org.tacademy.woof.doguendoguen.app.sign.LoginFragment;
 import org.tacademy.woof.doguendoguen.model.ChattingRoom;
-import org.tacademy.woof.doguendoguen.model.UserModel;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.ChatService;
-import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.util.List;
@@ -89,15 +87,6 @@ public class MessageFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if(userId != null) {
-            UserService userService = RestClient.createService(UserService.class);
-            Observable<UserModel> getUser = userService.getUser(0);
-
-            getUser.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(userModel -> {
-
-                    }, Throwable::printStackTrace);
-
             ChatService chatService = RestClient.createService(ChatService.class);
             Observable<List<ChattingRoom>> getChatRooms = chatService.getChatRoom();
 

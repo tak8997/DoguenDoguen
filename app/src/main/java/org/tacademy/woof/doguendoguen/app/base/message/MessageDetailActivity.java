@@ -131,14 +131,12 @@ public class MessageDetailActivity extends BaseActivity {
         }
 
         editMessage.setText("");
-//        Message message = new Message();
-//        messageDetailAdapter.addMessage(message);
         scrollToBottom();
 
         mSocket.emit("sendMessage", sendJson);
     }
     private void scrollToBottom() {
-        messageRecyclerView.scrollToPosition(messageDetailAdapter.getItemCount() - 1);
+        messageRecyclerView.scrollToPosition(messageDetailAdapter.getItemCount()-1);
     }
 
     //PostDetailActivity, MessegeListsAdapter 로 부터. 새로운 메시지를 받아옴.
@@ -155,7 +153,7 @@ public class MessageDetailActivity extends BaseActivity {
                     String content;
                     String side;
 
-                    Message message;
+                    Message message = null;
 
                     try {
                         JSONObject msgObject = (JSONObject) args[0];
@@ -169,11 +167,13 @@ public class MessageDetailActivity extends BaseActivity {
 
                         message = new Message(senderId, senderThumbnail, senderName, content, side);
                         Log.d("MessageDetail", "senderId, thumbmail, name, content : " + content);
-
-                        messageDetailAdapter.addMessage(message);
-                        scrollToBottom();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    }
+                    if(message != null ) {
+                        messageDetailAdapter.addMessage(message);
+                        messageDetailAdapter.notifyItemInserted(messageDetailAdapter.getItemCount() - 1);
+                        scrollToBottom();
                     }
                 }
             });
@@ -195,7 +195,7 @@ public class MessageDetailActivity extends BaseActivity {
                     String content;
                     String side;
 
-                    Message message;
+                    Message message = null;
 
                     try {
                         JSONObject roomInfos = (JSONObject) args[0];
@@ -214,12 +214,13 @@ public class MessageDetailActivity extends BaseActivity {
 
                             message = new Message(senderId, senderThumbnail, senderName, content, side);
                             Log.d("MessageDetail", "senderId, thumbmail, name, content : " + content + ", " + senderName);
-
-                            messageDetailAdapter.addMessage(message);
                         }
-                        scrollToBottom();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                    }
+                    if(message != null) {
+                        messageDetailAdapter.addMessage(message);
+                        scrollToBottom();
                     }
                 }
             });
@@ -281,7 +282,7 @@ public class MessageDetailActivity extends BaseActivity {
     }
 
 
-    private class MessageDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    protected class MessageDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         ArrayList<Message> messages = new ArrayList<>();
 
         private static final int VIEW_TYPE_OTHER_USER = 0;
@@ -357,7 +358,6 @@ public class MessageDetailActivity extends BaseActivity {
 
         public void addMessage(Message message) {
             messages.add(message);
-            this.notifyDataSetChanged();
         }
     }
 
