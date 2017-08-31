@@ -61,9 +61,6 @@ public class WishFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
-
-        userId = SharedPreferencesUtil.getInstance().getUserId();
-        Log.d(this.getClass().getSimpleName(), "onCreateView" + ", userId: " + userId);
     }
 
     private String userId;
@@ -76,15 +73,8 @@ public class WishFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_wish, container, false);
         ButterKnife.bind(this, view);
+        userId = SharedPreferencesUtil.getInstance().getUserId();
 
-        //로그인 되어있지 않으면
-        if(userId == null) {
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.addToBackStack(null);
-            ft.replace(R.id.container, LoginFragment.newInstance());
-            ft.commit();
-        }
         return view;
     }
 
@@ -102,7 +92,16 @@ public class WishFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(userId != null) {
+        //로그인 되어있지 않으면
+        if(userId == null) {
+            Log.d(TAG, "wishFragmentssss");
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.container, LoginFragment.newInstance());
+            ft.commit();
+        }
+        else {
             UserService userService = RestClient.createService(UserService.class);
             Observable<List<PostList>> postListService = userService.getWishList();
 

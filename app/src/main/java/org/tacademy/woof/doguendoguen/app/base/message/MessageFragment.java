@@ -49,7 +49,6 @@ public class MessageFragment extends Fragment {
         if (getArguments() != null) {
         }
 
-        userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(this.getClass().getSimpleName(), "onCreateView" + ", userId: " + userId);
     }
     MessageListsAdapter messageListsAdapter;
@@ -61,6 +60,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, view);
+        userId = SharedPreferencesUtil.getInstance().getUserId();
 
         //로그인 되어있지 않으면
         if(userId == null) {
@@ -70,6 +70,7 @@ public class MessageFragment extends Fragment {
             ft.replace(R.id.container, LoginFragment.newInstance());
             ft.commit();
         }
+
         return view;
     }
 

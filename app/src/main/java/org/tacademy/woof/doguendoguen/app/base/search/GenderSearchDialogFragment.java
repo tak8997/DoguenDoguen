@@ -73,6 +73,6 @@ public class GenderSearchDialogFragment extends DialogFragment {
 
     private void sendEventMsg(String eventMsg) {
         genderMsgEvents = new Events.GenderMsgEvents(eventMsg);
-        bus.send(eventMsg);
+        bus.send(genderMsgEvents);
     }
 }

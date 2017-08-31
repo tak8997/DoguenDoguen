@@ -101,7 +101,9 @@ public class BaseSearchDogTypeActivity extends BaseActivity {
                 public void onClick(View v) {
                     String dogType = dogTypes.get(position);
                     Toast.makeText(BaseSearchDogTypeActivity.this, dogType + " 를 선택하셨습니다.", Toast.LENGTH_SHORT).show();
-                    RxEventBus.getInstance().send(new Events.TypeMsgEvents(dogType));
+                    typeMsgEvents = new Events.TypeMsgEvents(dogType);
+                    RxEventBus.getInstance().send(typeMsgEvents);
+                    finish();
                 }
             });
         }

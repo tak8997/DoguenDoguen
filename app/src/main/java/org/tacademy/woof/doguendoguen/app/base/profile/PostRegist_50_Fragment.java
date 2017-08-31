@@ -31,6 +31,8 @@ import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.RegionAdapter;
 import org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 import org.tacademy.woof.doguendoguen.model.PostDetailModel;
 import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
 
@@ -40,6 +42,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 import static org.tacademy.woof.doguendoguen.R.id.age;
@@ -110,6 +115,23 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
 
     @BindView(R.id.scroll_view) NestedScrollView scrollView;
 
+    private CompositeDisposable disposables = new CompositeDisposable();
+    private String conDogType;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        disposables.add(RxEventBus.getInstance()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object -> {
+                    if(object instanceof Events.TypeMsgEvents) {
+                        conDogType = SearchDogTypeActivity.typeMsgEvents.getTag();
+                        dogAgeTv.setText(conDogType);
+                    }
+                }));
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_post_regist_50_, container, false);

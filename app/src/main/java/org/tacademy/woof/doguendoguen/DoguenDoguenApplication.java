@@ -29,12 +29,8 @@ public class DoguenDoguenApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        Typekit.getInstance()
-//                .addNormal(Typekit.createFromAsset(this, "NotoSansCJKkr-Regular.otf"))
-//                .addBold(Typekit.createFromAsset(this, "NotoSansCJKkr-Bold.otf"))
-//                .addCustom1(Typekit.createFromAsset(this, "NotoSansCJKkr-Medium.otf"));
         context = this;
+
     }
 
     public static Socket getSocket() {

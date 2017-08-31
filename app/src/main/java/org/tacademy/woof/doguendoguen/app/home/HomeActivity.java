@@ -108,12 +108,10 @@ public class HomeActivity extends BaseActivity {
                 } else {
 
                     super.onBackPressed();
-//                finish(); // app 종료 시키기
                 }
             }
         } else {
             getSupportFragmentManager().popBackStack();
         }
-        //            super.onBackPressed();
     }
 }

@@ -66,6 +66,7 @@ public class UserPostListFragment extends Fragment {
         userPostAdapter.addUserPost(user);
         userPostAdapter.notifyDataSetChanged();
         myListRecyclerView.setAdapter(userPostAdapter);
+        myListRecyclerView.setNestedScrollingEnabled(false);
 
         return view;
     }

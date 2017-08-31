@@ -92,8 +92,8 @@ public class RegionSearchDialogFragment extends DialogFragment {
         }
     }
 
-    String district;
-    String city;
+    private String district;
+    private String city;
 
     private void setCityRegion() {
         final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
@@ -126,7 +126,8 @@ public class RegionSearchDialogFragment extends DialogFragment {
         districtRegionAdatper.setOnAdapterItemClickListener(position -> {
             district = (String) districtRegionAdatper.getItem(position);
 
-            RxEventBus.getInstance().send(new Events.RegionMsgEvents(city, district));
+            regionMsgEvents = new Events.RegionMsgEvents(city, district);
+            RxEventBus.getInstance().send(regionMsgEvents);
 
             finishFragment();
         });

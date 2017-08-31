@@ -426,7 +426,7 @@ public class PostDetailActivity extends BaseActivity {
                                                     .subscribe(jsonObject-> {
                                                         String isRemoved = jsonObject.get("message").getAsString();
                                                         Log.d("isRemoved", isRemoved);
-                                                        if(isRemoved.equals("save")) {
+                                                        if(isRemoved.equals("success")) {
                                                             Log.d("isRemoved", isRemoved);
                                                             Toast.makeText(PostDetailActivity.this, "삭제되었습니다.", Toast.LENGTH_SHORT).show();
 

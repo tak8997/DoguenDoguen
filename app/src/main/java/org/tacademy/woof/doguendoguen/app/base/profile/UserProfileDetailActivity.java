@@ -810,10 +810,6 @@ public class UserProfileDetailActivity extends BaseActivity {
         });
     }
 
-//    @OnClick(R.id.back)
-//    public void onBackClicked() {
-//        getFragmentManager().popBackStack();
-//    }
 }
 
 

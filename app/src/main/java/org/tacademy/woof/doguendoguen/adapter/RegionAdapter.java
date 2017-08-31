@@ -54,7 +54,7 @@ public class RegionAdapter extends BaseAdapter {
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.city_region_item, null, false);
-            ButterKnife.bind(convertView);
+            ButterKnife.bind(this, convertView);
         }
 
         regionCity.setOnClickListener(new View.OnClickListener() {
