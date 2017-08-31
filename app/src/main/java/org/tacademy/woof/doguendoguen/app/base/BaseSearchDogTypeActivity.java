@@ -1,6 +1,5 @@
 package org.tacademy.woof.doguendoguen.app.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 import org.tacademy.woof.doguendoguen.util.SoundSearchUtil;
 
 import java.util.ArrayList;
@@ -32,9 +33,10 @@ public class BaseSearchDogTypeActivity extends BaseActivity {
     @BindView(R.id.search_dog_types) EditText searchKey;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    List<String> searchList;
-    ArrayList<String> newSearchList = new ArrayList<String>();
-    DogTypeAdapter adapter;
+    private List<String> searchList;
+    private ArrayList<String> newSearchList = new ArrayList<String>();
+    private DogTypeAdapter adapter;
+    public static Events.TypeMsgEvents typeMsgEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +79,6 @@ public class BaseSearchDogTypeActivity extends BaseActivity {
 
     @OnClick({R.id.exit})
     public void onExitClicked() {
-//        String dogType = searchKey.getText().toString();
         finish();
     }
 
@@ -100,11 +101,7 @@ public class BaseSearchDogTypeActivity extends BaseActivity {
                 public void onClick(View v) {
                     String dogType = dogTypes.get(position);
                     Toast.makeText(BaseSearchDogTypeActivity.this, dogType + " 를 선택하셨습니다.", Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent();
-                    intent.putExtra(DOGTYPE, dogType);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    RxEventBus.getInstance().send(new Events.TypeMsgEvents(dogType));
                 }
             });
         }

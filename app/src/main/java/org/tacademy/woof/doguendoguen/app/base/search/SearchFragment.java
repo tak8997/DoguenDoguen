@@ -28,6 +28,8 @@ import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.DogListsAdapter;
 import org.tacademy.woof.doguendoguen.app.base.SearchDogTypeActivity;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 import org.tacademy.woof.doguendoguen.model.PostList;
 import org.tacademy.woof.doguendoguen.model.PostListModel;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
@@ -44,9 +46,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-
-import static android.app.Activity.RESULT_OK;
 
 public class SearchFragment extends Fragment implements NestedScrollView.OnScrollChangeListener, AppBarLayout.OnOffsetChangedListener {
     private static final String TAG = "SearchFragment";
@@ -69,10 +70,10 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         if (getArguments() != null) {
         }
     }
-    String userId;
+    private String userId;
 
-    DogListsAdapter dogAdapter;
-    DogEmergencyAdapter dogEmergencyAdapter;
+    private DogListsAdapter dogAdapter;
+    private DogEmergencyAdapter dogEmergencyAdapter;
 
     @BindView(R.id.dog_type) TextView dogType;
     @BindView(R.id.dog_gender) TextView dogGender;
@@ -125,10 +126,80 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
         return view;
     }
 
-    @OnClick(R.id.condition_hide)
-    public void onUpArrowClicked() {
-        appbar.setExpanded(false);
-        toolbarLayout.setVisibility(View.VISIBLE);
+    private CompositeDisposable disposables = new CompositeDisposable();
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        disposables.add(RxEventBus.getInstance()
+                .toObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object -> {
+                    if (object instanceof Events.GenderMsgEvents) {
+                        String gender = GenderSearchDialogFragment.genderMsgEvents.getTag();
+                        dogGender.setText(gender);
+                        conDogGender = gender;
+
+                        if(!hashMap.containsKey("gender")) {
+                            hashMap.put("gender", gender);
+                            strBuffer.append(hashMap.get("gender") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
+                        isCondtion = true;
+                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
+                    } else if(object instanceof Events.AgeMsgEvents) {
+                        String age = AgeSearchDialogFragment.ageMsgEvents.getTag();
+                        dogAge.setText(age);
+                        conDogAge = age;
+
+                        if(!hashMap.containsKey("age")) {
+                            hashMap.put("age", age);
+                            strBuffer.append(hashMap.get("age") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
+                        isCondtion = true;
+                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
+                    } else if(object instanceof Events.RegionMsgEvents) {
+                        conDogRegion1 = RegionSearchDialogFragment.regionMsgEvents.getCityTag();    //도시
+                        conDogRegion2 = RegionSearchDialogFragment.regionMsgEvents.getDistrictTag();    //지역구
+                        dogRegion.setText(conDogRegion1 + " " + conDogRegion2);
+
+                        if(!hashMap.containsKey("city") && !hashMap.containsKey("district")) {
+                            hashMap.put("city", conDogRegion1);
+                            hashMap.put("district", conDogRegion2);
+                            strBuffer.append(hashMap.get("city") + " " + hashMap.get("district") + " / ");
+                        }
+                        navResult.setText(strBuffer.toString());
+
+                        isCondtion = true;
+                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
+                    } else if(object instanceof Events.TypeMsgEvents) {
+                        conDogType = SearchDogTypeActivity.typeMsgEvents.getTag();
+
+                        if(!hashMap.containsKey("type")) {
+                            hashMap.put("type", conDogType);
+                            strBuffer.append(hashMap.get("type") + " / ");
+                        }
+
+                        navResult.setText(strBuffer.toString());
+
+                        isCondtion = true;
+
+                        Log.d("dogType", conDogType  + ", " + isCondtion);
+                        dogType.setText(conDogType);
+                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);//false가 들어감
+                    }
+                }));
+
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        disposables.clear();
     }
 
     @OnClick({R.id.dog_type, R.id.dog_gender, R.id.dog_age, R.id.dog_regions})
@@ -141,64 +212,14 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
             case R.id.dog_gender:
                 GenderSearchDialogFragment genderSearchDialog = new GenderSearchDialogFragment();
                 genderSearchDialog.show(getFragmentManager(), "genderSearch");
-                genderSearchDialog.setOnAdapterItemClickListener(new GenderSearchDialogFragment.OnAdapterItemClickLIstener() {
-                    @Override
-                    public void onAdapterItemClick(String gender) {
-                        dogGender.setText(gender);
-                        conDogGender = gender;
-
-                        if(!hashMap.containsKey("gender")) {
-                            hashMap.put("gender", gender);
-                            strBuffer.append(hashMap.get("gender") + " / ");
-                        }
-                        navResult.setText(strBuffer.toString());
-
-                        isCondtion = true;
-                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
-                    }
-                });
                 break;
             case R.id.dog_age:
                 AgeSearchDialogFragment ageSearchDialog = new AgeSearchDialogFragment();
                 ageSearchDialog.show(getFragmentManager(), "ageSearch");
-                ageSearchDialog.setOnAdapterItemClickListener(new AgeSearchDialogFragment.OnAdapterItemClickLIstener() {
-                    @Override
-                    public void onAdapterItemClick(String age) {
-                        dogAge.setText(age);
-                        conDogAge = age;
-
-                        if(!hashMap.containsKey("age")) {
-                            hashMap.put("age", age);
-                            strBuffer.append(hashMap.get("age") + " / ");
-                        }
-                        navResult.setText(strBuffer.toString());
-
-                        isCondtion = true;
-                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
-                    }
-                });
                 break;
             case R.id.dog_regions:
                 RegionSearchDialogFragment regionSearchDialog = new RegionSearchDialogFragment();
                 regionSearchDialog.show(getFragmentManager(), "regionSearch");
-                regionSearchDialog.setOnAdapterItemClickListener(new RegionSearchDialogFragment.OnAdapterItemClickLIstener() {
-                    @Override
-                    public void onAdapterItemClick(String city, String district) {
-                        dogRegion.setText(city + " " + district);
-                        conDogRegion1 = city;
-                        conDogRegion2 = district;
-
-                        if(!hashMap.containsKey("city") && !hashMap.containsKey("district")) {
-                            hashMap.put("city", city);
-                            hashMap.put("district", district);
-                            strBuffer.append(hashMap.get("city") + " " + hashMap.get("district") + " / ");
-                        }
-                        navResult.setText(strBuffer.toString());
-
-                        isCondtion = true;
-                        getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);
-                    }
-                });
                 break;
         }
     }
@@ -263,29 +284,6 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK && requestCode == SEARCH_DOG_TYPE) {
-            String type = data.getStringExtra(SearchDogTypeActivity.DOGTYPE);
-            conDogType = type;
-
-            if(!hashMap.containsKey("type")) {
-                hashMap.put("type", type);
-                strBuffer.append(hashMap.get("type") + " / ");
-            }
-
-            navResult.setText(strBuffer.toString());
-
-            isCondtion = true;
-
-            Log.d("dogType", conDogType  + ", " + isCondtion);
-            dogType.setText(type);
-            getPostService(isCondtion, curPage, conDogType, conDogGender, conDogRegion1, conDogRegion2, conDogAge);//false가 들어감
-        }
-    }
-
-    @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         if (scrollY > oldScrollY) {
         }
@@ -312,7 +310,11 @@ public class SearchFragment extends Fragment implements NestedScrollView.OnScrol
             toolbarLayout.setVisibility(View.GONE);
         }
     }
-
+    @OnClick(R.id.condition_hide)
+    public void onUpArrowClicked() {
+        appbar.setExpanded(false);
+        toolbarLayout.setVisibility(View.VISIBLE);
+    }
 
     // 분양이 시급한 분양견들을 받아옴.
     private class DogEmergencyAdapter extends RecyclerView.Adapter<DogEmergencyAdapter.ViewHolder> {

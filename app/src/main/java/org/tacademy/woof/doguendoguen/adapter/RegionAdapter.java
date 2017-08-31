@@ -6,12 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Tak on 2017. 6. 11..
@@ -21,7 +22,7 @@ public class RegionAdapter extends BaseAdapter {
     ArrayList<String> cityRegions = new ArrayList<>();
     ArrayList<String> districtRegions = new ArrayList<>();
     int regionType;
-
+    @BindView(R.id.city_region) TextView regionCity;
     public RegionAdapter(int regionType) {
         this.regionType = regionType;
     }
@@ -49,14 +50,13 @@ public class RegionAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        TextView regionCity;
 
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.city_region_item, null, false);
+            ButterKnife.bind(convertView);
         }
 
-        regionCity = (TextView) convertView.findViewById(R.id.city_region);
         regionCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,10 +64,12 @@ public class RegionAdapter extends BaseAdapter {
                     listener.onAdapterItemClick(position);
             }
         });
-        if(regionType == 10)
+        if(regionType == 10) {
             regionCity.setText(cityRegions.get(position));
-        else
+        }
+        else {
             regionCity.setText(districtRegions.get(position));
+        }
 
         return convertView;
     }

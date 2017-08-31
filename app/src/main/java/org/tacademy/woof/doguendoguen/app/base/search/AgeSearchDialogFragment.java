@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +39,8 @@ public class AgeSearchDialogFragment extends DialogFragment {
     @BindView(R.id.under_twelve) TextView ageUnderTwelve;
     @BindView(R.id.up_twelve) TextView ageUpTwelve;
     @BindView(R.id.all_age) TextView ageAll;
+    private RxEventBus bus;
+    public static Events.AgeMsgEvents ageMsgEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,37 +55,33 @@ public class AgeSearchDialogFragment extends DialogFragment {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        bus = RxEventBus.getInstance();
+    }
+
     @OnClick({R.id.under_four, R.id.under_twelve, R.id.up_twelve, R.id.all_age})
     public void onAgeClicked(View view) {
         switch (view.getId()) {
             case R.id.under_four:
-                if(listener != null)
-                    listener.onAdapterItemClick(ageUnderFor.getText().toString());
+                sendEventMsg(ageUnderFor.getText().toString());
                 break;
             case under_twelve:
-                if(listener != null)
-                    listener.onAdapterItemClick(ageUnderTwelve.getText().toString());
+                sendEventMsg(ageUnderTwelve.getText().toString());
                 break;
             case R.id.up_twelve:
-                if(listener != null)
-                    listener.onAdapterItemClick(ageUpTwelve.getText().toString());
+                sendEventMsg(ageUpTwelve.getText().toString());
                 break;
             case R.id.all_age:
-                if(listener != null)
-                    listener.onAdapterItemClick(ageAll.getText().toString());
+                sendEventMsg(ageAll.getText().toString());
                 break;
         }
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
-    public interface OnAdapterItemClickLIstener {
-        public void onAdapterItemClick(String age);
+    private void sendEventMsg(String eventMsg) {
+        ageMsgEvents = new Events.AgeMsgEvents(eventMsg);
+        bus.send(ageMsgEvents);
     }
-
-    OnAdapterItemClickLIstener listener;
-    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
-        this.listener = listener;
-    }
-
-
 }

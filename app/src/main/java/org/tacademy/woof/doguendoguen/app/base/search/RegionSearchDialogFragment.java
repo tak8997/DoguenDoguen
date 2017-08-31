@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.adapter.RegionAdapter;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 import org.tacademy.woof.doguendoguen.util.ConvertPxToDpUtil;
 
 import butterknife.BindView;
@@ -42,6 +44,7 @@ public class RegionSearchDialogFragment extends DialogFragment {
     @BindView(R.id.region_city_gridview) GridView cityGridView;
     @BindView(R.id.region_district_gridview) GridView districtGridView;
     @BindView(R.id.dog_region_layout) LinearLayout regionLayout;
+    public static Events.RegionMsgEvents regionMsgEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,15 +92,6 @@ public class RegionSearchDialogFragment extends DialogFragment {
         }
     }
 
-    public interface OnAdapterItemClickLIstener {
-        public void onAdapterItemClick(String city, String district);
-    }
-
-    OnAdapterItemClickLIstener listener;
-    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
-        this.listener = listener;
-    }
-
     String district;
     String city;
 
@@ -129,16 +123,12 @@ public class RegionSearchDialogFragment extends DialogFragment {
         final RegionAdapter districtRegionAdatper = new RegionAdapter(REGION_DISTRICT);
         districtRegionAdatper.setDistrictRegions();
         districtRegionAdatper.notifyDataSetChanged();
-        districtRegionAdatper.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
-            @Override
-            public void onAdapterItemClick(int position) {
-                district = (String) districtRegionAdatper.getItem(position);
+        districtRegionAdatper.setOnAdapterItemClickListener(position -> {
+            district = (String) districtRegionAdatper.getItem(position);
 
-                if(listener != null)
-                    listener.onAdapterItemClick(city, district);
+            RxEventBus.getInstance().send(new Events.RegionMsgEvents(city, district));
 
-                finishFragment();
-            }
+            finishFragment();
         });
         districtGridView.setAdapter(districtRegionAdatper);
     }
@@ -146,6 +136,4 @@ public class RegionSearchDialogFragment extends DialogFragment {
     private void finishFragment() {
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
-
-
 }

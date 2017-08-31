@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.app.rxbus.Events;
+import org.tacademy.woof.doguendoguen.app.rxbus.RxEventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,15 +22,18 @@ import butterknife.OnClick;
 
 public class GenderSearchDialogFragment extends DialogFragment {
 
+    @BindView(R.id.female) TextView femmale;
+    @BindView(R.id.male) TextView male;
+    @BindView(R.id.any_gender) TextView anyGender;
+
+    private RxEventBus bus;
+    public static Events.GenderMsgEvents genderMsgEvents;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialogTheme);
     }
-
-    @BindView(R.id.female) TextView femmale;
-    @BindView(R.id.male) TextView male;
-    @BindView(R.id.any_gender) TextView anyGender;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +42,12 @@ public class GenderSearchDialogFragment extends DialogFragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        bus = RxEventBus.getInstance();
     }
 
     @OnClick(R.id.dog_gender)
@@ -48,43 +59,20 @@ public class GenderSearchDialogFragment extends DialogFragment {
     public void onGenderClicked(View view) {
         switch (view.getId()) {
             case R.id.female:
-                if(listener != null)
-                    listener.onAdapterItemClick(femmale.getText().toString());
+                sendEventMsg(femmale.getText().toString());
                 break;
             case R.id.male:
-                if(listener != null)
-                    listener.onAdapterItemClick(male.getText().toString());
+                sendEventMsg(male.getText().toString());
                 break;
             case R.id.any_gender:
-                if(listener != null)
-                    listener.onAdapterItemClick(anyGender.getText().toString());
+                sendEventMsg(anyGender.getText().toString());
                 break;
         }
         getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
     }
 
-    public interface OnAdapterItemClickLIstener {
-        public void onAdapterItemClick(String gender);
+    private void sendEventMsg(String eventMsg) {
+        genderMsgEvents = new Events.GenderMsgEvents(eventMsg);
+        bus.send(eventMsg);
     }
-
-    OnAdapterItemClickLIstener listener;
-    public void setOnAdapterItemClickListener(OnAdapterItemClickLIstener listener) {
-        this.listener = listener;
-    }
-
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-//        int width = getResources().getDimensionPixelSize(R.dimen.dialog_width);
-//        int height = getResources().getDimensionPixelSize(R.dimen.dialog_height);
-//        getDialog().getWindow().setLayout(width, height);
-//        WindowManager.LayoutParams lp = getDialog().getWindow().getAttributes();
-//        lp.gravity = Gravity.LEFT | Gravity.TOP;
-//        lp.x = 100;
-//        lp.y = 100;
-//        getDialog().getWindow().setAttributes(lp);
-    }
-
-
 }
