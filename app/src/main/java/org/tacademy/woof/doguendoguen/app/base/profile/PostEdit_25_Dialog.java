@@ -15,9 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,8 +42,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.R.attr.fragment;
 
 public class PostEdit_25_Dialog extends DialogFragment {
     private static final String TAG = "PostEdit";
@@ -182,8 +177,6 @@ public class PostEdit_25_Dialog extends DialogFragment {
 
         if(title.equals(""))
             Toast.makeText(DoguenDoguenApplication.getContext(), "제목을 입력해주세요", Toast.LENGTH_SHORT).show();
-//        else if(dogImagesFileLocation.size() == 0)
-//            Toast.makeText(DoguenDoguenApplication.getContext(), "이미지를 등록해주세요", Toast.LENGTH_SHORT).show();
         else {
             PostEdit_50_Dialog postEditDialog = PostEdit_50_Dialog.newInstance(imageId, postDetail, title, dogImagesFileLocation);
             postEditDialog.setOnAdapterItemClickListener(new PostEdit_50_Dialog.OnAdapterItemClickLIstener() {

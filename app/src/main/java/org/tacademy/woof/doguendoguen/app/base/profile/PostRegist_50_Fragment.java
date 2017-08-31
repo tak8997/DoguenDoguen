@@ -11,10 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -43,6 +44,7 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 import static org.tacademy.woof.doguendoguen.R.id.age;
 import static org.tacademy.woof.doguendoguen.R.id.city;
+import static org.tacademy.woof.doguendoguen.R.id.district;
 
 public class PostRegist_50_Fragment extends Fragment implements NestedScrollView.OnScrollChangeListener  {
     private final String TAG = "PostRegist_50_Fragment";
@@ -102,7 +104,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
     @BindView(R.id.region_city_gridview) GridView cityGridview;
     @BindView(R.id.region_district_gridview) GridView districtGridView;
     @BindView(R.id.city) TextView cityTextView;
-    @BindView(R.id.district) TextView districtTextView;
+    @BindView(district) TextView districtTextView;
 
     @BindView(R.id.dog_price_money) EditText dogPriceEdit;
 
@@ -113,14 +115,27 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
         View view = inflater.inflate(R.layout.fragment_post_regist_50_, container, false);
         ButterKnife.bind(this, view);
 
-        //희망 분양지역 중 도시 선택
         setCitiyRegion();
-        //희망 분양지역 중 시군구 선택
         setDistrictRegion();
 
         scrollView.setOnScrollChangeListener(this);
+        setRetainInstance(true);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(dogType != null && dogGender != null && dogAge != null && dogDistrict != null && dogPrice != null) {
+            dogTypeTv.setText(dogType);
+            dogGenderTv.setText(dogGender);
+            dogAgeTv.setText(dogAge);
+            dogDistrictTv.setText(dogDistrict);
+            dogPriceTv.setText(dogPrice + "만원");
+        }
+
     }
 
     @BindView(R.id.dog_type_selected) TextView dogTypeTv;
@@ -130,14 +145,13 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
     @BindView(R.id.dog_district_selected) TextView dogDistrictTv;
     @BindView(R.id.dog_price_selected) TextView dogPriceTv;
     private void setCitiyRegion() {
-        final RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
+        RegionAdapter cityRegionAdapter = new RegionAdapter(REGION_CITY);
         cityRegionAdapter.setCityRegions();
         cityRegionAdapter.notifyDataSetChanged();
         cityRegionAdapter.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
             @Override
             public void onAdapterItemClick(int position) {
                 String city = (String) cityRegionAdapter.getItem(position);
-                dogCityTv.setVisibility(View.VISIBLE);
                 dogCityTv.setText(city);
 
                 //다음 분양글 등록으로 넘길 데이터
@@ -165,12 +179,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
         districtRegionAdatper.setOnAdapterItemClickListener(new RegionAdapter.OnAdapterItemClickLIstener() {
             @Override
             public void onAdapterItemClick(int position) {
-                String district = (String) districtRegionAdatper.getItem(position);
-                dogDistrictTv.setVisibility(View.VISIBLE);
-                dogDistrictTv.setText(district);
-
-                //다음 분양글 등록으로 넘길 데이터
-                dogDistrict = district;
+                dogDistrict = (String) districtRegionAdatper.getItem(position);
+                dogDistrictTv.setText(dogDistrict);
 
                 dogRegionBox.setVisibility(View.GONE);
             }
@@ -186,8 +196,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
     @OnClick({R.id.search_dog_type, R.id.search_dog_gender, R.id.search_dog_age, R.id.search_dog_region, R.id.search_dog_price,
             R.id.prev_btn, R.id.next_btn,
             R.id.male, R.id.female, R.id.any_gender,
-            R.id.city, R.id.district,
-            R.id.dog_price_box, R.id.price_selection
+            R.id.city, district,
+            R.id.dog_price_box
             })
     public void onDogConditionClicked(View view) {
 
@@ -197,7 +207,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 startActivityForResult(intent, GET_DOG_TYPE);
                 break;
             case R.id.search_dog_gender:
-                if(genderFlag == false) {
+                if(!genderFlag) {
                     dogGenderBox.setVisibility(View.VISIBLE);
                     genderArrow.setImageResource(R.drawable.up_arrow);
                     genderFlag = true;
@@ -209,7 +219,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 break;
             case R.id.search_dog_age:
                 setDogAgeSpinner();
-                if(ageFlag == false) {
+                if(!ageFlag) {
                     dogAgeSpinner.setVisibility(View.VISIBLE);
                     ageArrow.setImageResource(R.drawable.up_arrow);
                     ageFlag = true;
@@ -221,7 +231,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
 
                 break;
             case R.id.search_dog_region:
-                if(regionFlag == false) {
+                if(!regionFlag) {
                     dogRegionBox.setVisibility(View.VISIBLE);
                     regionArrow.setImageResource(R.drawable.up_arrow);
                     regionFlag = true;
@@ -232,7 +242,19 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 }
                 break;
             case R.id.search_dog_price:
-                if(priceFlag == false) {
+                dogPriceEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if(actionId == EditorInfo.IME_ACTION_DONE) {
+                            dogPrice = dogPriceEdit.getText().toString();
+                            dogPriceTv.setText(dogPrice + "만원");
+                            dogPriceBox.setVisibility(View.GONE);
+                        }
+
+                        return false;
+                    }
+                });
+                if(!priceFlag) {
                     dogPriceBox.setVisibility(View.VISIBLE);
                     priceArrow.setImageResource(R.drawable.up_arrow);
 
@@ -251,11 +273,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
 
             //dog gender 선택
             case R.id.male:
-                dogGenderTv.setVisibility(View.VISIBLE);
-                dogGenderTv.setText(male.getText().toString());
-                //다음 분양글 등록으로 넘길 데이터
                 dogGender = male.getText().toString();
-
+                dogGenderTv.setText(dogGender);
                 male.setTextColor(Color.parseColor("#EDBC64"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
@@ -264,11 +283,9 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 genderFlag = false;
                 break;
             case R.id.female:
-                dogGenderTv.setVisibility(View.VISIBLE);
-                dogGenderTv.setText(female.getText().toString());
                 //다음 분양글 등록으로 넘길 데이터
                 dogGender = female.getText().toString();
-
+                dogGenderTv.setText(dogGender);
                 female.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 anyGender.setTextColor(Color.parseColor("#3E3A39"));
@@ -277,11 +294,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 genderFlag = false;
                 break;
             case R.id.any_gender:
-                dogGenderTv.setVisibility(View.VISIBLE);
-                dogGenderTv.setText(anyGender.getText().toString());
-                //다음 분양글 등록으로 넘길 데이터
                 dogGender = anyGender.getText().toString();
-
+                dogGenderTv.setText(dogGender);
                 anyGender.setTextColor(Color.parseColor("#EDBC64"));
                 male.setTextColor(Color.parseColor("#3E3A39"));
                 female.setTextColor(Color.parseColor("#3E3A39"));
@@ -301,7 +315,7 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 districtTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
                 districtTextView.setTextColor(Color.parseColor("#3E3A39"));
                 break;
-            case R.id.district:
+            case district:
                 setRegionLayoutHeight(156);
 
                 districtGridView.setVisibility(View.VISIBLE);
@@ -310,23 +324,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 cityGridview.setVisibility(View.INVISIBLE);
                 cityTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
                 cityTextView.setTextColor(Color.parseColor("#3E3A39"));
-                break;
-
-            //dog price 선택
-            case R.id.dog_price_box:
-                InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.showSoftInput(dogRegionBox, 0);
-
-                dogPriceTv.setVisibility(View.VISIBLE);
-                dogPriceEdit.requestFocus();
-                break;
-            case R.id.price_selection:
-                String price = dogPriceEdit.getText().toString();
-                dogPriceTv.setVisibility(View.VISIBLE);
-                dogPriceTv.setText(price + "만원");
-                dogAgeSpinner.setVisibility(View.VISIBLE);
-                dogPrice = price;
-                dogPriceBox.setVisibility(View.GONE);
                 break;
             case R.id.prev_btn:
                 previousRegistPage();
@@ -344,31 +341,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
     String dogCity = null;
     String dogDistrict = null;
     String dogPrice = null;
-
-    private void setRegionLayoutHeight(int px) {
-        ViewGroup.LayoutParams districtLayoutParams = dogRegionBox.getLayoutParams();
-        districtLayoutParams.height = (int) ConvertPxToDpUtil.convertDpToPixel(px, getContext());
-        dogRegionBox.setLayoutParams(districtLayoutParams);
-    }
-
-    private void previousRegistPage() {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.popBackStack();
-    }
-
-    private void nextRegistPage() {
-        if(dogType == null || dogGender == null || dogAge == null || dogCity == null || dogDistrict == null || dogPrice == null)
-            Toast.makeText(DoguenDoguenApplication.getContext(), "항목을 전부 입력해주세요", Toast.LENGTH_SHORT).show();
-        else {
-            FragmentManager fm = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.replace(R.id.container,
-                    PostRegist_75_Fragment.newInstance(postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity, dogDistrict, dogPrice));
-            fragmentTransaction.commit();
-        }
-    }
-
     private void setDogAgeSpinner() {
         ArrayList<String> dogGenders = new ArrayList<>();
         dogGenders.add("1개월");dogGenders.add("2개월");dogGenders.add("3개월");
@@ -398,10 +370,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TextView age = (TextView) view.findViewById(R.id.age);
-                dogAgeTv.setVisibility(View.VISIBLE);
-                dogAgeTv.setText(age.getText().toString());
-
                 dogAge = age.getText().toString();
+                dogAgeTv.setText(dogAge);
             }
 
             @Override
@@ -416,8 +386,6 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
 
         if(resultCode == RESULT_OK && requestCode == GET_DOG_TYPE) {
             dogType = data.getExtras().getString(SearchDogTypeActivity.DOGTYPE);
-
-            dogTypeTv.setVisibility(View.VISIBLE);
             dogTypeTv.setText(dogType);
         }
     }
@@ -472,6 +440,30 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
             ageTv.setText(dogGenders.get(position));
 
             return view;
+        }
+    }
+
+    private void setRegionLayoutHeight(int px) {
+        ViewGroup.LayoutParams districtLayoutParams = dogRegionBox.getLayoutParams();
+        districtLayoutParams.height = (int) ConvertPxToDpUtil.convertDpToPixel(px, getContext());
+        dogRegionBox.setLayoutParams(districtLayoutParams);
+    }
+
+    private void previousRegistPage() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
+    }
+
+    private void nextRegistPage() {
+        if(dogType == null || dogGender == null || dogAge == null || dogCity == null || dogDistrict == null || dogPrice == null)
+            Toast.makeText(DoguenDoguenApplication.getContext(), "항목을 전부 입력해주세요", Toast.LENGTH_SHORT).show();
+        else {
+            FragmentManager fm = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.replace(R.id.container,
+                    PostRegist_75_Fragment.newInstance(postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity, dogDistrict, dogPrice));
+            fragmentTransaction.commit();
         }
     }
 

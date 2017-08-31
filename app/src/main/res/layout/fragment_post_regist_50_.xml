@@ -268,18 +268,6 @@
                     android:layout_height="8dp" />
             </RelativeLayout>
 
-            <!--<LinearLayout-->
-                <!--android:id="@+id/dog_age_box"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="133dp"-->
-                <!--android:background="@drawable/dog_gender_box"-->
-                <!--android:orientation="vertical"-->
-                <!--android:layout_marginLeft="22dp"-->
-                <!--android:layout_marginRight="22dp">-->
-            <!--</LinearLayout>-->
-
-
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
@@ -453,67 +441,38 @@
                     android:layout_height="8dp" />
             </RelativeLayout>
 
-            <!--<RelativeLayout-->
-                <!--android:id="@+id/dog_price_box"-->
-                <!---->
-                <!--android:layout_width="317dp"-->
-                <!--android:layout_height="55dp"-->
-                <!--android:layout_marginLeft="22dp"-->
-                <!--android:layout_marginRight="22dp"-->
-                <!--android:background="@drawable/border_layout">-->
+            <LinearLayout
+                android:id="@+id/dog_price_box"
+                android:background="@drawable/border_layout"
+                android:layout_width="317dp"
+                android:layout_height="55dp"
 
-                <LinearLayout
-                    android:id="@+id/dog_price_box"
-                    android:background="@drawable/border_layout"
-                    android:layout_width="317dp"
-                    android:layout_height="55dp"
-                    android:visibility="gone"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <EditText
-                        android:id="@+id/dog_price_money"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:layout_marginRight="7dp"
-                        android:paddingLeft="100dp"
-                        android:paddingTop="20dp"
-                        android:paddingBottom="20dp"
-                        android:layout_toLeftOf="@+id/dog_price_won"
-                        android:background="@android:color/transparent"
-                        android:inputType="number"
-                        android:textColor="#585857"
-                        android:textSize="14sp" />
-                    <TextView
-                        android:id="@+id/dog_price_won"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="만원"
-                        android:textColor="#EDBC64"
-                        android:textSize="14sp" />
-                    <Button
-                        android:id="@+id/price_selection"
-                        android:text="확인"
-                        android:textSize="11sp"
-                        android:background="@drawable/border_price_button"
-                        android:padding="3dp"
-                        android:layout_marginLeft="27dp"
-                        android:layout_width="49dp"
-                        android:layout_height="23dp" />
-                </LinearLayout>
-
-                <!--<ImageView-->
-                    <!--android:id="@+id/price_selection"-->
-                    <!--android:layout_width="11dp"-->
-                    <!--android:layout_height="20dp"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerInParent="true"-->
-                    <!--android:layout_marginRight="12dp"-->
-                    <!--android:src="@drawable/down_arrow2" />-->
-            <!--</RelativeLayout>-->
-
+                android:layout_marginLeft="22dp"
+                android:layout_marginRight="22dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <EditText
+                    android:id="@+id/dog_price_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:paddingLeft="40dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:layout_toLeftOf="@+id/dog_price_won"
+                    android:background="@android:color/transparent"
+                    android:inputType="number"
+                    android:textColor="#585857"
+                    android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/dog_price_won"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="만원"
+                    android:textColor="#EDBC64"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -577,8 +536,4 @@
                 </RelativeLayout>
             </RelativeLayout><!-- button -->
         </LinearLayout>
-
-
-
-
 </android.support.v4.widget.NestedScrollView>

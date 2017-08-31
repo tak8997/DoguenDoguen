@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
@@ -97,14 +96,15 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         }
     }
     PostDetailModel postDetail = null;
-    @BindView(R.id.text_white) TextView colorWhite;
-    @BindView(R.id.text_ivory) TextView colorIvory;
-    @BindView(R.id.text_bright_brown) TextView colorBrightBrown;
-    @BindView(R.id.text_dark_brown) TextView colorDarkBrown;
-    @BindView(R.id.text_grey) TextView colorGrey;
-    @BindView(R.id.text_black) TextView colorBlack;
-    @BindView(R.id.text_spot) TextView colorSpot;
-    @BindView(R.id.text_etc) TextView colorEtc;
+
+    @BindView(R.id.color_white) ImageView white;
+    @BindView(R.id.color_ivory) ImageView ivory;
+    @BindView(R.id.color_bright_brown) ImageView brightBrown;
+    @BindView(R.id.color_dark_brown) ImageView darkBrown;
+    @BindView(R.id.color_grey) ImageView grey;
+    @BindView(R.id.color_black) ImageView black;
+    @BindView(R.id.color_spot) ImageView spot;
+    @BindView(R.id.color_etc) ImageView etc;
 
     @BindView(R.id.small) Button sizeSmall;
     @BindView(R.id.middle) Button sizeMiddle;
@@ -154,26 +154,74 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
 
         scrollView.setOnScrollChangeListener(this);
 
-        initColorFlagMap();
+        initIcon();
+        initSelectedIcon();
+        initIconImageView();
+        initIconName();
 
         return view;
     }
 
-    HashMap<String, Boolean> colorFlagMap;
-    private void initColorFlagMap() {
-        colorFlagMap = new HashMap<>();
-        colorFlagMap.put(whiteFlag, false);            colorFlagMap.put(ivoryFlag, false);
-        colorFlagMap.put(brightBrownFlag, false);  colorFlagMap.put(darkBrownFlag, false);
-        colorFlagMap.put(greyFlag, false);             colorFlagMap.put(blackFlag, false);
-        colorFlagMap.put(spotFlag, false);          colorFlagMap.put(etcFlag, false);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(color != null)
+            setColorSelection(color);
+
+        if(size != null) {
+            if(size.equals("소형견"))
+                setSizeSmall();
+            else if(size.equals("중형견"))
+                setSizeMiddle();
+            else
+                setSizeBig();
+        }
+        if(dhppl == 1)
+            setVaccineDhppl();
+        if(corrona == 1)
+            setVaccineCorrona();;
+        if(kennel == 1)
+            setVaccineKennel();
+
+        if(parentImgUri != null)
+            setParentImage();
+        if(hierarchyImgUri != null)
+            setHierarchyImage();
     }
 
-    @BindView(R.id.dog_image_title) TextView addDogImageTitle;
-    @BindView(R.id.dog_image_sub1_title) TextView firstSubTitle;
-    @BindView(R.id.dog_image_sub2_title) TextView secondSubTitle;
-    @BindView(R.id.edit_post_title) TextView editPostTitle;
-    @BindView(R.id.doc_title) TextView docTitle;
-    @BindView(R.id.doc_sub_title) TextView docSubTitle;
+    HashMap<String, Integer> colorIconMap;
+    private void initIcon() {
+        colorIconMap = new HashMap<>();
+        colorIconMap.put(whiteFlag, R.drawable.white);            colorIconMap.put(ivoryFlag, R.drawable.ivory);
+        colorIconMap.put(brightBrownFlag, R.drawable.bright_brown);      colorIconMap.put(darkBrownFlag, R.drawable.dark_brown);
+        colorIconMap.put(greyFlag, R.drawable.grey);             colorIconMap.put(blackFlag, R.drawable.black);
+        colorIconMap.put(spotFlag, R.drawable.spot);             colorIconMap.put(etcFlag, R.drawable.etc);
+    }
+    HashMap<String, ImageView> colorImgMap;
+    private void initIconImageView() {
+        colorImgMap = new HashMap<>();
+        colorImgMap.put(whiteFlag, white);            colorImgMap.put(ivoryFlag, ivory);
+        colorImgMap.put(brightBrownFlag, brightBrown);      colorImgMap.put(darkBrownFlag, darkBrown);
+        colorImgMap.put(greyFlag, grey);             colorImgMap.put(blackFlag, black);
+        colorImgMap.put(spotFlag, spot);             colorImgMap.put(etcFlag, etc);
+    }
+    HashMap<String, Integer> colorIconSelectionMap;
+    private void initSelectedIcon() {
+        colorIconSelectionMap = new HashMap<>();
+        colorIconSelectionMap.put(whiteFlag, R.drawable.white_selected);                     colorIconSelectionMap.put(ivoryFlag, R.drawable.ivory_selected);
+        colorIconSelectionMap.put(brightBrownFlag, R.drawable.light_brwon_selected);         colorIconSelectionMap.put(darkBrownFlag, R.drawable.dark_brown_selected);
+        colorIconSelectionMap.put(greyFlag, R.drawable.gray_selected);                       colorIconSelectionMap.put(blackFlag, R.drawable.black_selected);
+        colorIconSelectionMap.put(spotFlag, R.drawable.dots_selected);                       colorIconSelectionMap.put(etcFlag, R.drawable.etc_selected);
+    }
+    HashMap<Integer, String> colorIconName;
+    private void initIconName() {
+        colorIconName = new HashMap<>();
+        colorIconName.put(R.id.color_white, "흰색"); colorIconName.put(R.id.color_ivory, "아이보리");
+        colorIconName.put(R.id.color_bright_brown, "밝은 갈색"); colorIconName.put(R.id.color_dark_brown, "어두운 갈색");
+        colorIconName.put(R.id.color_grey, "회색"); colorIconName.put(R.id.color_black, "검정색");
+        colorIconName.put(R.id.color_spot, "얼룩무늬"); colorIconName.put(R.id.color_etc, "기타");
+    }
 
     File myImageDir; //카메라로 찍은 사진을 저장할 디렉토리
     private void initFileConfig() {
@@ -197,166 +245,30 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
     private String spotFlag = "얼룩무늬";
     private String etcFlag = "기타";
 
+    private void setColorSelection(String color) {
+        for(Map.Entry<String, ImageView> entry : colorImgMap.entrySet()) {
+            if(entry.getKey().equals(color))
+                colorImgMap.get(color).setImageResource(colorIconSelectionMap.get(color));
+        }
+    }
+    private void setColorDeselection(String oldColor) {
+        for (Map.Entry<String, ImageView> entry : colorImgMap.entrySet()) {
+            if(entry.getKey().equals(oldColor))
+                colorImgMap.get(oldColor).setImageResource(colorIconMap.get(oldColor));
+        }
+    }
+
+    private String oldColor = null;
     @OnClick({R.id.color_white, R.id.color_ivory, R.id.color_bright_brown, R.id.color_dark_brown,
             R.id.color_grey, R.id.color_black, R.id.color_spot, R.id.color_etc})
     public void onColorClicked(View view) {
-        switch (view.getId()) {
-            case R.id.color_white:
-                if(!colorFlagMap.get(whiteFlag)) {
-                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorWhite.getText().toString();
-                    oldColor = colorWhite.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(whiteFlag, true);
-                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
-                } else {
-                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(whiteFlag, false);
-                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_ivory:
-                if(!colorFlagMap.get(ivoryFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorIvory.getText().toString();
-                    oldColor = colorIvory.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(ivoryFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(ivoryFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_bright_brown:
-                if(!colorFlagMap.get(brightBrownFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorBrightBrown.getText().toString();
-                    oldColor = colorBrightBrown.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(brightBrownFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(brightBrownFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_dark_brown:
-                if(!colorFlagMap.get(darkBrownFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorDarkBrown.getText().toString();
-                    oldColor = colorDarkBrown.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(darkBrownFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(darkBrownFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_grey:
-                if (!colorFlagMap.get(greyFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorGrey.getText().toString();
-                    oldColor = colorGrey.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(greyFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(greyFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_black:
-                if(!colorFlagMap.get(blackFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorBlack.getText().toString();
-                    oldColor = colorBlack.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(blackFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(blackFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_spot:
-                if(!colorFlagMap.get(spotFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorSpot.getText().toString();
-                    oldColor = colorSpot.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(spotFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(spotFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_etc:
-                if(!colorFlagMap.get(etcFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorEtc.getText().toString();
-                    oldColor = colorEtc.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(etcFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(etcFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-        }
-    }
-    private View oldView = null;
-    private String oldColor = null;
-    private void setColorDeselection(View oldView) {
-        if(oldColor != null) {
-            Log.d(TAG, "setColorDeselection : " + oldColor);
+        color = colorIconName.get(view.getId());
 
-            for (Map.Entry<String, Boolean> entry : colorFlagMap.entrySet()) {
-                if(entry.getKey().equals(oldColor)) {
-                    Log.d(TAG, "oldColor : " + entry.getKey());
-                    oldView.setSelected(false);
-                    colorFlagMap.put(oldColor, false);
-                }
-            }
-        }
+        if(oldColor != null)
+            setColorDeselection(oldColor);
+
+        setColorSelection(color);
+        oldColor = color;
     }
 
     boolean smallFlag = false;
@@ -368,15 +280,8 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         switch (view.getId()) {
             case R.id.small:
                 if(smallFlag == false) {
-                    sizeSmall.setBackground(drawableSelected);
-                    sizeSmall.setTextColor(Color.parseColor("#FFFFFF"));
-                    sizeMiddle.setBackground(drawable);
-                    sizeMiddle.setTextColor(Color.parseColor("#3E3A39"));
-                    sizeBig.setBackground(drawable);
-                    sizeBig.setTextColor(Color.parseColor("#3E3A39"));
-
+                    setSizeSmall();
                     size = sizeSmall.getText().toString();
-
                     smallFlag = true;
                 } else {
                     sizeSmall.setBackground(drawable);
@@ -389,15 +294,8 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
                 break;
             case R.id.middle:
                 if(middleFlag == false) {
-                    sizeMiddle.setBackground(drawableSelected);
-                    sizeMiddle.setTextColor(Color.parseColor("#FFFFFF"));
-                    sizeSmall.setBackground(drawable);
-                    sizeSmall.setTextColor(Color.parseColor("#3E3A39"));
-                    sizeBig.setBackground(drawable);
-                    sizeBig.setTextColor(Color.parseColor("#3E3A39"));
-
+                    setSizeMiddle();
                     size = sizeMiddle.getText().toString();
-
                     middleFlag = true;
                 } else {
                     sizeMiddle.setBackground(drawable);
@@ -410,15 +308,8 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
                 break;
             case R.id.big:
                 if(bigFlag == false) {
-                    sizeBig.setBackground(drawableSelected);
-                    sizeBig.setTextColor(Color.parseColor("#FFFFFF"));
-                    sizeMiddle.setBackground(drawable);
-                    sizeMiddle.setTextColor(Color.parseColor("#3E3A39"));
-                    sizeSmall.setBackground(drawable);
-                    sizeSmall.setTextColor(Color.parseColor("#3E3A39"));
-
+                    setSizeBig();
                     size = sizeBig.getText().toString();
-
                     bigFlag = true;
                 } else {
                     sizeBig.setBackground(drawable);
@@ -432,6 +323,34 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         }
     }
 
+    private void setSizeSmall() {
+        sizeSmall.setBackground(drawableSelected);
+        sizeSmall.setTextColor(Color.parseColor("#FFFFFF"));
+        sizeMiddle.setBackground(drawable);
+        sizeMiddle.setTextColor(Color.parseColor("#3E3A39"));
+        sizeBig.setBackground(drawable);
+        sizeBig.setTextColor(Color.parseColor("#3E3A39"));
+    }
+
+    private void setSizeBig() {
+        sizeBig.setBackground(drawableSelected);
+        sizeBig.setTextColor(Color.parseColor("#FFFFFF"));
+        sizeMiddle.setBackground(drawable);
+        sizeMiddle.setTextColor(Color.parseColor("#3E3A39"));
+        sizeSmall.setBackground(drawable);
+        sizeSmall.setTextColor(Color.parseColor("#3E3A39"));
+
+    }
+
+    private void setSizeMiddle() {
+        sizeMiddle.setBackground(drawableSelected);
+        sizeMiddle.setTextColor(Color.parseColor("#FFFFFF"));
+        sizeSmall.setBackground(drawable);
+        sizeSmall.setTextColor(Color.parseColor("#3E3A39"));
+        sizeBig.setBackground(drawable);
+        sizeBig.setTextColor(Color.parseColor("#3E3A39"));
+    }
+
     boolean dhpplFlag = false;
     boolean coronaFlag = false;
     boolean kennelFlag = false;
@@ -440,73 +359,59 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
     public void onVaccineClicked(View view) {
         switch (view.getId()) {
             case R.id.dhppl:
-                if(dhpplFlag == false) {
-                    vaccinDhppl.setBackground(drawableSelected);
-                    vaccinDhppl.setTextColor(Color.parseColor("#FFFFFF"));
-                    vaccinCorrona.setBackground(drawable);
-                    vaccinCorrona.setTextColor(Color.parseColor("#3E3A39"));
-                    vaccinKennel.setBackground(drawable);
-                    vaccinKennel.setTextColor(Color.parseColor("#3E3A39"));
-
+                if(!dhpplFlag) {
+                    setVaccineDhppl();
                     dhppl = 1;
-
                     dhpplFlag = true;
                 } else {
                     vaccinDhppl.setBackground(drawable);
                     vaccinDhppl.setTextColor(Color.parseColor("#3E3A39"));
-
                     dhppl = 0;
-
                     dhpplFlag = false;
                 }
-
                 break;
             case R.id.corrona:
-                if(coronaFlag == false) {
-                    vaccinCorrona.setBackground(drawableSelected);
-                    vaccinCorrona.setTextColor(Color.parseColor("#FFFFFF"));
-                    vaccinKennel.setBackground(drawable);
-                    vaccinKennel.setTextColor(Color.parseColor("#3E3A39"));
-                    vaccinDhppl.setBackground(drawable);
-                    vaccinDhppl.setTextColor(Color.parseColor("#3E3A39"));
-
+                if(!coronaFlag) {
+                    setVaccineCorrona();
                     corrona = 1;
-
                     coronaFlag = true;
                 } else {
                     vaccinCorrona.setBackground(drawable);
                     vaccinCorrona.setTextColor(Color.parseColor("#3E3A39"));
-
                     corrona = 0;
-
                     coronaFlag = false;
                 }
-
                 break;
             case R.id.kennel:
-                if(kennelFlag == false) {
-                    vaccinKennel.setBackground(drawableSelected);
-                    vaccinKennel.setTextColor(Color.parseColor("#FFFFFF"));
-                    vaccinCorrona.setBackground(drawable);
-                    vaccinCorrona.setTextColor(Color.parseColor("#3E3A39"));
-                    vaccinDhppl.setBackground(drawable);
-                    vaccinDhppl.setTextColor(Color.parseColor("#3E3A39"));
-
+                if(!kennelFlag) {
+                    setVaccineKennel();
                     kennel = 1;
-
                     kennelFlag = true;
                 } else {
                     vaccinKennel.setBackground(drawable);
                     vaccinKennel.setTextColor(Color.parseColor("#3E3A39"));
-
                     kennel = 0;
-
                     kennelFlag = false;
                 }
-
                 break;
         }
     }
+
+    private void setVaccineKennel() {
+        vaccinKennel.setBackground(drawableSelected);
+        vaccinKennel.setTextColor(Color.parseColor("#FFFFFF"));
+    }
+
+    private void setVaccineCorrona() {
+        vaccinCorrona.setBackground(drawableSelected);
+        vaccinCorrona.setTextColor(Color.parseColor("#FFFFFF"));
+    }
+
+    private void setVaccineDhppl() {
+        vaccinDhppl.setBackground(drawableSelected);
+        vaccinDhppl.setTextColor(Color.parseColor("#FFFFFF"));
+    }
+
 
     @BindView(R.id.add_parent_image) RelativeLayout addParentImageLayout;
     @BindView(R.id.add_blood_hierarchy) RelativeLayout addHierarchyImageLayout;
@@ -519,7 +424,7 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
     public void onImageOrHierarchyClicked(View view) {
         switch (view.getId()) {
             case R.id.dog_parent_image:
-                if(isParentImageShow == false) {
+                if(!isParentImageShow) {
                     addParentImageLayout.setVisibility(View.VISIBLE);
                     isParentImageShow = true;
                 } else {
@@ -528,7 +433,7 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
                 }
                 break;
             case R.id.dog_blood_hierarchy:
-                if(isHierarchyImageShow == false) {
+                if(!isHierarchyImageShow) {
                     addHierarchyImageLayout.setVisibility(View.VISIBLE);
                     isHierarchyImageShow = true;
                 } else {
@@ -570,6 +475,8 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         startActivityForResult(intent, imageType);
     }
 
+    private Uri parentImgUri;
+    private Uri hierarchyImgUri;
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -578,21 +485,9 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
             if(requestCode == PARENT_IMAGE_PICK_FROM_GALLERY && data != null) {
                 Log.d(TAG, "parentImage");
 
-                Uri imageUri = data.getData();
-                if(imageUri != null) {
-                    parentImage.setVisibility(View.VISIBLE);
-                    parentImage.setImageURI(imageUri);
-
-                    //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
-                    String fileLocation = findImageFileNameFromUri(imageUri);
-                    if (fileLocation!=null) {
-                        Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
-
-                        parentImagesFileLocation = new ArrayList<>();
-                        parentImagesFileLocation.add(fileLocation);
-                    }else {
-                        Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
-                    }
+                parentImgUri = data.getData();
+                if(parentImgUri != null) {
+                    setParentImage();
                 } else {
                     Bundle extras = data.getExtras();
                     Bitmap returedBitmap = (Bitmap) extras.get("data");
@@ -610,20 +505,9 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
             } else if(requestCode == HIERARCHY_IMAGE_PICK_FROM_GALLERY && data != null) {
                 Log.d(TAG, "bloodHierarchy");
 
-                Uri imageUri = data.getData();
-                if(imageUri != null) {
-                    hierarchyImage.setVisibility(View.VISIBLE);
-                    hierarchyImage.setImageURI(imageUri);
-
-                    //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
-                    String fileLocation = findImageFileNameFromUri(imageUri);
-
-                    if (fileLocation!=null) {
-                        Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
-                        bloodHierarchyFileLocation = fileLocation;
-                    }else {
-                        Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
-                    }
+                hierarchyImgUri = data.getData();
+                if(hierarchyImgUri != null) {
+                    setHierarchyImage();
                 } else {
                     Bundle extras = data.getExtras();
                     Bitmap returedBitmap = (Bitmap) extras.get("data");
@@ -641,13 +525,45 @@ public class PostRegist_75_Fragment extends Fragment implements NestedScrollView
         }
     } // End Of onActivityResult..
 
-    private void nextRegistPage() {
-        if (size == null) {
-            Toast.makeText(DoguenDoguenApplication.getContext(), "사이즈를 입력해주세요", Toast.LENGTH_SHORT).show();
+    private void setHierarchyImage() {
+        hierarchyImage.setVisibility(View.VISIBLE);
+        hierarchyImage.setImageURI(hierarchyImgUri);
+
+        //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
+        String fileLocation = findImageFileNameFromUri(hierarchyImgUri);
+
+        if (fileLocation!=null) {
+            Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
+            bloodHierarchyFileLocation = fileLocation;
+        }else {
+            Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
         }
-        else if(color == null) {
+    }
+
+    private void setParentImage() {
+        parentImage.setVisibility(View.VISIBLE);
+        parentImage.setImageURI(parentImgUri);
+
+        //업로드 할 수 있도록 절대 주소를 알아낸다.!!!!!!
+        String fileLocation = findImageFileNameFromUri(parentImgUri);
+        if (fileLocation!=null) {
+            Log.e(TAG, " 갤러리에서 절대주소 Pick 성공");
+
+            parentImagesFileLocation = new ArrayList<>();
+            parentImagesFileLocation.add(fileLocation);
+        }else {
+            Log.e(TAG, " 갤러리에서 절대주소 Pick 실패");
+        }
+    }
+
+    private void nextRegistPage() {
+        if(color == null) {
             Toast.makeText(DoguenDoguenApplication.getContext(), "털 색깔을 입력해주세요", Toast.LENGTH_SHORT).show();
         }
+        else if (size == null) {
+            Toast.makeText(DoguenDoguenApplication.getContext(), "사이즈를 입력해주세요", Toast.LENGTH_SHORT).show();
+        }
+
         else {
             Log.d(TAG, "transfer color : " + color);
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

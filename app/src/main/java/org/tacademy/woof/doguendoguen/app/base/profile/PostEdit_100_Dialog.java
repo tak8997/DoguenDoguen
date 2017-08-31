@@ -247,7 +247,12 @@ public class PostEdit_100_Dialog extends DialogFragment {
                                 Toast.makeText(DoguenDoguenApplication.getContext(), "수정에 실패하였습니다. 다시 한번 시도해주세요.", Toast.LENGTH_SHORT).show();
                                 registBtn.setEnabled(true);
                             }
-                        }, Throwable::printStackTrace);
+                        }, throwable -> {
+                            if(listener != null) {
+                                listener.onAdapterItemClick("");
+                                dismiss();
+                            }
+                        });
             }
         } //End of onRegistrationFinishClicked
     }

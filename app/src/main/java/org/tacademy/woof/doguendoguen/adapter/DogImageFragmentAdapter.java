@@ -1,22 +1,15 @@
 package org.tacademy.woof.doguendoguen.adapter;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 import org.tacademy.woof.doguendoguen.app.base.profile.DogImageRegistFragment;
 import org.tacademy.woof.doguendoguen.app.base.search.DogImagePostFragment;
 import org.tacademy.woof.doguendoguen.model.DogImage;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Tak on 2017. 6. 8..

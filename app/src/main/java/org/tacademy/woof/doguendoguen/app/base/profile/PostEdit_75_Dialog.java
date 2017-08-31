@@ -97,18 +97,17 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
             dogCity = getArguments().getString(DOG_CITY);
             dogDistrict = getArguments().getString(DOG_DISTRICT);
             dogPrice = getArguments().getString(DOG_PRICE);
-//            Log.d("dogPrice" ,dogPrice);
         }
     }
 
-    @BindView(R.id.text_white) TextView colorWhite;
-    @BindView(R.id.text_ivory) TextView colorIvory;
-    @BindView(R.id.text_bright_brown) TextView colorBrightBrown;
-    @BindView(R.id.text_dark_brown) TextView colorDarkBrown;
-    @BindView(R.id.text_grey) TextView colorGrey;
-    @BindView(R.id.text_black) TextView colorBlack;
-    @BindView(R.id.text_spot) TextView colorSpot;
-    @BindView(R.id.text_etc) TextView colorEtc;
+    @BindView(R.id.color_white) ImageView white;
+    @BindView(R.id.color_ivory) ImageView ivory;
+    @BindView(R.id.color_bright_brown) ImageView brightBrown;
+    @BindView(R.id.color_dark_brown) ImageView darkBrown;
+    @BindView(R.id.color_grey) ImageView grey;
+    @BindView(R.id.color_black) ImageView black;
+    @BindView(R.id.color_spot) ImageView spot;
+    @BindView(R.id.color_etc) ImageView etc;
 
     @BindView(R.id.small) Button sizeSmall;
     @BindView(R.id.middle) Button sizeMiddle;
@@ -137,7 +136,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
 
     //다음 분양글로 넘길 데이터
     int parentId;
-    String color = " ";
+    String color = "";
     String size = null;
     int dhppl = 0;
     int corrona = 0;
@@ -159,21 +158,22 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         drawable = ContextCompat.getDrawable(getActivity(), R.drawable.button_layout);
         drawableSelected = ContextCompat.getDrawable(getActivity(), R.drawable.button_selected_layout);
 
-        if(postDetail != null)
-            editPost();
+        initIcon();
+        initSelectedIcon();
+        initIconImageView();
+        initIconName();
 
         scrollView.setOnScrollChangeListener(this);
-        initColorFlagMap();
 
         return view;
     }
-    HashMap<String, Boolean> colorFlagMap;
-    private void initColorFlagMap() {
-        colorFlagMap = new HashMap<>();
-        colorFlagMap.put(whiteFlag, false);            colorFlagMap.put(ivoryFlag, false);
-        colorFlagMap.put(brightBrownFlag, false);  colorFlagMap.put(darkBrownFlag, false);
-        colorFlagMap.put(greyFlag, false);             colorFlagMap.put(blackFlag, false);
-        colorFlagMap.put(spotFlag, false);          colorFlagMap.put(etcFlag, false);
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if(postDetail != null)
+            editPost();
     }
 
     @BindView(R.id.dog_image_title) TextView addDogImageTitle;
@@ -184,12 +184,12 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     @BindView(R.id.doc_sub_title) TextView docSubTitle;
     private void editPost() {
         editPostTitle.setText("분양글 수정하기");
-        if(color == null)
-            color = " ";
-        else
+        if(postDetail.dogColor != null) {
             color = postDetail.dogColor;
-        Log.d("asdf", color+ " ," + postDetail.dogColor);
-        
+            setColorSelection(color);
+            oldColor = color;
+        }
+
         size = postDetail.dogSize;
         switch (size) {
             case "소":
@@ -249,18 +249,39 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
                 .into(hierarchyImage);
     }
 
-    File myImageDir; //카메라로 찍은 사진을 저장할 디렉토리
-    private void initFileConfig() {
-        String currentAppPackage = getActivity().getPackageName();
-        myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
-        checkPermission();
-
-        if (!myImageDir.exists()) {
-            if (myImageDir.mkdirs()) {
-                Toast.makeText(DoguenDoguenApplication.getContext(), " 저장할 디렉토리가 생성 됨", Toast.LENGTH_SHORT).show();
-            }
-        }
+    HashMap<String, Integer> colorIconMap;
+    private void initIcon() {
+        colorIconMap = new HashMap<>();
+        colorIconMap.put(whiteFlag, R.drawable.white);            colorIconMap.put(ivoryFlag, R.drawable.ivory);
+        colorIconMap.put(brightBrownFlag, R.drawable.bright_brown);      colorIconMap.put(darkBrownFlag, R.drawable.dark_brown);
+        colorIconMap.put(greyFlag, R.drawable.grey);             colorIconMap.put(blackFlag, R.drawable.black);
+        colorIconMap.put(spotFlag, R.drawable.spot);             colorIconMap.put(etcFlag, R.drawable.etc);
     }
+    HashMap<String, ImageView> colorImgMap;
+    private void initIconImageView() {
+        colorImgMap = new HashMap<>();
+        colorImgMap.put(whiteFlag, white);            colorImgMap.put(ivoryFlag, ivory);
+        colorImgMap.put(brightBrownFlag, brightBrown);      colorImgMap.put(darkBrownFlag, darkBrown);
+        colorImgMap.put(greyFlag, grey);             colorImgMap.put(blackFlag, black);
+        colorImgMap.put(spotFlag, spot);             colorImgMap.put(etcFlag, etc);
+    }
+    HashMap<String, Integer> colorIconSelectionMap;
+    private void initSelectedIcon() {
+        colorIconSelectionMap = new HashMap<>();
+        colorIconSelectionMap.put(whiteFlag, R.drawable.white_selected);                     colorIconSelectionMap.put(ivoryFlag, R.drawable.ivory_selected);
+        colorIconSelectionMap.put(brightBrownFlag, R.drawable.light_brwon_selected);         colorIconSelectionMap.put(darkBrownFlag, R.drawable.dark_brown_selected);
+        colorIconSelectionMap.put(greyFlag, R.drawable.gray_selected);                       colorIconSelectionMap.put(blackFlag, R.drawable.black_selected);
+        colorIconSelectionMap.put(spotFlag, R.drawable.dots_selected);                       colorIconSelectionMap.put(etcFlag, R.drawable.etc_selected);
+    }
+    HashMap<Integer, String> colorIconName;
+    private void initIconName() {
+        colorIconName = new HashMap<>();
+        colorIconName.put(R.id.color_white, "흰색"); colorIconName.put(R.id.color_ivory, "아이보리");
+        colorIconName.put(R.id.color_bright_brown, "밝은 갈색"); colorIconName.put(R.id.color_dark_brown, "어두운 갈색");
+        colorIconName.put(R.id.color_grey, "회색"); colorIconName.put(R.id.color_black, "검정색");
+        colorIconName.put(R.id.color_spot, "얼룩무늬"); colorIconName.put(R.id.color_etc, "기타");
+    }
+
 
     private String whiteFlag = "흰색";
     private String ivoryFlag = "아이보리";
@@ -270,169 +291,31 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     private String blackFlag = "검정색";
     private String spotFlag = "얼룩무늬";
     private String etcFlag = "기타";
+    private void setColorSelection(String color) {
+        for(Map.Entry<String, ImageView> entry : colorImgMap.entrySet()) {
+            if(entry.getKey().equals(color))
+                colorImgMap.get(color).setImageResource(colorIconSelectionMap.get(color));
+        }
+    }
+    private void setColorDeselection(String oldColor) {
+        for (Map.Entry<String, ImageView> entry : colorImgMap.entrySet()) {
+            if(entry.getKey().equals(oldColor))
+                colorImgMap.get(oldColor).setImageResource(colorIconMap.get(oldColor));
+        }
+    }
 
+    private String oldColor = null;
     @OnClick({R.id.color_white, R.id.color_ivory, R.id.color_bright_brown, R.id.color_dark_brown,
             R.id.color_grey, R.id.color_black, R.id.color_spot, R.id.color_etc})
     public void onColorClicked(View view) {
-        switch (view.getId()) {
-            case R.id.color_white:
-                if(!colorFlagMap.get(whiteFlag)) {
-                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorWhite.getText().toString();
-                    oldColor = colorWhite.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(whiteFlag, true);
-                    Log.d(TAG, "1 " + color + " , " + colorFlagMap.get(whiteFlag));
-                } else {
-                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(whiteFlag, false);
-                    Log.d(TAG, "2 " + color + " , " + colorFlagMap.get(whiteFlag));
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_ivory:
-                if(!colorFlagMap.get(ivoryFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorIvory.getText().toString();
-                    oldColor = colorIvory.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(ivoryFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(ivoryFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_bright_brown:
-                if(!colorFlagMap.get(brightBrownFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorBrightBrown.getText().toString();
-                    oldColor = colorBrightBrown.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(brightBrownFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(brightBrownFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_dark_brown:
-                if(!colorFlagMap.get(darkBrownFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorDarkBrown.getText().toString();
-                    oldColor = colorDarkBrown.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(darkBrownFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(darkBrownFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_grey:
-                if (!colorFlagMap.get(greyFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorGrey.getText().toString();
-                    oldColor = colorGrey.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(greyFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(greyFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_black:
-                if(!colorFlagMap.get(blackFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorBlack.getText().toString();
-                    oldColor = colorBlack.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(blackFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(blackFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_spot:
-                if(!colorFlagMap.get(spotFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorSpot.getText().toString();
-                    oldColor = colorSpot.getText().toString();
-                    oldView = view;
-                    colorFlagMap.put(spotFlag, true);
-                    view.setSelected(true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(spotFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-            case R.id.color_etc:
-                if(!colorFlagMap.get(etcFlag)) {
-                    if(oldColor != null && oldView != null)
-                        setColorDeselection(oldView);
-                    color = colorEtc.getText().toString();
-                    oldColor = colorEtc.getText().toString();
-                    oldView = view;
-                    view.setSelected(true);
-                    colorFlagMap.put(etcFlag, true);
-                } else {
-                    color = null;
-                    oldColor = null;
-                    oldView = null;
-                    colorFlagMap.put(etcFlag, false);
-                    view.setSelected(false);
-                }
-                break;
-        }
-    }
-    private View oldView = null;
-    private String oldColor = null;
-    private void setColorDeselection(View oldView) {
-        if(oldColor != null) {
-            Log.d(TAG, "setColorDeselection : " + oldColor);
+        color = colorIconName.get(view.getId());
 
-            for (Map.Entry<String, Boolean> entry : colorFlagMap.entrySet()) {
-                if(entry.getKey().equals(oldColor)) {
-                    Log.d(TAG, "oldColor : " + entry.getKey());
-                    oldView.setSelected(false);
-                    colorFlagMap.put(oldColor, false);
-                }
-            }
-        }
-    }
+        if (oldColor != null)
+            setColorDeselection(oldColor);
 
+        setColorSelection(color);
+        oldColor = color;
+    }
 
     boolean smallFlag = false;
     boolean middleFlag = false;
@@ -594,7 +477,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
     public void onImageOrHierarchyClicked(View view) {
         switch (view.getId()) {
             case R.id.dog_parent_image:
-                if(isParentImageShow == false) {
+                if(!isParentImageShow) {
                     addParentImageLayout.setVisibility(View.VISIBLE);
                     isParentImageShow = true;
                 } else {
@@ -603,7 +486,7 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
                 }
                 break;
             case R.id.dog_blood_hierarchy:
-                if(isHierarchyImageShow == false) {
+                if(!isHierarchyImageShow) {
                     addHierarchyImageLayout.setVisibility(View.VISIBLE);
                     isHierarchyImageShow = true;
                 } else {
@@ -724,8 +607,6 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
         } else {
             PostEdit_100_Dialog postEditDialog = PostEdit_100_Dialog.newInstance(imageId, parentId, postDetail, postTitle, dogImagesFileLocation, dogType, dogGender, dogAge, dogCity,
                     dogDistrict, dogPrice, color, size, dhppl, corrona, kennel, parentImagesFileLocation, bloodHierarchyFileLocation);
-//            Log.d("price", dogPrice);
-//            Log.d("price", color);
             postEditDialog.setOnAdapterItemClickListener(new PostEdit_100_Dialog.OnAdapterItemClickLIstener() {
                 @Override
                 public void onAdapterItemClick(String answer) {
@@ -844,10 +725,20 @@ public class PostEdit_75_Dialog extends DialogFragment implements NestedScrollVi
             }
         }
     }
+    File myImageDir; //카메라로 찍은 사진을 저장할 디렉토리
+    private void initFileConfig() {
+        String currentAppPackage = getActivity().getPackageName();
+        myImageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), currentAppPackage);
+        checkPermission();
 
+        if (!myImageDir.exists()) {
+            if (myImageDir.mkdirs()) {
+                Toast.makeText(DoguenDoguenApplication.getContext(), " 저장할 디렉토리가 생성 됨", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @OnClick(R.id.back)
     public void onBackClicked() {
         this.dismiss();
-//        getFragmentManager().popBackStack();
     }
 }

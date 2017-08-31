@@ -5,17 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -223,7 +219,7 @@ public class PostEdit_50_Dialog extends DialogFragment  {
             R.id.prev_btn, R.id.next_btn,
             R.id.male, R.id.female, R.id.any_gender,
             R.id.city, R.id.district,
-            R.id.dog_price_box, R.id.price_selection
+            R.id.dog_price_box
             })
     public void onDogConditionClicked(View view) {
 
@@ -268,6 +264,19 @@ public class PostEdit_50_Dialog extends DialogFragment  {
                 }
                 break;
             case R.id.search_dog_price:
+                dogPriceEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if(actionId == EditorInfo.IME_ACTION_DONE) {
+                            String price = dogPriceEdit.getText().toString();
+                            dogPriceTv.setVisibility(View.VISIBLE);
+                            dogPriceTv.setText(price + "만원");
+                            dogPriceBox.setVisibility(View.GONE);
+                        }
+
+                        return false;
+                    }
+                });
                 if(priceFlag == false) {
                     dogPriceBox.setVisibility(View.VISIBLE);
                     priceArrow.setImageResource(R.drawable.up_arrow);
@@ -335,22 +344,6 @@ public class PostEdit_50_Dialog extends DialogFragment  {
                 cityGridview.setVisibility(View.INVISIBLE);
                 cityTextView.setBackgroundColor(Color.parseColor("#ffffffff"));
                 cityTextView.setTextColor(Color.parseColor("#3E3A39"));
-                break;
-
-            //dog price 선택
-            case R.id.dog_price_box:
-                InputMethodManager inputManager = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.showSoftInput(dogRegionBox, 0);
-
-                dogPriceTv.setVisibility(View.VISIBLE);
-                dogPriceEdit.requestFocus();
-                break;
-            case R.id.price_selection:
-                String price = dogPriceEdit.getText().toString();
-                dogPriceTv.setVisibility(View.VISIBLE);
-                dogPriceTv.setText(price + "만원");
-                dogAgeSpinner.setVisibility(View.VISIBLE);
-                dogPrice = price;
                 break;
             case R.id.prev_btn:
                 previousRegistPage();

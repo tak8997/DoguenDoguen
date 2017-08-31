@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,19 +140,36 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
 
         return view;
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        this.getView().setFocusableInTouchMode(true);
+        this.getView().requestFocus();
+        this.getView().setOnKeyListener( new View.OnKeyListener() {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event ) {
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    postContent = postIntro.getText().toString().trim();    //소개글
+                    postSubContent = postSubIntro.getText().toString();     //조건글
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        } );
+    }
 
     //이번 페이지에서 등록할 조건
-    String postContent = "";
-    String postSubContent = "";
+    private String postContent = "";
+    private String postSubContent = "";
     @BindView(R.id.circularProgressbar) ProgressBar progressBar;
 
     @OnClick({R.id.regist_btn})
     public void onRegistrationFinishClicked(View view) {
         if(view.getId() == R.id.regist_btn) {
-            postContent = postIntro.getText().toString().trim();   //소개글
-            postSubContent = postSubIntro.getText().toString();//조건글
-
-
+            postContent = postIntro.getText().toString().trim();    //소개글
+            postSubContent = postSubIntro.getText().toString();     //조건글
 
             if(postContent.equals("") || postSubContent.equals("")) {
                 Toast.makeText(DoguenDoguenApplication.getContext(), "분양글을 모두 작성해주세요.", Toast.LENGTH_SHORT).show();
@@ -234,6 +252,9 @@ public class PostRegist_100_Fragment extends Fragment implements NestedScrollVie
     }
     @OnClick(R.id.back)
     public void onBackClicked() {
+        postIntro.getText().toString();    //소개글
+        postSubIntro.getText().toString();        //조건글
+
         getFragmentManager().popBackStack();
     }
 
