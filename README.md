@@ -3,10 +3,6 @@
 
 #### 반려견 입양 및 분양을 희망하는 사람들을 위한 중개 플랫폼입니다.
 
-## 로그인시
-* dnjsvltm0626@naver.com
-* momo@2701
-
 ## 기능
 #### 입양자
 * 4가지 조건을 통한 검색
@@ -24,6 +20,4 @@
 * Retrofit2
 * Gson
 * OkHttp
-* RxJava
-* RxAndroid
 * Socket IO
