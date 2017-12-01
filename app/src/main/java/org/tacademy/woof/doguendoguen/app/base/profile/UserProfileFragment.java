@@ -21,10 +21,14 @@ import com.rey.material.widget.Switch;
 
 import org.tacademy.woof.doguendoguen.DoguenDoguenApplication;
 import org.tacademy.woof.doguendoguen.R;
+import org.tacademy.woof.doguendoguen.model.MyPostModel;
 import org.tacademy.woof.doguendoguen.model.UserModel;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.user.UserService;
 import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,14 +80,18 @@ public class UserProfileFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         //userId를 기준으로유저 프로필을 가져온다
+        List<MyPostModel> list = new ArrayList<>();
+        list.add(new MyPostModel(1, "분양", ""));
+        user = new UserModel("", 22, "탁", "남", "2인실",
+                "경기", 0, "분당","4인", "", list);
         userId = SharedPreferencesUtil.getInstance().getUserId();
         Log.d(TAG, "userId: " + userId);
 
         getActivity().findViewById(R.id.appbar).setVisibility(View.VISIBLE);
 
         userImage.setEnabled(false);
-        postRegist.setEnabled(false);
-        userPostList.setEnabled(false);
+        postRegist.setEnabled(true);
+        userPostList.setEnabled(true);
         chattingAlarm.setEnabled(false);
         alarmSwitch.setEnabled(false);
         logout.setEnabled(true);

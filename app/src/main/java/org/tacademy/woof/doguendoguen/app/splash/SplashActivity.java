@@ -13,7 +13,6 @@ import org.tacademy.woof.doguendoguen.R;
 import org.tacademy.woof.doguendoguen.app.home.HomeActivity;
 import org.tacademy.woof.doguendoguen.rest.RestClient;
 import org.tacademy.woof.doguendoguen.rest.token.FcmService;
-import org.tacademy.woof.doguendoguen.util.SharedPreferencesUtil;
 
 import java.util.UUID;
 
@@ -80,7 +79,8 @@ public class SplashActivity extends AppCompatActivity {
     private void init() {
         //FCM 토근을 얻어온다.(서버로 보내 등록한다)딱 한번만실행시키도록
         fcmToken = FirebaseInstanceId.getInstance().getToken();
-        userId = SharedPreferencesUtil.getInstance().getUserId();
+//        userId = SharedPreferencesUtil.getInstance().getUserId();
+        userId = "22";
         uuidValue = UUID.randomUUID().toString().replace('-', 'A');
         Log.d("userId", "userId : " + userId);
     }

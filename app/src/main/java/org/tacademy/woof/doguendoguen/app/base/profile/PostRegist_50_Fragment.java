@@ -127,8 +127,8 @@ public class PostRegist_50_Fragment extends Fragment implements NestedScrollView
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object -> {
                     if(object instanceof Events.TypeMsgEvents) {
-                        conDogType = SearchDogTypeActivity.typeMsgEvents.getTag();
-                        dogAgeTv.setText(conDogType);
+                        dogType = SearchDogTypeActivity.typeMsgEvents.getTag();
+                        dogTypeTv.setText(dogType);
                     }
                 }));
     }
